@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using aspCart.Web.Data;
-using aspCart.Web.Models;
+using aspCart.Infrastructure;
+using aspCart.Infrastructure.EFModels;
 
 namespace aspCart.Web
 {

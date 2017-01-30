@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using aspCart.Web.Models;
 using aspCart.Web.Models.AccountViewModels;
+using aspCart.Infrastructure.EFModels;
 
 namespace aspCart.Web.Controllers
 {

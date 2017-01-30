@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using aspCart.Web.Models;
 using aspCart.Web.Models.ManageViewModels;
+using aspCart.Infrastructure.EFModels;
 
 namespace aspCart.Web.Controllers
 {

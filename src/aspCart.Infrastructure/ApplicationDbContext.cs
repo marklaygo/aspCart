@@ -1,12 +1,12 @@
-﻿using System;
+﻿using aspCart.Infrastructure.EFModels;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using aspCart.Web.Models;
 
-namespace aspCart.Web.Data
+namespace aspCart.Infrastructure
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

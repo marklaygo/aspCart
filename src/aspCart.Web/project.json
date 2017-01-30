@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet-aspCart.Web-b7b6c0c8-2794-41a1-ad6c-528772b97f8a",
 
   "dependencies": {
@@ -43,7 +43,8 @@
     "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
       "version": "1.0.0-preview2-final",
       "type": "build"
-    }
+    },
+    "aspCart.Infrastructure": "1.0.0-*"
   },
 
   "tools": {
