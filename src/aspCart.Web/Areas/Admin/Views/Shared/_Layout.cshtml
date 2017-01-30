@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewData["Title"] | aspCart</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <environment names="Development">
+        <!-- css -->
+        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+        <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+        <link href="~/lib/adminlte/dist/css/AdminLTE.css" rel="stylesheet" />
+        <link href="~/lib/adminlte/dist/css/skins/skin-blue.css" rel="stylesheet" />
+        <link href="~/lib/icheck/skins/square/blue.css" rel="stylesheet" />
+
+        <!-- js -->
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/adminlte/dist/js/app.js"></script>
+        @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    </environment>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        <!-- Main Header -->
+        @await Html.PartialAsync("_TopMenu")
+        <!-- Left side column. contains the logo and sidebar -->
+        @await Html.PartialAsync("_LeftMenu")
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    @ViewData["ContentHeader"]
+                    <small>@await RenderSectionAsync("headerLeftOptional", required: false)</small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                    <li class="active">Here</li>
+                </ol>
+            </section>
+            <section class="content-header clearfix">
+                <div class="pull-left">
+                    @await RenderSectionAsync("actionHeader", required: false)
+                </div>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <!-- Your Page Content Here -->
+                @RenderBody()
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <!-- Main Footer -->
+        @await Html.PartialAsync("_Footer")
+    </div>
+    <!-- ./wrapper -->
+
+    @RenderSection("menu", required: false)
+    @RenderSection("scripts", required: false)
+</body>
+</html>

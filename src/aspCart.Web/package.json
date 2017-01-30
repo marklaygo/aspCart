@@ -4,7 +4,10 @@
   "description": "Web dependencies",
   "license": "",
   "dependencies": {
+    "admin-lte": "2.3.11",
     "bootstrap": "3.3.7",
+    "font-awesome": "4.7.0",
+    "icheck": "1.0.2",
     "jquery": "3.1.1",
     "jquery-validation": "1.16.0",
     "jquery-validation-unobtrusive": "3.2.6"

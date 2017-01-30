@@ -1,0 +1,29 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img src="~/images/system/user-160x160.png" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+                <p>@UserManager.GetUserName(User)</p>
+                <!-- Status -->
+                <i class="fa fa-circle text-success"></i> Online
+            </div>
+        </div>
+        <!-- Sidebar Menu -->
+        <ul class="sidebar-menu">
+            <li class="header">Navigation</li>
+            <!-- Optionally, you can add icons to the links -->
+            <li id="menu-dashboard"><a asp-controller="Dashboard" asp-action="Index"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
+            <li><a asp-area="" asp-controller="Home" asp-action="Index"><i class="fa fa-tv"></i><span>Main Store</span></a></li>
+        </ul>
+
+        <!-- /.sidebar-menu -->
+    </section>
+    <!-- /.sidebar -->
+</aside>
