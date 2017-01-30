@@ -5,6 +5,7 @@
 @using Microsoft.Extensions.Options
 @model LoginViewModel
 @inject SignInManager<ApplicationUser> SignInManager
+@inject IOptions<AdminAccount> AdminAccount
 
 @{
     Layout = null;
@@ -67,6 +68,12 @@
                 </div>
             </form>
 
+            <hr />
+            <center>
+                Admin email: @AdminAccount.Value.Email<br />
+                Admin password: @AdminAccount.Value.Password<br /><br />
+                <button id="pasteTo" class="btn btn-primary"><span class="fa fa-clipboard"></span>&nbsp;Paste credentials</button>
+            </center>
         </div>
     </div>
 
@@ -75,6 +82,11 @@
             checkboxClass: 'icheckbox_square-blue',
             radioClass: 'iradio_square-blue',
             increaseArea: '20%' // optional
+        });
+
+        $('#pasteTo').click(function () {
+            document.getElementById('Email').value = "@Html.Raw(AdminAccount.Value.Email)";
+            document.getElementById('Password').value = "@Html.Raw(AdminAccount.Value.Password)";
         });
     </script>
 

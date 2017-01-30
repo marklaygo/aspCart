@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using aspCart.Infrastructure;
 using aspCart.Infrastructure.EFModels;
+using aspCart.Web.Helpers;
+using aspCart.Web.Models;
 
 namespace aspCart.Web
 {
@@ -56,6 +58,10 @@ namespace aspCart.Web
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            // configure admin account injectable
+            services.Configure<AdminAccount>(
+                Configuration.GetSection("AdminAccount"));
+
             services.AddMvc();
 
             // Add application services.
@@ -96,6 +102,12 @@ namespace aspCart.Web
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            // apply migration
+            DefaultDataProvider.ApplyMigration(app.ApplicationServices);
+
+            // seed default data
+            DefaultDataProvider.Seed(app.ApplicationServices, Configuration);
         }
     }
 }
