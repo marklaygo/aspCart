@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0",
+  "name": "aspcart",
+  "description": "Web dependencies",
+  "license": "",
+  "dependencies": {
+    "bootstrap": "3.3.7",
+    "jquery": "3.1.1",
+    "jquery-validation": "1.16.0",
+    "jquery-validation-unobtrusive": "3.2.6"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
+}
