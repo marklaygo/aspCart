@@ -1,0 +1,82 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+@using aspCart.Infrastructure
+@using Microsoft.Extensions.Options
+@model LoginViewModel
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Login Page | aspCart</title>
+
+    <!-- css -->
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/lib/adminlte/dist/css/AdminLTE.css" rel="stylesheet" />
+    <link href="~/lib/adminlte/dist/css/skins/skin-blue.css" rel="stylesheet" />
+    <link href="~/lib/icheck/skins/square/blue.css" rel="stylesheet" />
+
+    <!-- js -->
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/icheck/icheck.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <b>asp</b>Cart
+        </div>
+
+        <div class="login-box-body">
+            <p class="login-box-msg">Admin Login</p>
+
+            <form asp-area="Admin" asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group has-feedback">
+                    <input asp-for="Email" class="form-control" placeholder="Email" />
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input asp-for="Password" class="form-control" placeholder="Password" />
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8">
+                        <div class="checkbox icheck">
+                            <input type="checkbox" asp-for="RememberMe" />
+                            <label asp-for="RememberMe"></label>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <input type="submit" value="Log in" class="btn btn-primary btn-block btn-flat" />
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <script>
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' // optional
+        });
+    </script>
+
+</body>
+</html>

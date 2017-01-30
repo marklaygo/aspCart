@@ -1,20 +1,17 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Logging;
-using aspCart.Web.Models.AccountViewModels;
+using Microsoft.AspNetCore.Identity;
 using aspCart.Infrastructure.EFModels;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
+using aspCart.Web.Models.AccountViewModels;
 
-namespace aspCart.Web.Controllers
+namespace aspCart.Web.Areas.Admin.Controllers
 {
-    [Authorize]
-    public class AccountController : Controller
+    public class AccountController : AdminController
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -30,25 +27,12 @@ namespace aspCart.Web.Controllers
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
 
-        // GET: /Account/AccessDenied
-        public IActionResult AccessDenied()
-        {
-            return View();
-        }
-
         //
         // GET: /Account/Login
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Login(string returnUrl = null)
         {
-            if (returnUrl != null)
-            {
-                var url = returnUrl.ToLower();
-                if (url.StartsWith("/admin"))
-                    return RedirectToAction("Login", "Account", new { area = "Admin", returnUrl = returnUrl });
-            }
-
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
@@ -88,43 +72,6 @@ namespace aspCart.Web.Controllers
         }
 
         //
-        // GET: /Account/Register
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Register(string returnUrl = null)
-        {
-            ViewData["ReturnUrl"] = returnUrl;
-            return View();
-        }
-
-        //
-        // POST: /Account/Register
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
-        {
-            ViewData["ReturnUrl"] = returnUrl;
-            if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
-                    // Send an email with this link
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation(3, "User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
-                }
-                AddErrors(result);
-            }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
-        }
-
-        //
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -132,7 +79,7 @@ namespace aspCart.Web.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation(4, "User logged out.");
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToAction(nameof(DashboardController.Index), "Dashboard");
         }
 
         #region Helpers
@@ -153,7 +100,7 @@ namespace aspCart.Web.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction(nameof(DashboardController.Index), "Dashboard");
             }
         }
 

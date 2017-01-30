@@ -6,20 +6,19 @@
     <title>@ViewData["Title"] | aspCart</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
-    <environment names="Development">
-        <!-- css -->
-        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
-        <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
-        <link href="~/lib/adminlte/dist/css/AdminLTE.css" rel="stylesheet" />
-        <link href="~/lib/adminlte/dist/css/skins/skin-blue.css" rel="stylesheet" />
-        <link href="~/lib/icheck/skins/square/blue.css" rel="stylesheet" />
+    <!-- css -->
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/lib/adminlte/dist/css/AdminLTE.css" rel="stylesheet" />
+    <link href="~/lib/adminlte/dist/css/skins/skin-blue.css" rel="stylesheet" />
+    <link href="~/lib/icheck/skins/square/blue.css" rel="stylesheet" />
 
-        <!-- js -->
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/lib/adminlte/dist/js/app.js"></script>
-        @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-    </environment>
+    <!-- js -->
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/adminlte/dist/js/app.js"></script>
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
