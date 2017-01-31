@@ -8,6 +8,8 @@ using AutoMapper;
 using aspCart.Web.Areas.Admin.Models.Catalog;
 using aspCart.Core.Domain.Catalog;
 using aspCart.Web.Areas.Admin.Helpers;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace aspCart.Web.Areas.Admin.Controllers
 {
@@ -16,9 +18,13 @@ namespace aspCart.Web.Areas.Admin.Controllers
         #region Fields
 
         private readonly ICategoryService _categoryService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ViewHelper _viewHelper;
         private readonly DataHelper _dataHelper;
         private readonly IMapper _mapper;
+
+        private ISession Session => _httpContextAccessor.HttpContext.Session;
+        private string _sessionKey = "CategoryModel";
 
         #endregion
 
@@ -26,11 +32,13 @@ namespace aspCart.Web.Areas.Admin.Controllers
 
         public CategoryController(
             ICategoryService categoryService,
+            IHttpContextAccessor httpContextAccessor,
             ViewHelper viewHelper,
             DataHelper dataHelper,
             IMapper mapper)
         {
             _categoryService = categoryService;
+            _httpContextAccessor = httpContextAccessor;
             _viewHelper = viewHelper;
             _dataHelper = dataHelper;
             _mapper = mapper;
@@ -146,6 +154,9 @@ namespace aspCart.Web.Areas.Admin.Controllers
             model.ParentCategorySelectList = _viewHelper.GetParentCategorySelectList(model.Id);
             model.ActiveTab = ActiveTab ?? model.ActiveTab;
 
+            // add model to session
+            Session.SetString(_sessionKey, JsonConvert.SerializeObject(model));
+
             return View(model);
         }
 
@@ -158,11 +169,20 @@ namespace aspCart.Web.Areas.Admin.Controllers
 
             if(ModelState.IsValid)
             {
-                // check if name exist
-                if (_dataHelper.CheckForDuplicate(ServiceType.Category, DataType.Name, model.Name))
+                // get model from session
+                var sessionModel = JsonConvert.DeserializeObject<CategoryCreateOrUpdateModel>(Session.GetString(_sessionKey));
+                model.Id = sessionModel.Id;
+                model.DateAdded = sessionModel.DateAdded;
+
+                // check if user edit the name
+                if (model.Name.ToLower() != sessionModel.Name.ToLower())
                 {
-                    ModelState.AddModelError(string.Empty, "Category name already exist");
-                    hasError = true;
+                    // check if name exist
+                    if (_dataHelper.CheckForDuplicate(ServiceType.Category, DataType.Name, model.Name))
+                    {
+                        ModelState.AddModelError(string.Empty, "Category name already exist");
+                        hasError = true;
+                    }
                 }
 
                 // create seo friendly url if the user didn't provide
@@ -172,11 +192,15 @@ namespace aspCart.Web.Areas.Admin.Controllers
                 }
                 else
                 {
-                    // check if seo already exist
-                    if (_dataHelper.CheckForDuplicate(ServiceType.Category, DataType.Seo, model.SeoUrl))
+                    // check if user change seo url
+                    if (model.SeoUrl.ToLower() != sessionModel.SeoUrl.ToLower())
                     {
-                        ModelState.AddModelError(string.Empty, "SEO Url already exist");
-                        hasError = true;
+                        // check if seo already exist
+                        if (_dataHelper.CheckForDuplicate(ServiceType.Category, DataType.Seo, model.SeoUrl))
+                        {
+                            ModelState.AddModelError(string.Empty, "SEO Url already exist");
+                            hasError = true;
+                        }
                     }
                 }
 

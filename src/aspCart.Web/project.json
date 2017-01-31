@@ -46,7 +46,8 @@
     },
     "aspCart.Infrastructure": "1.0.0-*",
     "aspCart.Core": "1.0.0-*",
-    "AutoMapper": "5.2.0"
+    "AutoMapper": "5.2.0",
+    "Microsoft.AspNetCore.Session": "1.0.0"
   },
 
   "tools": {

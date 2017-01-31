@@ -74,6 +74,13 @@ namespace aspCart.Web
                 Configuration.GetSection("AdminAccount"));
 
             services.AddMvc();
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(60);
+                options.CookieName = "aspCart";
+            });
+
 
             // Add application services.
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
@@ -105,6 +112,7 @@ namespace aspCart.Web
             app.UseStaticFiles();
             app.UseStatusCodePages();
             app.UseIdentity();
+            app.UseSession();
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 
