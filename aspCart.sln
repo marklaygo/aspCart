@@ -14,6 +14,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "aspCart.Web", "src\aspCart.
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "aspCart.Infrastructure", "src\aspCart.Infrastructure\aspCart.Infrastructure.xproj", "{AABC0A06-6269-41AA-8A6B-0EF6875CD016}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "aspCart.Core", "src\aspCart.Core\aspCart.Core.xproj", "{1A982886-A36C-4E84-BBEB-A4AB19E184C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +30,10 @@ Global
 		{AABC0A06-6269-41AA-8A6B-0EF6875CD016}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AABC0A06-6269-41AA-8A6B-0EF6875CD016}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AABC0A06-6269-41AA-8A6B-0EF6875CD016}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A982886-A36C-4E84-BBEB-A4AB19E184C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A982886-A36C-4E84-BBEB-A4AB19E184C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A982886-A36C-4E84-BBEB-A4AB19E184C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A982886-A36C-4E84-BBEB-A4AB19E184C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -35,5 +41,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{93E3F86F-CD6B-4C2C-9866-5625EC306D00} = {0E43359B-BB36-4E15-B4C1-074C6B86D24D}
 		{AABC0A06-6269-41AA-8A6B-0EF6875CD016} = {0E43359B-BB36-4E15-B4C1-074C6B86D24D}
+		{1A982886-A36C-4E84-BBEB-A4AB19E184C7} = {0E43359B-BB36-4E15-B4C1-074C6B86D24D}
 	EndGlobalSection
 EndGlobal

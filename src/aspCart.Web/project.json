@@ -44,7 +44,8 @@
       "version": "1.0.0-preview2-final",
       "type": "build"
     },
-    "aspCart.Infrastructure": "1.0.0-*"
+    "aspCart.Infrastructure": "1.0.0-*",
+    "aspCart.Core": "1.0.0-*"
   },
 
   "tools": {
