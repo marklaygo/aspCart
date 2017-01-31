@@ -16,6 +16,7 @@ using aspCart.Web.Models;
 using aspCart.Infrastructure.EFRepository;
 using aspCart.Core.Interface.Services.Catalog;
 using aspCart.Infrastructure.Services.Catalog;
+using AutoMapper;
 
 namespace aspCart.Web
 {
@@ -36,9 +37,15 @@ namespace aspCart.Web
 
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
+
+            MapperConfiguration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new AutoMapperProfileConfiguration());
+            });
         }
 
         public IConfigurationRoot Configuration { get; }
+        public MapperConfiguration MapperConfiguration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -70,6 +77,9 @@ namespace aspCart.Web
             // Add application services.
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient<ICategoryService, CategoryService>();
+
+            // singleton
+            services.AddSingleton(sp => MapperConfiguration.CreateMapper());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

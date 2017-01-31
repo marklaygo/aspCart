@@ -45,7 +45,8 @@
       "type": "build"
     },
     "aspCart.Infrastructure": "1.0.0-*",
-    "aspCart.Core": "1.0.0-*"
+    "aspCart.Core": "1.0.0-*",
+    "AutoMapper": "5.2.0"
   },
 
   "tools": {
