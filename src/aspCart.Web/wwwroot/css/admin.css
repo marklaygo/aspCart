@@ -1,0 +1,32 @@
+﻿input,
+select,
+textarea {
+
+}
+
+.table > thead > tr > td,
+.table > tbody > tr > td {
+    vertical-align: middle !important;
+}
+
+.input-stack-margin {
+    margin: 2px;
+}
+
+.fa.true-icon {
+    color: #007FCC;
+    font-size: 20px;
+}
+
+.fa.false-icon {
+    color: #D22D2D;
+    font-size: 20px;
+}
+
+.selected {
+    background-color: #b1b1b1;
+}
+
+.selected:hover {
+    background-color: #9a9a9a !important;
+}

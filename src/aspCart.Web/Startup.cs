@@ -17,6 +17,7 @@ using aspCart.Infrastructure.EFRepository;
 using aspCart.Core.Interface.Services.Catalog;
 using aspCart.Infrastructure.Services.Catalog;
 using AutoMapper;
+using aspCart.Web.Areas.Admin.Helpers;
 
 namespace aspCart.Web
 {
@@ -80,6 +81,7 @@ namespace aspCart.Web
 
             // singleton
             services.AddSingleton(sp => MapperConfiguration.CreateMapper());
+            services.AddSingleton<ViewHelper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

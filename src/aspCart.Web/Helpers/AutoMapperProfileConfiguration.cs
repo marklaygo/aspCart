@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using aspCart.Core.Domain.Catalog;
+using aspCart.Web.Areas.Admin.Models.Catalog;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +12,8 @@ namespace aspCart.Web.Helpers
     {
         public AutoMapperProfileConfiguration()
         {
-
+            // category mappings
+            CreateMap<Category, CategoryListModel>();
         }
     }
 }

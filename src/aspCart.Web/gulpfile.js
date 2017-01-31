@@ -28,6 +28,14 @@ gulp.task("copy-dependencies", function () {
     ])
         .pipe(gulp.dest(paths.lib + 'bootstrap/dist'));
 
+    // datatables
+    gulp.src([
+        paths.node + 'datatables/media/**/*',
+        paths.node + 'datatables-bootstrap/**/*',
+        '!' + paths.node + 'datatables-bootstrap/**/*.{txt,json,md}',
+    ])
+        .pipe(gulp.dest(paths.lib + 'datatables/dist'));
+
     // font-awesome
     gulp.src([
          paths.node + 'font-awesome/css/**/*',

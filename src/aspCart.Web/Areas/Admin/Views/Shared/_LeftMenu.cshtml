@@ -21,6 +21,18 @@
             <!-- Optionally, you can add icons to the links -->
             <li id="menu-dashboard"><a asp-controller="Dashboard" asp-action="Index"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
             <li><a asp-area="" asp-controller="Home" asp-action="Index"><i class="fa fa-tv"></i><span>Main Store</span></a></li>
+            <li id="menu-catalog" class="treeview">
+                <!-- catalog tree bar -->
+                <a href="#">
+                    <i class="fa fa-book"></i> <span>Catalog</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a id="menu-catalog-category" asp-controller="Category" asp-action="List"><i class="fa fa-circle-o"></i><span>Category</span></a></li>
+                </ul>
+            </li>
         </ul>
 
         <!-- /.sidebar-menu -->
