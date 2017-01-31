@@ -6,6 +6,7 @@
   "dependencies": {
     "admin-lte": "2.3.11",
     "bootstrap": "3.3.7",
+    "ckeditor": "4.6.2",
     "datatables": "1.10.13",
     "datatables-bootstrap": "0.0.1",
     "font-awesome": "4.7.0",

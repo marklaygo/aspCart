@@ -82,6 +82,7 @@ namespace aspCart.Web
             // singleton
             services.AddSingleton(sp => MapperConfiguration.CreateMapper());
             services.AddSingleton<ViewHelper>();
+            services.AddSingleton<DataHelper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,4 +1,6 @@
 ﻿using aspCart.Core.Interface.Services.Catalog;
+using aspCart.Web.Areas.Admin.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,6 +60,42 @@ namespace aspCart.Web.Areas.Admin.Helpers
             }
 
             return mapping;
+        }
+
+        /// <summary>
+        /// Get parent category select list
+        /// </summary>
+        /// <returns>Select list parent category</returns>
+        public SelectList GetParentCategorySelectList(Guid idToExclude = default(Guid))
+        {
+            var categories = _categoryService.GetAllCategories();
+            var categorySelectList = new List<CategorySelectList>();
+            var root = new CategorySelectList
+            {
+                Text = "None",
+                Value = Guid.Empty.ToString()
+            };
+            categorySelectList.Add(root);
+
+            foreach (var category in categories)
+            {
+                if (category.Id != idToExclude)
+                    continue;
+
+                var categoryModel = new CategorySelectList
+                {
+                    Text = category.Name,
+                    Value = category.Id.ToString()
+                };
+
+                if (category.ParentCategoryId != Guid.Empty)
+                    categoryModel.Text = GetCategoryParentMapping(category.ParentCategoryId) + category.Name;
+
+                categorySelectList.Add(categoryModel);
+            }
+
+            var selectList = new SelectList(categorySelectList.OrderBy(x => x.Text), "Value", "Text");
+            return selectList;
         }
 
         #endregion

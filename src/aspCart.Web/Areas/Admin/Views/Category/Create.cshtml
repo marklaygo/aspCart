@@ -1,0 +1,126 @@
+﻿@model CategoryCreateOrUpdateModel
+@{
+    ViewData["Title"] = ViewData["ContentHeader"] = "Add new category";
+}
+
+@section menu {
+    <script type="text/javascript">
+        $(function () {
+            var menuItem = $('#menu-catalog');
+            menuItem.addClass('active');
+            var subMenuItem = menuItem.find('#menu-catalog-category').parent();
+            subMenuItem.addClass('active');
+        });
+    </script>
+}
+
+@section headerLeftOptional {
+    <a asp-action="List" class="fa fa-arrow-circle-left"> back to list</a>
+}
+
+@section actionHeader {
+    <div class="input-group">
+        <button type="button" class="btn btn-primary input-stack-margin" id="save"><i class="fa fa-save"></i>&nbsp; Save</button>
+        <button type="button" class="btn btn-primary input-stack-margin" id="continue"><i class="fa fa-save"></i>&nbsp; Save and continue editing</button>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-controller="Category" asp-action="Create" method="post" id="categoryForm">
+            <input type="hidden" asp-for="ActiveTab" />
+            <input type="hidden" id="continueEditing" name="continueEditing" value="false" />
+
+            <div id="validation"></div>
+            <div asp-validation-summary="ModelOnly" id="aspValidation" class="text-danger"></div>
+
+            <div class="nav-tabs-custom">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation"><a href="#infoContent" class="tabNav" id="info" data-toggle="tab">General Info</a></li>
+                    <li role="presentation"><a href="#seoContent" class="tabNav" id="seo" data-toggle="tab">SEO</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane" id="infoContent">
+                        @await Html.PartialAsync("_CreateOrUpdate_Info", Model)
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="seoContent">
+                        @await Html.PartialAsync("_CreateOrUpdate_Seo", Model)
+                    </div>
+                </div>
+
+            </div> <!-- nav tabs custom end -->
+        </form>
+    </div> <!-- col md 12 end -->
+</div> <!-- row end -->
+
+@section scripts {
+    <script>
+        // run validator on all tabs
+        $.validator.setDefaults({
+            ignore: []
+        });
+
+        // onready calls
+        $(function () {
+            initializeNav();
+            initializeICheck();
+        });
+
+        // set hidden value of nav and content
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            $('#ActiveTab').val(e.target.getAttribute('id'));
+        })
+
+        // form save
+        $('#save').on('click', function (e) {
+            e.preventDefault();
+
+            // check if form is valid
+            var result = $('#categoryForm').valid();
+
+            if (result != 0) {
+                $('#continueEditing').val(false);
+                $('#categoryForm').submit();
+            } else {
+                $('#validation').empty();
+                $('#aspValidation').empty();
+                $('#validation').append('<div class="validation-summary-errors text-danger"><ul><li>Something went wrong! Recheck all inputs</li></ul></div>');
+            }
+        });
+
+        // form save and continue editing
+        $('#continue').on('click', function (e) {
+            e.preventDefault();
+
+            // check if form is valid
+            var result = $('#categoryForm').valid();
+
+            if (result != 0) {
+                $('#continueEditing').val(true);
+                $('#categoryForm').submit();
+            } else {
+                $('#validation').empty();
+                $('#validation').append('<div class="validation-summary-errors text-danger"><ul><li>Something went wrong! Recheck all inputs</li></ul></div>');
+            }
+        });
+
+        // set active nav
+        function initializeNav() {
+            $('.tabNav#@Model.ActiveTab').parent().addClass('active');
+            $('.tab-pane#@(Model.ActiveTab + "Content")').addClass('active');
+        };
+
+        // initialize ICheck
+        function initializeICheck() {
+            // iCheck
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
+            });
+        };
+    </script>
+}

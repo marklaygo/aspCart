@@ -8,6 +8,10 @@ var paths = {
 }
 
 gulp.task("copy-dependencies", function () {
+    // vendor
+    gulp.src('./vendor/**/*')
+        .pipe(gulp.dest(paths.lib));
+
     // admin lte
     gulp.src(paths.node + 'admin-lte/dist/css/AdminLTE.css')
         .pipe(gulp.dest(paths.lib + 'adminlte/dist/css'));
@@ -27,6 +31,29 @@ gulp.task("copy-dependencies", function () {
         '!' + paths.node + 'bootstrap/dist/**/*.map'
     ])
         .pipe(gulp.dest(paths.lib + 'bootstrap/dist'));
+
+    // ckeditor
+    gulp.src([
+        paths.node + 'ckeditor/ckeditor.js',
+        paths.node + 'ckeditor/contents.css',
+        paths.node + 'ckeditor/styles.js'
+    ])
+        .pipe(gulp.dest(paths.lib + 'ckeditor'));
+
+    gulp.src(paths.node + 'ckeditor/lang/en.js')
+        .pipe(gulp.dest(paths.lib + 'ckeditor/lang'));
+
+    gulp.src(paths.node + 'ckeditor/skins/moono-lisa/**/*')
+        .pipe(gulp.dest(paths.lib + 'ckeditor/skins/moono-lisa'));
+
+    gulp.src([
+        paths.node + 'ckeditor/plugins/about/**/*',
+        paths.node + 'ckeditor/plugins/image/**/*',
+        paths.node + 'ckeditor/plugins/link/**/*',
+        paths.node + 'ckeditor/plugins/icons.png',
+        paths.node + 'ckeditor/plugins/icons_hidpi.png'
+    ], { base: paths.node })
+        .pipe(gulp.dest(paths.lib));
 
     // datatables
     gulp.src([
