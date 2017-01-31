@@ -13,6 +13,7 @@ using aspCart.Infrastructure;
 using aspCart.Infrastructure.EFModels;
 using aspCart.Web.Helpers;
 using aspCart.Web.Models;
+using aspCart.Infrastructure.EFRepository;
 
 namespace aspCart.Web
 {
@@ -65,7 +66,7 @@ namespace aspCart.Web
             services.AddMvc();
 
             // Add application services.
-
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
