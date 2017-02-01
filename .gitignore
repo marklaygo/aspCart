@@ -243,4 +243,4 @@ ModelManifest.xml
 
 src/aspCart.Web/Properties/PublishProfiles
 src/aspCart.Web/wwwroot/lib
-
+src/aspCart.Web/wwwroot/images/app
