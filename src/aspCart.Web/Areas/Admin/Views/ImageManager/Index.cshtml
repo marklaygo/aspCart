@@ -1,0 +1,257 @@
+﻿@{
+    ViewData["Title"] = ViewData["ContentHeader"] = "Image Manager";
+}
+
+@section menu {
+    <script type="text/javascript">
+        $(function () {
+            var menuItem = $('#menu-catalog');
+            menuItem.addClass('active');
+            var subMenuItem = menuItem.find('#menu-catalog-imageManager').parent();
+            subMenuItem.addClass('active');
+        });
+    </script>
+}
+
+@section actionHeader {
+    <div class="input-group">
+        <input type="file" id="fileInput" name="imageFile" class="input-file" accept="image/*" multiple="multiple" />
+        <label for="fileInput" id="upload" class="btn btn-primary input-stack-margin"><i class="fa fa-upload"></i>&nbsp; Upload</label>
+        <button type="button" id="delete" class="btn btn-danger input-stack-margin"><i class="fa fa-trash-o"></i>&nbsp; Delete (selected)</button>
+    </div>
+}
+
+<div class="box box-primary">
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="input-group">
+                    <form id="searchImageForm" name="searchImageForm" class="navbar-form" method="post">
+                        @Html.AntiForgeryToken()
+                        <label for="keyword" class="control-label">Search:&nbsp;</label>
+                        <div class="form-group">
+                            <input id="keyword" name="keyword" class="form-control" placeholder="Image filename..." />
+                        </div>
+                        <button type="button" id="imageSearch" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;Search</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="row" id="imgWrapper">
+
+        </div>
+    </div> <!-- box body end -->
+</div> <!-- box end -->
+
+<form id="imageUploadForm" name="imageUploadForm">
+    @Html.AntiForgeryToken()
+</form>
+
+<form id="imageDeleteForm" name="imageDeleteForm">
+    @Html.AntiForgeryToken()
+</form>
+
+<script>
+    // on load
+    $(function () {
+        ajaxGetAllImages();
+    });
+
+    // template for image object
+    function createNewImageElement(item) {
+        // view template
+        var template = `
+            <div class ="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                <div class ="thumbnail">
+                    <input type="checkbox" name="deleteCheckBox" value="imgId" />
+                    <button type="button" id="btnCopyToClipboard" class ="pull-right btn-xs">Copy image link</button>
+                    <img src="/images/app/imgSrcHolder" id="imgSrcId" class ="thumbnail-img imageSource" alt="imgAlt" title="imgTitle">
+                    <div class ="caption">
+                        <h3 class ="thumbnail-title" title="labelImageTitle">labelImageFileName</h3>
+                    </div>
+                </div>
+            </div>
+        `
+        // replace placeholder value of the template
+        var newInput = template.replace('imgSrcHolder', item.fileName);
+        newInput = newInput.replace('hiddenValue', item.id);
+        newInput = newInput.replace('imgAlt', item.fileName);
+        newInput = newInput.replace('imgTitle', item.fileName);
+        newInput = newInput.replace('labelImageTitle', item.fileName);
+        newInput = newInput.replace('labelImageFileName', item.fileName);
+        newInput = newInput.replace('imgId', item.id);
+        newInput = newInput.replace('imgSrcId', 'img-' + item.id);
+
+        // append new element to wrapper
+        $('#imgWrapper').append(newInput);
+    }
+
+    // get
+    function ajaxGetAllImages() {
+        $('#imgWrapper').append("<div>Loading...</div>");
+
+        $.ajax({
+            type: "GET",
+            url: '/Admin/ImageManager/GetAllImages',
+            dataType: "Json",
+            success: function (data) {
+                $('#imgWrapper').empty();
+
+                $.each(data, function (i, item) {
+                    createNewImageElement(item);
+                });
+
+                initializeICheck();
+            }
+        });
+    };
+
+    // search
+    $('#searchImageForm').on('keyup keypress', function (e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) {
+            e.preventDefault();
+            ajaxSearch();
+        }
+    });
+
+    // ajax button search
+    $(document).on('click', '#imageSearch', function () {
+        ajaxSearch();
+    });
+
+    // ajax search
+    function ajaxSearch() {
+        var keyword = $('#keyword').val();
+
+        if (keyword.length === 0)
+            return;
+
+        // ajax post
+        $.ajax({
+            url: '/Admin/ImageManager/SearchImage',
+            type: "POST",
+            data: $('#searchImageForm').serialize(),
+            success: function (data) {
+                $('#imgWrapper').empty();
+
+                $.each(data, function (i, item) {
+                    createNewImageElement(item);
+                });
+
+                initializeICheck();
+            }
+        });
+    };
+
+    // search field on change
+    $(document).on('input', '#keyword', function (event) {
+        if ($('#keyword').val().length === 0) {
+            ajaxGetAllImages();
+        }
+    });
+
+    // upload
+    $(document).on('change', '#fileInput', function (event) {
+        if (window.FormData !== undefined) {
+            var fileUpload = $('#fileInput').get(0);
+            var files = fileUpload.files;
+            var form = ('#imageUploadForm');
+            var fileData = new FormData(form[0]);
+            var ValidImageTypes = ["image/gif", "image/jpeg", "image/png"];
+
+            // build the FormData
+            for (var i = 0; i < files.length; i++) {
+                if ($.inArray(files[i].type, ValidImageTypes) < 0) {
+                    continue;
+                }
+
+                fileData.append(files[i].name, files[i]);
+            }
+
+            var token = $('input[name="__RequestVerificationToken"]', form).val();
+            fileData.append('__RequestVerificationToken', token);
+
+            // ajax post
+            $.ajax({
+                url: '/Admin/ImageManager/UploadImages',
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: fileData,
+                success: function (result) {
+                    ajaxGetAllImages();
+                }
+            });
+
+            // clear the input field
+            $('#fileInput').val("");
+        }
+        else {
+            console.log('FormData is not supported.');
+        }
+    });
+
+    // delete
+    $(document).on('click', '#delete', function () {
+        var imageIds = [];
+        var form = ('#imageDeleteForm');
+        var checkboxArray = document.getElementsByName('deleteCheckBox');
+
+        // check if checkbox is checked
+        for (var i = 0; i < checkboxArray.length; i++) {
+            if (checkboxArray[i].checked) {
+                imageIds.push(checkboxArray[i].value);
+            }
+        }
+
+        var token = $('input[name="__RequestVerificationToken"]', form).val();
+
+        if (imageIds.length > 0) {
+            $.ajax({
+                url: '/Admin/ImageManager/DeleteImages',
+                type: "POST",
+                data: { Ids: imageIds, __RequestVerificationToken: token },
+                success: function (result) {
+                    ajaxGetAllImages();
+                }
+            });
+        }
+    });
+
+    // toggle icheck when div is clicked
+    $(document).on('click', '.thumbnail', function () {
+        if (event.target.nodeName !== "BUTTON") {
+            var parent = $(this);
+            parent.first().iCheck('toggle');
+        }
+    });
+
+    // initialize ICheck
+    function initializeICheck() {
+        // iCheck
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' // optional
+        });
+    };
+
+    // copy to clipboard
+    $(document).on('click', '#btnCopyToClipboard', function () {
+        var imgId = $(this).siblings('img').attr('id');
+        var imgSrc = document.getElementById(imgId).src;
+        copyToClipboard(imgSrc);
+    });
+
+    function copyToClipboard(value) {
+        var template = `<input type="text" id="copyToClipboard" value="valueToReplace" />`;
+        var tmpElem = template.replace('valueToReplace', value);
+        $('body').append(tmpElem);
+        document.getElementById("copyToClipboard").focus();
+        document.getElementById("copyToClipboard").select();
+        document.execCommand('copy');
+        document.getElementById("copyToClipboard").remove();
+    };
+</script>

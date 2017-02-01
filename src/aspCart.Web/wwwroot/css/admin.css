@@ -30,3 +30,31 @@ textarea {
 .selected:hover {
     background-color: #9a9a9a !important;
 }
+
+.input-file {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.thumbnail-img {
+    margin-top: 5px;
+    height: 150px !important;
+    width: 150px !important;
+}
+
+.thumbnail > .caption {
+    padding-top: 0px;
+}
+
+.thumbnail-title {
+    font-size: 16px;
+    line-height: normal;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
