@@ -17,6 +17,7 @@ namespace aspCart.Infrastructure
         }
 
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Image> Images { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategoryMapping> ProductCategoryMappings { get; set; }
 
@@ -28,6 +29,7 @@ namespace aspCart.Infrastructure
             // Add your customizations after calling base.OnModelCreating(builder);
 
             builder.Entity<Category>().ToTable("Category");
+            builder.Entity<Image>().ToTable("Image");
             builder.Entity<Product>().ToTable("Product");
             builder.Entity<ProductCategoryMapping>().ToTable("ProductCategoryMapping");
         }
