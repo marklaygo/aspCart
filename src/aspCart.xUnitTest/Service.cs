@@ -19,6 +19,7 @@ namespace aspCart.xUnitTest
             ManufacturerRepository = new Repository<Manufacturer>(context);
             ProductRepository = new Repository<Product>(context);
             ProductCategoryMapping = new Repository<ProductCategoryMapping>(context);
+            ProductManufacturerMapping = new Repository<ProductManufacturerMapping>(context);
 
             // service
             CategoryService = new CategoryService(context, CategoryRepository, ProductCategoryMapping);
