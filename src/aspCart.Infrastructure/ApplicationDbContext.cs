@@ -17,6 +17,8 @@ namespace aspCart.Infrastructure
         }
 
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductCategoryMapping> ProductCategoryMappings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -26,6 +28,8 @@ namespace aspCart.Infrastructure
             // Add your customizations after calling base.OnModelCreating(builder);
 
             builder.Entity<Category>().ToTable("Category");
+            builder.Entity<Product>().ToTable("Product");
+            builder.Entity<ProductCategoryMapping>().ToTable("ProductCategoryMapping");
         }
     }
 }

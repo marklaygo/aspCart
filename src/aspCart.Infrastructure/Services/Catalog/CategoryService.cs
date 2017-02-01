@@ -14,6 +14,7 @@ namespace aspCart.Infrastructure.Services.Catalog
 
         private readonly ApplicationDbContext _context;
         private readonly IRepository<Category> _categoryRepository;
+        private readonly IRepository<ProductCategoryMapping> _productCategoryRepository;
 
         #endregion
 
@@ -21,10 +22,12 @@ namespace aspCart.Infrastructure.Services.Catalog
 
         public CategoryService(
             ApplicationDbContext context,
-            IRepository<Category> categoryRepository)
+            IRepository<Category> categoryRepository,
+            IRepository<ProductCategoryMapping> productCategoryRepository)
         {
             _context = context;
             _categoryRepository = categoryRepository;
+            _productCategoryRepository = productCategoryRepository;
         }
 
         #endregion
@@ -122,6 +125,38 @@ namespace aspCart.Infrastructure.Services.Catalog
                 _categoryRepository.Delete(GetCategoryById(id));
 
             _categoryRepository.SaveChanges();
+        }
+
+        /// <summary>
+        /// Insert product category mappings
+        /// </summary>
+        /// <param name="productCategoryMappings">List of product category mapping</param>
+        public void InsertProductCategoryMappings(IList<ProductCategoryMapping> productCategoryMappings)
+        {
+            if (productCategoryMappings == null)
+                throw new ArgumentNullException("productCategoryMappings");
+
+            foreach (var mapping in productCategoryMappings)
+                _productCategoryRepository.Insert(mapping);
+
+            _productCategoryRepository.SaveChanges();
+        }
+
+        /// <summary>
+        /// Delete all product category mappings using product id
+        /// </summary>
+        /// <param name="productId">Product id</param>
+        public void DeleteAllProductCategoryMappingsByProductId(Guid productId)
+        {
+            if (productId == null)
+                throw new ArgumentNullException("productId");
+
+            var mappings = _productCategoryRepository.FindManyByExpression(x => x.ProductId == productId);
+
+            foreach (var mapping in mappings)
+                _productCategoryRepository.Delete(mapping);
+
+            _productCategoryRepository.SaveChanges();
         }
 
         #endregion

@@ -51,5 +51,17 @@ namespace aspCart.Core.Interface.Services.Catalog
         /// </summary>
         /// <param name="ids">Ids of categories to delete</param>
         void DeleteCategories(IList<Guid> ids);
+
+        /// <summary>
+        /// Insert product category mappings
+        /// </summary>
+        /// <param name="productCategoryMappings">List of product category mapping</param>
+        void InsertProductCategoryMappings(IList<ProductCategoryMapping> productCategoryMappings);
+
+        /// <summary>
+        /// Delete all product category mappings using product id
+        /// </summary>
+        /// <param name="productId">Product id</param>
+        void DeleteAllProductCategoryMappingsByProductId(Guid productId);
     }
 }

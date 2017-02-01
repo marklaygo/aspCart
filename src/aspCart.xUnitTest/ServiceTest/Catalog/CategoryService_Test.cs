@@ -198,5 +198,81 @@ namespace aspCart.xUnitTest.ServiceTest.Catalog
                 Assert.Equal(0, service.CategoryService.GetAllCategories().Count);
             }
         }
+
+        [Fact]
+        public void CategoryService_Test_InsertProductCategoryMappings()
+        {
+            // arrange
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "CategoryService_Test_GetAllCategoryWithoutParent")
+                .Options;
+
+            var productEntity = new Product() { Id = Guid.NewGuid(), Name = "Product 1", Price = 100m };
+            var category1Entity = new Category() { Id = Guid.NewGuid(), Name = "Category 1", ParentCategoryId = Guid.Empty, SeoUrl = "Category-1" };
+            var category2Entity = new Category() { Id = Guid.NewGuid(), Name = "Category 2", ParentCategoryId = Guid.NewGuid(), SeoUrl = "Category-2" };
+
+            var categoryMappings = new List<ProductCategoryMapping>()
+            {
+                new ProductCategoryMapping() { Id = Guid.NewGuid(), ProductId = productEntity.Id, CategoryId = category1Entity.Id },
+                new ProductCategoryMapping() { Id = Guid.NewGuid(), ProductId = productEntity.Id, CategoryId = category2Entity.Id }
+            };
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Products.Add(productEntity);
+                context.Categories.Add(category1Entity);
+                context.Categories.Add(category2Entity);
+                foreach (var mapping in categoryMappings)
+                    context.ProductCategoryMappings.Add(mapping);
+                context.SaveChanges();
+            }
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                var service = new Service(context);
+                // assert
+                Assert.Equal(2, service.ProductService.GetProductById(productEntity.Id).Categories.Count);
+            }
+        }
+
+        [Fact]
+        public void CategoryService_Test_DeleteAllProductCategoryMappingsByProductId()
+        {
+            // arrange
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "CategoryService_Test_DeleteAllProductCategoryMappingsByProductId")
+                .Options;
+
+            var productEntity = new Product() { Id = Guid.NewGuid(), Name = "Product 1", Price = 100m };
+            var category1Entity = new Category() { Id = Guid.NewGuid(), Name = "Category 1", ParentCategoryId = Guid.Empty, SeoUrl = "Category-1" };
+            var category2Entity = new Category() { Id = Guid.NewGuid(), Name = "Category 2", ParentCategoryId = Guid.NewGuid(), SeoUrl = "Category-2" };
+
+            var categoryMappings = new List<ProductCategoryMapping>()
+            {
+                new ProductCategoryMapping() { Id = Guid.NewGuid(), ProductId = productEntity.Id, CategoryId = category1Entity.Id },
+                new ProductCategoryMapping() { Id = Guid.NewGuid(), ProductId = productEntity.Id, CategoryId = category2Entity.Id }
+            };
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Products.Add(productEntity);
+                context.Categories.Add(category1Entity);
+                context.Categories.Add(category2Entity);
+                foreach (var mapping in categoryMappings)
+                    context.ProductCategoryMappings.Add(mapping);
+                context.SaveChanges();
+            }
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                var service = new Service(context);
+
+                // act
+                service.CategoryService.DeleteAllProductCategoryMappingsByProductId(productEntity.Id);
+
+                // assert
+                Assert.Equal(0, service.ProductService.GetProductById(productEntity.Id).Categories.Count);
+            }
+        }
     }
 }

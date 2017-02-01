@@ -79,7 +79,8 @@ namespace aspCart.Web.Areas.Admin.Helpers
 
             foreach (var category in categories)
             {
-                if (category.Id != idToExclude)
+                // skip id to exclude
+                if (category.Id == idToExclude)
                     continue;
 
                 var categoryModel = new CategorySelectList
