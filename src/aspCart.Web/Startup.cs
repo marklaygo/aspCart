@@ -85,6 +85,7 @@ namespace aspCart.Web
             // Add application services.
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IProductService, ProductService>();
 
             // singleton
             services.AddSingleton(sp => MapperConfiguration.CreateMapper());

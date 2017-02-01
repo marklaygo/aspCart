@@ -9,7 +9,8 @@ namespace aspCart.Web.Areas.Admin.Helpers
 {
     public enum ServiceType
     {
-        Category
+        Category,
+        Product
     }
 
     public enum DataType
@@ -23,16 +24,18 @@ namespace aspCart.Web.Areas.Admin.Helpers
         #region Fields
 
         private readonly ICategoryService _categoryService;
+        private readonly IProductService _productService;
 
         #endregion
 
         #region Constructor
 
         public DataHelper(
-            ICategoryService categoryService)
+            ICategoryService categoryService,
+            IProductService productService)
         {
             _categoryService = categoryService;
-
+            _productService = productService;
         }
 
         #endregion
@@ -50,7 +53,15 @@ namespace aspCart.Web.Areas.Admin.Helpers
             // get entities
             if (serviceType == ServiceType.Category)
             {
-                entities = _categoryService.GetAllCategories().Select(x => x.SeoUrl.ToLower()).ToList();
+                entities = _categoryService.GetAllCategories()
+                    .Select(x => x.SeoUrl.ToLower())
+                    .ToList();
+            }
+            else if(serviceType == ServiceType.Product)
+            {
+                entities = _productService.GetAllProducts()
+                    .Select(x => x.SeoUrl.ToLower())
+                    .ToList();
             }
 
             // check if seo already exist
@@ -76,12 +87,32 @@ namespace aspCart.Web.Areas.Admin.Helpers
             if (dataType == DataType.Name)
             {
                 if (serviceType == ServiceType.Category)
-                    entities = _categoryService.GetAllCategories().Select(x => x.Name.ToLower()).ToList();
+                {
+                    entities = _categoryService.GetAllCategories()
+                        .Select(x => x.Name.ToLower())
+                        .ToList();
+                }
+                else if (serviceType == ServiceType.Product)
+                {
+                    entities = _productService.GetAllProducts()
+                        .Select(x => x.Name.ToLower())
+                        .ToList();
+                }
             }
             else if (dataType == DataType.Seo)
             {
                 if (serviceType == ServiceType.Category)
-                    entities = _categoryService.GetAllCategories().Select(x => x.SeoUrl.ToLower()).ToList();
+                {
+                    entities = _categoryService.GetAllCategories()
+                        .Select(x => x.SeoUrl.ToLower())
+                        .ToList();
+                }
+                else if (serviceType == ServiceType.Product)
+                {
+                    entities = _productService.GetAllProducts()
+                        .Select(x => x.SeoUrl.ToLower())
+                        .ToList();
+                }
             }
 
             // check for duplicate

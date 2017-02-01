@@ -16,6 +16,11 @@ namespace aspCart.Web.Helpers
             CreateMap<Category, CategoryListModel>();
             CreateMap<Category, CategoryCreateOrUpdateModel>()
                 .ReverseMap();
+
+            // product mappings
+            CreateMap<Product, ProductListModel>();
+            CreateMap<Product, ProductCreateOrUpdateModel>()
+                .ReverseMap();
         }
     }
 }

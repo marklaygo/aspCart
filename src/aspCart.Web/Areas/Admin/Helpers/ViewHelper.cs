@@ -99,6 +99,33 @@ namespace aspCart.Web.Areas.Admin.Helpers
             return selectList;
         }
 
+        /// <summary>
+        /// Get category select list
+        /// </summary>
+        /// <returns>Select list category</returns>
+        public SelectList GetCategorySelectList()
+        {
+            var categories = _categoryService.GetAllCategories();
+            var categorySelectList = new List<CategorySelectList>();
+
+            foreach (var category in categories)
+            {
+                var categoryModel = new CategorySelectList
+                {
+                    Text = category.Name,
+                    Value = category.Id.ToString()
+                };
+
+                if (category.ParentCategoryId != Guid.Empty)
+                    categoryModel.Text = GetCategoryParentMapping(category.ParentCategoryId) + category.Name;
+
+                categorySelectList.Add(categoryModel);
+            }
+
+            var selectList = new SelectList(categorySelectList.OrderBy(x => x.Text), "Value", "Text");
+            return selectList;
+        }
+
         #endregion
     }
 }

@@ -1,0 +1,39 @@
+﻿@model ProductCreateOrUpdateModel
+
+<div class="form-horizontal">
+    <!-- SEO Url -->
+    <div class="form-group">
+        <label asp-for="SeoUrl" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <input asp-for="SeoUrl" class="form-control" />
+            <span asp-validation-for="SeoUrl" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!-- Meta Title -->
+    <div class="form-group">
+        <label asp-for="MetaTitle" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <input asp-for="MetaTitle" class="form-control" />
+            <span asp-validation-for="MetaTitle" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!-- Meta Keywords -->
+    <div class="form-group">
+        <label asp-for="MetaKeywords" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <input asp-for="MetaKeywords" class="form-control" />
+            <span asp-validation-for="MetaKeywords" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!-- Meta Description -->
+    <div class="form-group">
+        <label asp-for="MetaDescription" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <input asp-for="MetaDescription" class="form-control" />
+            <span asp-validation-for="MetaDescription" class="text-danger"></span>
+        </div>
+    </div>
+</div> <!-- form horizontal end -->

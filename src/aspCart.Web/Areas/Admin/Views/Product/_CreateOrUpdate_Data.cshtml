@@ -1,0 +1,150 @@
+﻿@model ProductCreateOrUpdateModel
+
+<div class="form-horizontal">
+    <!-- Price -->
+    <div class="form-group">
+        <label asp-for="Price" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <input asp-for="Price" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!-- SpecialPrice -->
+    <div class="form-group">
+        <label asp-for="SpecialPrice" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <input asp-for="SpecialPrice" class="form-control" />
+            <span asp-validation-for="SpecialPrice" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!-- SpecialPriceStartDate -->
+    <div class="form-group">
+        <label asp-for="SpecialPriceStartDate" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <input asp-for="SpecialPriceStartDate" class="form-control" />
+        </div>
+    </div>
+
+    <!-- SpecialPriceEndDate -->
+    <div class="form-group">
+        <label asp-for="SpecialPriceEndDate" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <input asp-for="SpecialPriceEndDate" class="form-control" />
+        </div>
+    </div>
+
+    <hr />
+
+    <!-- Stock Quantity -->
+    <div class="form-group">
+        <label asp-for="StockQuantity" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <input asp-for="StockQuantity" class="form-control" />
+            <span asp-validation-for="StockQuantity" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!-- Minimum Stock Quantity -->
+    <div class="form-group">
+        <label asp-for="MinimumStockQuantity" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <input asp-for="MinimumStockQuantity" class="form-control" />
+            <span asp-validation-for="MinimumStockQuantity" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!-- Notify for quantity below -->
+    <div class="form-group">
+        <label asp-for="NotifyForQuantityBelow" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <input asp-for="NotifyForQuantityBelow" class="form-control" />
+            <span asp-validation-for="NotifyForQuantityBelow" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!-- Display Availability -->
+    <div class="form-group">
+        <label asp-for="DisplayAvailability" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <input type="checkbox" asp-for="DisplayAvailability" class="" />
+            <span asp-validation-for="DisplayAvailability" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!-- Minimum Cart Qty -->
+    <div class="form-group">
+        <label asp-for="MinimumCartQuantity" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <input asp-for="MinimumCartQuantity" class="form-control" />
+            <span asp-validation-for="MinimumCartQuantity" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!-- Maximum Cart Qty -->
+    <div class="form-group">
+        <label asp-for="MaximumCartQuantity" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <input asp-for="MaximumCartQuantity" class="form-control" />
+            <span asp-validation-for="MaximumCartQuantity" class="text-danger"></span>
+        </div>
+    </div>
+
+    <hr />
+
+    <!-- Category -->
+    <div class="form-group">
+        <label asp-for="CategoryIds" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <select asp-for="CategoryIds" asp-items="@Model.CategorySelectList" multiple="multiple"></select>
+        </div>
+    </div>
+
+</div> <!-- form horizontal end -->
+
+<script>
+    $(function () {
+        // multi select
+        var categories = $('#CategoryIds').kendoMultiSelect({
+            autoClose: false
+        }).data('kendoMultiSelect');
+
+        // datepicker on change event
+        function onChange() {
+            if (this.value() === null) {
+                this.value("");
+            }
+        }
+
+        // datepicker initialize for SpecialPriceStartDate
+        $('#SpecialPriceStartDate').kendoDatePicker({
+            format: "dd-MMM-yyyy",
+            change: onChange
+        });
+
+        $("#SpecialPriceStartDate").on("change", function () {
+            var input = $(this);
+            var widget = input.data("kendoDatePicker");
+
+            if (widget && widget.value() === null && input.val()) {
+                widget.value('');
+            }
+        });
+
+        // datepicker initialize for SpecialPriceEndDate
+        $('#SpecialPriceEndDate').kendoDatePicker({
+            format: "dd-MMM-yyyy",
+            change: onChange
+        });
+
+        $("#SpecialPriceEndDate").on("change", function () {
+            var input = $(this);
+            var widget = input.data("kendoDatePicker");
+
+            if (widget && widget.value() === null && input.val()) {
+                widget.value('');
+            }
+        });
+    });
+</script>

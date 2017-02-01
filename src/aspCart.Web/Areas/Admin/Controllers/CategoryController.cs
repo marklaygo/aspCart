@@ -115,7 +115,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
                     }
                 }
 
-                // if everything works
+                // if everything is valid
                 if (!hasError)
                 {
                     // map model to entity
