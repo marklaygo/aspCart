@@ -18,6 +18,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
         #region Fields
 
         private readonly ICategoryService _categoryService;
+        private readonly IManufacturerService _manufacturerService;
         private readonly IProductService _productService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ViewHelper _viewHelper;
@@ -33,6 +34,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
 
         public ProductController(
             ICategoryService categoryService,
+            IManufacturerService manufacturerService,
             IProductService productService,
             IHttpContextAccessor httpContextAccessor,
             ViewHelper viewHelper,
@@ -40,6 +42,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
             IMapper mapper)
         {
             _categoryService = categoryService;
+            _manufacturerService = manufacturerService;
             _productService = productService;
             _httpContextAccessor = httpContextAccessor;
             _viewHelper = viewHelper;
@@ -77,6 +80,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
         {
             var model = new ProductCreateOrUpdateModel();
             model.CategorySelectList = _viewHelper.GetCategorySelectList();
+            model.ManufacturerSelectList = _viewHelper.GetManufacturerSelectList();
             return View(model);
         }
 
@@ -125,6 +129,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
                     // save to database
                     _productService.InsertProduct(productEntity);
                     SaveCategoryMappings(model);
+                    SaveManufacturerMappings(model);
 
                     if (continueEditing)
                         return RedirectToAction("Edit", new { id = productEntity.Id, ActiveTab = model.ActiveTab });
@@ -135,6 +140,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
 
             // something went wrong, redisplay form
             model.CategorySelectList = _viewHelper.GetCategorySelectList();
+            model.ManufacturerSelectList = _viewHelper.GetManufacturerSelectList();
             return View(model);
         }
 
@@ -154,13 +160,20 @@ namespace aspCart.Web.Areas.Admin.Controllers
             foreach (var category in productEntity.Categories)
                 categoryIds.Add(category.Category.Id.ToString());
 
+            // get all manufacturers
+            var manufacturerIds = new List<string>();
+            foreach (var manufacturer in productEntity.Manufacturers)
+                manufacturerIds.Add(manufacturer.Manufacturer.Id.ToString());
+
             // map entity to view model
             var model = _mapper.Map<Product, ProductCreateOrUpdateModel>(productEntity);
             model.CategoryIds = categoryIds;
+            model.ManufacturerIds = manufacturerIds;
 
             // view helper
             model.ActiveTab = ActiveTab ?? model.ActiveTab;
             model.CategorySelectList = _viewHelper.GetParentCategorySelectList();
+            model.ManufacturerSelectList = _viewHelper.GetManufacturerSelectList();
 
             // add model to session
             Session.SetString(_sessionKey, JsonConvert.SerializeObject(model));
@@ -222,6 +235,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
                     // save to database
                     _productService.UpdateProduct(productEntity);
                     SaveCategoryMappings(model);
+                    SaveManufacturerMappings(model);
 
                     if (continueEditing)
                         return RedirectToAction("Edit", new { id = productEntity.Id, ActiveTab = model.ActiveTab });
@@ -232,6 +246,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
 
             // something went wrong, redisplay form
             model.CategorySelectList = _viewHelper.GetCategorySelectList();
+            model.ManufacturerSelectList = _viewHelper.GetManufacturerSelectList();
             return View(model);
         }
 
@@ -283,6 +298,39 @@ namespace aspCart.Web.Areas.Admin.Controllers
             // save to database
             _categoryService.DeleteAllProductCategoryMappingsByProductId(model.Id);
             _categoryService.InsertProductCategoryMappings(categoryMappings);
+        }
+
+        [NonAction]
+        private void SaveManufacturerMappings(ProductCreateOrUpdateModel model)
+        {
+            var manufacturerMappings = new List<ProductManufacturerMapping>();
+            if (model.ManufacturerIds != null)
+            {
+                foreach (var id in model.ManufacturerIds)
+                {
+                    // check if manufacture exist
+                    Guid manufactureId;
+                    if (Guid.TryParse(id, out manufactureId))
+                    {
+                        if (_manufacturerService.GetManufacturerById(manufactureId) != null)
+                        {
+                            // create mapping entity
+                            var manufacturerMapping = new ProductManufacturerMapping
+                            {
+                                Id = Guid.NewGuid(),
+                                ProductId = model.Id,
+                                ManufacturerId = Guid.Parse(id)
+                            };
+
+                            manufacturerMappings.Add(manufacturerMapping);
+                        }
+                    }
+                }
+            }
+
+            // save to database
+            _manufacturerService.DeleteAllProductManufacturersMappings(model.Id);
+            _manufacturerService.InsertProductManufacturerMappings(manufacturerMappings);
         }
 
         #endregion

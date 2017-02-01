@@ -57,6 +57,7 @@ namespace aspCart.Infrastructure.Services.Catalog
             // TODO: update when lazy loading is available
             var entity = _context.Products
                 .Include(x => x.Categories).ThenInclude(x => x.Category)
+                .Include(x => x.Manufacturers).ThenInclude(x => x.Manufacturer)
                 .AsNoTracking()
                 .SingleOrDefault(x => x.Id == id);
 
@@ -76,6 +77,7 @@ namespace aspCart.Infrastructure.Services.Catalog
             // TODO: update when lazy loading is available
             var entity = _context.Products
                 .Include(x => x.Categories).ThenInclude(x => x.Category)
+                .Include(x => x.Manufacturers).ThenInclude(x => x.Manufacturer)
                 .AsNoTracking()
                 .SingleOrDefault(x => x.SeoUrl == seo);
 

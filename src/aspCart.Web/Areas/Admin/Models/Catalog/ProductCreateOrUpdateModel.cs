@@ -84,6 +84,11 @@ namespace aspCart.Web.Areas.Admin.Models.Catalog
 
         public SelectList CategorySelectList { get; set; }
 
+        [Display(Name = "Manufacturer")]
+        public List<string> ManufacturerIds { get; set; }
+
+        public SelectList ManufacturerSelectList { get; set; }
+
         public bool Published { get; set; }
         public DateTime DateAdded { get; set; }
     }

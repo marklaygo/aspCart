@@ -101,12 +101,24 @@
         </div>
     </div>
 
+    <!-- Manufacturer -->
+    <div class="form-group">
+        <label asp-for="ManufacturerIds" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <select asp-for="ManufacturerIds" asp-items="@Model.ManufacturerSelectList" multiple="multiple"></select>
+        </div>
+    </div>
+
 </div> <!-- form horizontal end -->
 
 <script>
     $(function () {
         // multi select
         var categories = $('#CategoryIds').kendoMultiSelect({
+            autoClose: false
+        }).data('kendoMultiSelect');
+
+        var manufactures = $('#ManufacturerIds').kendoMultiSelect({
             autoClose: false
         }).data('kendoMultiSelect');
 

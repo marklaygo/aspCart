@@ -58,3 +58,13 @@ textarea {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+
+.product-img-sm {
+    height: 96px !important;
+    width: 96px !important;
+}
+
+.product-img-md {
+    height: 128px !important;
+    width: 128px !important;
+}

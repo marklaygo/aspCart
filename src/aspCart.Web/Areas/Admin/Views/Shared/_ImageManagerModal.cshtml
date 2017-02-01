@@ -1,0 +1,226 @@
+﻿<form id="imageUploadForm" name="imageUploadForm">
+    @Html.AntiForgeryToken()
+</form>
+
+<form id="imageDeleteForm" name="imageDeleteForm">
+    @Html.AntiForgeryToken()
+</form>
+
+<!-- Modal -->
+<div class="modal fade" id="imageManagerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Image Manager</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="for" value="" />
+                <form id="searchImageForm" name="searchImageForm" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="input-group">
+                        <input type="file" id="fileInput" name="imageFile" class="input-file" accept="image/*" multiple="multiple" />
+                        <label for="fileInput" class="btn btn-primary input-stack-margin"><i class="fa fa-upload"></i>&nbsp; Upload</label>
+                        <button type="button" id="imageDelete" class="btn btn-danger input-stack-margin"><i class="fa fa-trash"></i>&nbsp; Delete</button>
+                        <!-- search -->
+                        <input id="keyword" name="keyword" class="input-stack-margin" placeholder="Image filename..." />
+                        <button type="button" id="imageSearch" class="btn btn-primary input-stack-margin"><i class="fa fa-search"></i>&nbsp;Search</button>
+                    </div>
+                </form>
+                <hr />
+                <div class="row" id="imgWrapper">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // modal
+    $('#imageManagerModal').on('show.bs.modal', function (event) {
+        var inputId = $(event.relatedTarget).data('id');
+        $('#for').val(inputId);
+        ajaxGetAllImages();
+    });
+
+    // delete all element when modal is closed
+    $('#imageManagerModal').on('hide.bs.modal', function (event) {
+        $('#imgWrapper').empty();
+    });
+
+    // set value of input and image src when image is selected
+    $(document).on('click', '.modal-img', function (event) {
+        var idFor = event.target.getAttribute('data-for');
+        var fileName = event.target.getAttribute('data-filename');
+        $('#' + idFor).val(event.target.id);
+        $('#' + idFor).parent().prev().children('img').attr('src', '/images/app/' + fileName);
+        $('#imageManagerModal').modal('toggle');
+    });
+
+    // template for image object
+    function createNewImageElement(item) {
+        // view template
+        var template = `
+            <div class ="col-xs-6 col-sm-4 col-md-4 col-lg-3">
+                <div class ="thumbnail">
+                    <input type="checkbox" name="deleteCheckBox" value="imgId" />
+                    <img src="/images/app/imgSrcHolder" id="imgSrcId" data-filename="dataFileName" data-for="inputFor" class ="thumbnail-img imageSource modal-img" alt="imgAlt" title="imgTitle">
+                    <div class ="caption">
+                        <h3 class ="thumbnail-title" title="labelImageTitle">labelImageFileName</h3>
+                    </div>
+                </div>
+            </div>
+        `
+        // replace placeholder value of the template
+        var newInput = template.replace('imgSrcHolder', item.fileName);
+        var inputFor = $('#for').val();
+        newInput = newInput.replace('dataFileName', item.fileName);
+        newInput = newInput.replace('inputFor', inputFor);
+        newInput = newInput.replace('hiddenValue', item.id);
+        newInput = newInput.replace('imgAlt', item.fileName);
+        newInput = newInput.replace('imgTitle', item.fileName);
+        newInput = newInput.replace('labelImageTitle', item.fileName);
+        newInput = newInput.replace('labelImageFileName', item.fileName);
+        newInput = newInput.replace('imgId', item.id);
+        newInput = newInput.replace('imgSrcId', item.id);
+
+        // append new element to wrapper
+        $('#imgWrapper').append(newInput);
+    }
+
+    // get
+    function ajaxGetAllImages() {
+        $('#imgWrapper').append("<div>Loading...</div>");
+        $.ajax({
+            type: "GET",
+            url: '/Admin/ImageManager/GetAllImages',
+            dataType: "Json",
+            success: function (data) {
+                $('#imgWrapper').empty();
+
+                $.each(data, function (i, item) {
+                    createNewImageElement(item);
+                });
+
+                initializeICheck();
+            }
+        });
+    };
+
+    // search
+    $('#searchImageForm').on('keyup keypress', function (e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) {
+            e.preventDefault();
+            ajaxSearch();
+        }
+    });
+
+    // ajax button search
+    $(document).on('click', '#imageSearch', function () {
+        ajaxSearch();
+    });
+
+    // ajax search
+    function ajaxSearch() {
+        var keyword = $('#keyword').val();
+
+        if (keyword.length === 0)
+            return;
+
+        // ajax post
+        $.ajax({
+            url: '/Admin/ImageManager/SearchImage',
+            type: "POST",
+            data: $('#searchImageForm').serialize(),
+            success: function (data) {
+                $('#imgWrapper').empty();
+
+                $.each(data, function (i, item) {
+                    createNewImageElement(item);
+                });
+
+                initializeICheck();
+            }
+        });
+    };
+
+    // search field on change
+    $(document).on('input', '#keyword', function (event) {
+        if ($('#keyword').val().length === 0) {
+            ajaxGetAllImages();
+        }
+    });
+
+    // upload
+    $(document).on('change', '#fileInput', function (event) {
+        if (window.FormData !== undefined) {
+            var fileUpload = $('#fileInput').get(0);
+            var files = fileUpload.files;
+            var form = ('#imageUploadForm');
+            var fileData = new FormData(form[0]);
+            var ValidImageTypes = ["image/gif", "image/jpeg", "image/png"];
+
+            // build the FormData
+            for (var i = 0; i < files.length; i++) {
+                if ($.inArray(files[i].type, ValidImageTypes) < 0) {
+                    continue;
+                }
+
+                fileData.append(files[i].name, files[i]);
+            }
+
+            var token = $('input[name="__RequestVerificationToken"]', form).val();
+            fileData.append('__RequestVerificationToken', token)
+
+            // ajax post
+            $.ajax({
+                url: '/Admin/ImageManager/UploadImages',
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: fileData,
+                success: function (result) {
+                    ajaxGetAllImages();
+                }
+
+            });
+
+            // clear the input field
+            $('#fileInput').val("");
+        } else {
+            console.log('FormData is not supported.');
+        }
+    });
+
+    // image delete ajax
+    $(document).on('click', '#imageDelete', function () {
+        var imageIds = [];
+        var form = ('#imageDeleteForm');
+        var checkboxArray = document.getElementsByName('deleteCheckBox');
+
+        // check if checkbox is checked
+        for (var i = 0; i < checkboxArray.length; i++) {
+            if (checkboxArray[i].checked) {
+                imageIds.push(checkboxArray[i].value);
+            }
+        }
+
+        var token = $('input[name="__RequestVerificationToken"]', form).val();
+
+        if (imageIds.length > 0) {
+            $.ajax({
+                url: '/Admin/ImageManager/DeleteImages',
+                type: "POST",
+                data: { Ids: imageIds, __RequestVerificationToken: token },
+                success: function (result) {
+                    ajaxGetAllImages();
+                }
+            });
+        }
+    });
+</script>

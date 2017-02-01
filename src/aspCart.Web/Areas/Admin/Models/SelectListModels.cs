@@ -10,4 +10,10 @@ namespace aspCart.Web.Areas.Admin.Models
         public string Text { get; set; }
         public string Value { get; set; }
     }
+
+    public class ManufacturerSelectList
+    {
+        public string Text { get; set; }
+        public string Value { get; set; }
+    }
 }

@@ -18,8 +18,10 @@ namespace aspCart.Infrastructure
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Image> Images { get; set; }
+        public DbSet<Manufacturer> Manufacturers { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategoryMapping> ProductCategoryMappings { get; set; }
+        public DbSet<ProductManufacturerMapping> ProductManufacturerMappings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -30,8 +32,10 @@ namespace aspCart.Infrastructure
 
             builder.Entity<Category>().ToTable("Category");
             builder.Entity<Image>().ToTable("Image");
+            builder.Entity<Manufacturer>().ToTable("Manufacturer");
             builder.Entity<Product>().ToTable("Product");
             builder.Entity<ProductCategoryMapping>().ToTable("ProductCategoryMapping");
+            builder.Entity<ProductManufacturerMapping>().ToTable("ProductManufacturerMapping");
         }
     }
 }

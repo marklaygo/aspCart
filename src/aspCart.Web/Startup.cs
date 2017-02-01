@@ -86,6 +86,7 @@ namespace aspCart.Web
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IImageManagerService, ImageManagerService>();
+            services.AddTransient<IManufacturerService, ManufacturerService>();
             services.AddTransient<IProductService, ProductService>();
 
             // singleton

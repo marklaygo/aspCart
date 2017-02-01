@@ -10,6 +10,7 @@ namespace aspCart.Web.Areas.Admin.Helpers
     public enum ServiceType
     {
         Category,
+        Manufacturer,
         Product
     }
 
@@ -24,6 +25,7 @@ namespace aspCart.Web.Areas.Admin.Helpers
         #region Fields
 
         private readonly ICategoryService _categoryService;
+        private readonly IManufacturerService _manufacturerService;
         private readonly IProductService _productService;
 
         #endregion
@@ -32,9 +34,11 @@ namespace aspCart.Web.Areas.Admin.Helpers
 
         public DataHelper(
             ICategoryService categoryService,
+            IManufacturerService manufacturerService,
             IProductService productService)
         {
             _categoryService = categoryService;
+            _manufacturerService = manufacturerService;
             _productService = productService;
         }
 
@@ -54,6 +58,12 @@ namespace aspCart.Web.Areas.Admin.Helpers
             if (serviceType == ServiceType.Category)
             {
                 entities = _categoryService.GetAllCategories()
+                    .Select(x => x.SeoUrl.ToLower())
+                    .ToList();
+            }
+            else if (serviceType == ServiceType.Manufacturer)
+            {
+                entities = _manufacturerService.GetAllManufacturers()
                     .Select(x => x.SeoUrl.ToLower())
                     .ToList();
             }
@@ -92,6 +102,12 @@ namespace aspCart.Web.Areas.Admin.Helpers
                         .Select(x => x.Name.ToLower())
                         .ToList();
                 }
+                else if (serviceType == ServiceType.Manufacturer)
+                {
+                    entities = _manufacturerService.GetAllManufacturers()
+                        .Select(x => x.Name.ToLower())
+                        .ToList();
+                }
                 else if (serviceType == ServiceType.Product)
                 {
                     entities = _productService.GetAllProducts()
@@ -104,6 +120,12 @@ namespace aspCart.Web.Areas.Admin.Helpers
                 if (serviceType == ServiceType.Category)
                 {
                     entities = _categoryService.GetAllCategories()
+                        .Select(x => x.SeoUrl.ToLower())
+                        .ToList();
+                }
+                else if (serviceType == ServiceType.Manufacturer)
+                {
+                    entities = _manufacturerService.GetAllManufacturers()
                         .Select(x => x.SeoUrl.ToLower())
                         .ToList();
                 }
