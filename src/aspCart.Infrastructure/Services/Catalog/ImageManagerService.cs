@@ -13,14 +13,18 @@ namespace aspCart.Infrastructure.Services.Catalog
         #region Fields
 
         private readonly IRepository<Image> _imageRepository;
+        private readonly IRepository<ProductImageMapping> _productImagesRepository;
 
         #endregion
 
         #region Constructor
 
-        public ImageManagerService(IRepository<Image> imageRepository)
+        public ImageManagerService(
+            IRepository<Image> imageRepository,
+            IRepository<ProductImageMapping> productImagesRepository)
         {
             _imageRepository = imageRepository;
+            _productImagesRepository = productImagesRepository;
         }
 
         #endregion
@@ -90,6 +94,38 @@ namespace aspCart.Infrastructure.Services.Catalog
                 _imageRepository.Delete(GetImageById(id));
 
             _imageRepository.SaveChanges();
+        }
+
+        /// <summary>
+        /// Insert product image mapping
+        /// </summary>
+        /// <param name="productImageMappings">List of product image mapping</param>
+        public void InsertProductImageMappings(IList<ProductImageMapping> productImageMappings)
+        {
+            if (productImageMappings == null)
+                throw new ArgumentNullException("productImageMappings");
+
+            foreach (var mapping in productImageMappings)
+                _productImagesRepository.Insert(mapping);
+
+            _productImagesRepository.SaveChanges();
+        }
+
+        /// <summary>
+        /// Delete product image mapping
+        /// </summary>
+        /// <param name="productId">Product id</param>
+        public void DeleteAllProductImageMappings(Guid productId)
+        {
+            if (productId == null)
+                throw new ArgumentNullException("productId");
+
+            var mappings = _productImagesRepository.FindManyByExpression(x => x.ProductId == productId);
+
+            foreach (var mapping in mappings)
+                _productImagesRepository.Delete(mapping);
+
+            _productImagesRepository.SaveChanges();
         }
 
         #endregion

@@ -1,0 +1,136 @@
+﻿@model ProductCreateOrUpdateModel
+
+
+<div class="input-group">
+    <button type="button" id="addNewImage" class="btn btn-success input-stack-margin">
+        <i class="fa fa-plus-circle"></i>&nbsp; Add new image field
+    </button>
+</div>
+
+<br />
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <td></td>
+            <td></td>
+            <td>Sort order</td>
+            <td>Remove</td>
+        </tr>
+    </thead>
+    <tbody id="inputWrapper">
+        @if (Model.Images != null)
+            {
+                foreach (var image in Model.Images)
+                {
+                    var guid = Guid.NewGuid();
+                <tr>
+                    <td style="width: 15%;">
+                        <img src="~/images/app/@image.FileName" id="img-@guid" class="product-img-md" />
+                    </td>
+                    <td style="width: 15%;">
+                        <input type="hidden" id="input-@guid" name="ImageIds" value="@image.Id" />
+                        <button type="button"
+                                class="btn btn-primary input-stack-margin"
+                                data-toggle="modal"
+                                data-target="#imageManagerModal"
+                                data-id="input-@guid">
+                            <i class="fa fa-picture-o"></i>&nbsp; Select an image
+                        </button>
+                    </td>
+                    <td style="width: 15%;">
+                        <input type="text"
+                               id="imgSort-@guid"
+                               name="imgSort-@guid"
+                               class="form-control img-sort-order"
+                               data-val="true"
+                               data-val-required="Sort order is required."
+                               data-val-range="0 - 100 are allowed for this product."
+                               data-val-range-min="0"
+                               data-val-range-max="100"
+                               value="@image.SortOrder" />
+                        <span class="field-validation-valid text-danger" data-valmsg-for="imgSort-@guid" data-valmsg-replace="true"></span>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger remove"><i class="fa fa-close"></i></button>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+
+<script>
+    // add new input element
+    $(function () {
+        var wrapper = $("#inputWrapper");
+        var addButton = $("#addNewImage");
+
+        // template
+        var template = `
+            <tr>
+                <td style="width: 15%;">
+                    <img src="/images/system/no-image.png" id="imgPreviewId" class ="product-img-md" />
+                </td>
+                <td style="width: 15%;">
+                    <input type="hidden" id="fileId" name="ImageIds" value="" />
+                    <button type="button"
+                            id="btnId"
+                            class ="btn btn-primary input-stack-margin"
+                            data-toggle="modal"
+                            data-target="#imageManagerModal"
+                            data-id="dataId">
+                        Select an image
+                    </button>
+                </td>
+                <td style="width: 15%;">
+                    <input type="text"
+                            id="sortId"
+                            name="sortName"
+                            class ="form-control img-sort-order"
+                            data-val="true"
+                            data-val-required="Sort order is required."
+                            data-val-range="0 - 100 are allowed for this product."
+                            data-val-range-min="0"
+                            data-val-range-max="100"
+                            value="0" />
+                    <span class ="field-validation-valid text-danger" data-valmsg-for="sortFor" data-valmsg-replace="true"></span>
+                </td>
+                <td>
+                    <button type="button" class ="btn btn-danger remove"><i class ="fa fa-close"></i></button>
+                </td>
+            </tr>
+        `
+
+        // add new input
+        $(addButton).click(function (e) {
+            e.preventDefault();
+            var newGuid = guid();
+
+            var newInput = template;
+
+            // edit the template
+            newInput = newInput.replace('imgPreviewId', 'img-' + newGuid);
+            newInput = newInput.replace('fileId', 'input-' + newGuid);
+            newInput = newInput.replace('btnId', 'btn-' + newGuid);
+            newInput = newInput.replace('dataId', 'input-' + newGuid);
+
+            newInput = newInput.replace('sortId', 'imgSort-' + newGuid);
+            newInput = newInput.replace('sortName', 'imgSort-' + newGuid);
+            newInput = newInput.replace('sortFor', 'imgSort-' + newGuid);
+
+            // append the new input
+            $(wrapper).append(newInput);
+
+            $('#productForm').removeData('validator');
+            $('#productForm').removeData('unobtrusiveValidation');
+            $.validator.unobtrusive.parse($('#productForm'));
+        });
+
+        // remove input
+        $(wrapper).on("click", ".remove", function (e) {
+            e.preventDefault();
+            $(this).parent().parent().remove();
+        })
+    });
+</script>

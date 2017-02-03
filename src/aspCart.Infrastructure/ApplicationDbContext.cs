@@ -21,6 +21,7 @@ namespace aspCart.Infrastructure
         public DbSet<Manufacturer> Manufacturers { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategoryMapping> ProductCategoryMappings { get; set; }
+        public DbSet<ProductImageMapping> ProductImageMappings { get; set; }
         public DbSet<ProductManufacturerMapping> ProductManufacturerMappings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -35,6 +36,7 @@ namespace aspCart.Infrastructure
             builder.Entity<Manufacturer>().ToTable("Manufacturer");
             builder.Entity<Product>().ToTable("Product");
             builder.Entity<ProductCategoryMapping>().ToTable("ProductCategoryMapping");
+            builder.Entity<ProductImageMapping>().ToTable("ProductImageMapping");
             builder.Entity<ProductManufacturerMapping>().ToTable("ProductManufacturerMapping");
         }
     }

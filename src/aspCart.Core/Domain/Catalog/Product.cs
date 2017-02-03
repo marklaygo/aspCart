@@ -38,6 +38,7 @@ namespace aspCart.Core.Domain.Catalog
         public DateTime DateModified { get; set; }
 
         public virtual ICollection<ProductCategoryMapping> Categories { get; set; }
+        public virtual ICollection<ProductImageMapping> Images { get; set; }
         public virtual ICollection<ProductManufacturerMapping> Manufacturers { get; set; }
     }
 }

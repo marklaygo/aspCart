@@ -18,6 +18,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
         #region Fields
 
         private readonly ICategoryService _categoryService;
+        private readonly IImageManagerService _imageManagerService;
         private readonly IManufacturerService _manufacturerService;
         private readonly IProductService _productService;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -34,6 +35,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
 
         public ProductController(
             ICategoryService categoryService,
+            IImageManagerService imageManagerService,
             IManufacturerService manufacturerService,
             IProductService productService,
             IHttpContextAccessor httpContextAccessor,
@@ -42,6 +44,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
             IMapper mapper)
         {
             _categoryService = categoryService;
+            _imageManagerService = imageManagerService;
             _manufacturerService = manufacturerService;
             _productService = productService;
             _httpContextAccessor = httpContextAccessor;
@@ -69,6 +72,18 @@ namespace aspCart.Web.Areas.Admin.Controllers
             foreach(var product in productEntities)
             {
                 var productModel = _mapper.Map<Product, ProductListModel>(product);
+
+                if (product.Images.Count > 0)
+                {
+                    // get first image
+                    productModel.MainImage = product.Images
+                        .OrderBy(x => x.SortOrder)
+                        .ThenBy(x => x.Position)
+                        .FirstOrDefault()
+                        .Image
+                        .FileName;
+                }
+
                 productList.Add(productModel);
             }
 
@@ -130,6 +145,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
                     _productService.InsertProduct(productEntity);
                     SaveCategoryMappings(model);
                     SaveManufacturerMappings(model);
+                    SaveImageMappings(model);
 
                     if (continueEditing)
                         return RedirectToAction("Edit", new { id = productEntity.Id, ActiveTab = model.ActiveTab });
@@ -165,10 +181,24 @@ namespace aspCart.Web.Areas.Admin.Controllers
             foreach (var manufacturer in productEntity.Manufacturers)
                 manufacturerIds.Add(manufacturer.Manufacturer.Id.ToString());
 
+            // get all images of the product
+            var images = new List<ImageModel>();
+            foreach (var image in productEntity.Images.OrderBy(x => x.Position))
+            {
+                var img = new ImageModel
+                {
+                    Id = image.Image.Id,
+                    FileName = image.Image.FileName,
+                    SortOrder = image.SortOrder
+                };
+                images.Add(img);
+            }
+
             // map entity to view model
             var model = _mapper.Map<Product, ProductCreateOrUpdateModel>(productEntity);
             model.CategoryIds = categoryIds;
             model.ManufacturerIds = manufacturerIds;
+            model.Images = images;
 
             // view helper
             model.ActiveTab = ActiveTab ?? model.ActiveTab;
@@ -236,6 +266,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
                     _productService.UpdateProduct(productEntity);
                     SaveCategoryMappings(model);
                     SaveManufacturerMappings(model);
+                    SaveImageMappings(model);
 
                     if (continueEditing)
                         return RedirectToAction("Edit", new { id = productEntity.Id, ActiveTab = model.ActiveTab });
@@ -298,6 +329,41 @@ namespace aspCart.Web.Areas.Admin.Controllers
             // save to database
             _categoryService.DeleteAllProductCategoryMappingsByProductId(model.Id);
             _categoryService.InsertProductCategoryMappings(categoryMappings);
+        }
+
+        [NonAction]
+        private void SaveImageMappings(ProductCreateOrUpdateModel model)
+        {
+            var imageMappings = new List<ProductImageMapping>();
+            if (model.ImageIds != null)
+            {
+                for (int i = 0; i < model.ImageIds.Count; i++)
+                {
+                    // convert sort order to int
+                    int sortOrder = Convert.ToInt32(Math.Floor(Convert.ToDouble(model.ImageSortOrder[i])));
+
+                    // check if image exist
+                    Guid imageId;
+                    if(Guid.TryParse(model.ImageIds[i], out imageId))
+                    {
+                        // create mapping entity
+                        var imageMapping = new ProductImageMapping
+                        {
+                            Id = Guid.NewGuid(),
+                            ProductId = model.Id,
+                            ImageId = Guid.Parse(model.ImageIds[i]),
+                            SortOrder = sortOrder,
+                            Position = i
+                        };
+
+                        imageMappings.Add(imageMapping);
+                    } 
+                }
+            }
+
+            // save to database
+            _imageManagerService.DeleteAllProductImageMappings(model.Id);
+            _imageManagerService.InsertProductImageMappings(imageMappings);
         }
 
         [NonAction]

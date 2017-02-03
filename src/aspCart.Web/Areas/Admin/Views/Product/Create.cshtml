@@ -40,6 +40,7 @@
                     <li role="presentation"><a href="#infoContent" class="tabNav" id="info" data-toggle="tab">Basic Info</a></li>
                     <li role="presentation"><a href="#dataContent" class="tabNav" id="data" data-toggle="tab">Data</a></li>
                     <li role="presentation"><a href="#seoContent" class="tabNav" id="seo" data-toggle="tab">SEO</a></li>
+                    <li role="presentation"><a href="#imageContent" class="tabNav" id="image" data-toggle="tab">Images</a></li>
                 </ul>
 
                 <!-- Tab panes -->
@@ -53,12 +54,17 @@
                     <div role="tabpanel" class="tab-pane" id="seoContent">
                         @await Html.PartialAsync("_CreateOrUpdate_Seo", Model)
                     </div>
+                    <div role="tabpanel" class="tab-pane" id="imageContent">
+                        @await Html.PartialAsync("_CreateOrUpdate_Images", Model)
+                    </div>
                 </div>
 
             </div> <!-- nav tabs custom end -->
         </form>
     </div> <!-- col md 12 end -->
 </div> <!-- row end -->
+
+@await Html.PartialAsync("_ImageManagerModal")
 
 @section scripts {
     <script>
@@ -87,6 +93,13 @@
 
             if (result != 0) {
                 $('#continueEditing').val(false);
+
+                // rename imagesort order name
+                $('input.img-sort-order').each(function () {
+                    var input = $(this);
+                    input.attr('name', "ImageSortOrder");
+                });
+
                 $('#productForm').submit();
             } else {
                 $('#validation').empty();
@@ -103,6 +116,13 @@
 
             if (result != 0) {
                 $('#continueEditing').val(true);
+
+                // rename imagesort order name
+                $('input.img-sort-order').each(function () {
+                    var input = $(this);
+                    input.attr('name', "ImageSortOrder");
+                });
+
                 $('#productForm').submit();
             } else {
                 $('#validation').empty();
@@ -126,5 +146,16 @@
                 increaseArea: '20%' // optional
             });
         };
+
+        // guid
+        function guid() {
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                  .toString(16)
+                  .substring(1);
+            }
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+              s4() + '-' + s4() + s4() + s4();
+        }
     </script>
 }

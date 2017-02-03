@@ -38,7 +38,13 @@ namespace aspCart.Infrastructure.Services.Catalog
         /// <returns>List of product entities</returns>
         public IList<Product> GetAllProducts()
         {
-            var entities = _productRepository.GetAll().ToList();
+            // TODO: update when lazy loading is available
+            var entities = _context.Products
+                .Include(x => x.Categories).ThenInclude(x => x.Category)
+                .Include(x => x.Images).ThenInclude(x => x.Image)
+                .Include(x => x.Manufacturers).ThenInclude(x => x.Manufacturer)
+                .AsNoTracking()
+                .ToList();
 
             return entities;
         }
@@ -57,6 +63,7 @@ namespace aspCart.Infrastructure.Services.Catalog
             // TODO: update when lazy loading is available
             var entity = _context.Products
                 .Include(x => x.Categories).ThenInclude(x => x.Category)
+                .Include(x => x.Images).ThenInclude(x => x.Image)
                 .Include(x => x.Manufacturers).ThenInclude(x => x.Manufacturer)
                 .AsNoTracking()
                 .SingleOrDefault(x => x.Id == id);
@@ -77,6 +84,7 @@ namespace aspCart.Infrastructure.Services.Catalog
             // TODO: update when lazy loading is available
             var entity = _context.Products
                 .Include(x => x.Categories).ThenInclude(x => x.Category)
+                .Include(x => x.Images).ThenInclude(x => x.Image)
                 .Include(x => x.Manufacturers).ThenInclude(x => x.Manufacturer)
                 .AsNoTracking()
                 .SingleOrDefault(x => x.SeoUrl == seo);

@@ -30,6 +30,7 @@
                         <thead>
                             <tr>
                                 <th></th>
+                                <th>Image</th>
                                 <th>Name</th>
                                 <th>Stock Qty.</th>
                                 <th>Published</th>
@@ -42,6 +43,17 @@
                                 <tr>
                                     <td>
                                         <input type="checkbox" id="@product.Id" name="ids" value="@product.Id" />
+                                    </td>
+                                    <td>
+                                        @if (product.MainImage != null)
+                                        {
+                                            <img src="~/images/app/@product.MainImage" class="product-img-sm" />
+                                        }
+                                        else
+                                        {
+                                            <img src="~/images/system/no-image.png" class="product-img-sm" />
+                                        }
+
                                     </td>
                                     <td>
                                         @product.Name
@@ -143,10 +155,11 @@
                 order: [2, 'asc'],
                 columnDefs: [
                     { "width": "5%", "targets": 0, "orderable": false },
-                    { "targets": 1, "orderable": true },
+                    { "targets": 1, "orderable": false },
                     { "targets": 2, "orderable": true },
-                    { "targets": 3, "orderable": false },
+                    { "targets": 3, "orderable": true },
                     { "targets": 4, "orderable": false },
+                    { "targets": 5, "orderable": false }
                 ]
             });
         };

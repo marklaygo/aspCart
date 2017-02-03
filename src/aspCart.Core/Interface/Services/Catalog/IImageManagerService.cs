@@ -39,5 +39,17 @@ namespace aspCart.Core.Interface.Services.Catalog
         /// </summary>
         /// <param name="ids">Ids of image entities to delete</param>
         void DeleteImages(IList<Guid> ids);
+
+        /// <summary>
+        /// Insert product image mapping
+        /// </summary>
+        /// <param name="productImageMappings">List of product image mapping</param>
+        void InsertProductImageMappings(IList<ProductImageMapping> productImageMappings);
+
+        /// <summary>
+        /// Delete product image mapping
+        /// </summary>
+        /// <param name="productId">Product id</param>
+        void DeleteAllProductImageMappings(Guid productId);
     }
 }

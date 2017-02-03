@@ -138,5 +138,84 @@ namespace aspCart.xUnitTest.ServiceTest.Catalog
                 Assert.Equal(0, service.ImageManagerService.GetAllImages().Count);
             }
         }
+
+        [Fact]
+        public void ImageManagerService_Test_InsertProductImageMappings()
+        {
+            // arrange
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "ImageManagerService_Test_InsertProductImageMappings")
+                .Options;
+
+            var productEntity = new Product() { Id = Guid.NewGuid(), Name = "Product 1", Price = 100m };
+            var image1Entity = new Image() { Id = Guid.NewGuid(), FileName = "Image 1" };
+            var image2Entity = new Image() { Id = Guid.NewGuid(), FileName = "Image 2" };
+
+            var imageMappings = new List<ProductImageMapping>()
+            {
+                new ProductImageMapping() { Id = Guid.NewGuid(), ProductId = productEntity.Id, ImageId = image1Entity.Id },
+                new ProductImageMapping() { Id = Guid.NewGuid(), ProductId = productEntity.Id, ImageId = image2Entity.Id }
+            };
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Products.Add(productEntity);
+                context.Images.Add(image1Entity);
+                context.Images.Add(image2Entity);
+                context.SaveChanges();
+            }
+
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                var service = new Service(context);
+
+                // act
+                service.ImageManagerService.InsertProductImageMappings(imageMappings);
+
+                // assert
+                Assert.Equal(imageMappings.Count, service.ProductService.GetProductById(productEntity.Id).Images.Count);
+            }
+        }
+
+        [Fact]
+        public void ImageManagerService_Test_DeleteAllProductImageMappings()
+        {
+            // arrange
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "ImageManagerService_Test_DeleteAllProductImageMappings")
+                .Options;
+
+            var productEntity = new Product() { Id = Guid.NewGuid(), Name = "Product 1", Price = 100m };
+            var image1Entity = new Image() { Id = Guid.NewGuid(), FileName = "Image 1" };
+            var image2Entity = new Image() { Id = Guid.NewGuid(), FileName = "Image 2" };
+
+            var imageMappings = new List<ProductImageMapping>()
+            {
+                new ProductImageMapping() { Id = Guid.NewGuid(), ProductId = productEntity.Id, ImageId = image1Entity.Id },
+                new ProductImageMapping() { Id = Guid.NewGuid(), ProductId = productEntity.Id, ImageId = image2Entity.Id }
+            };
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Products.Add(productEntity);
+                context.Images.Add(image1Entity);
+                context.Images.Add(image2Entity);
+                foreach (var mapping in imageMappings)
+                    context.ProductImageMappings.Add(mapping);
+                context.SaveChanges();
+            }
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                var service = new Service(context);
+
+                // act
+                service.ImageManagerService.DeleteAllProductImageMappings(productEntity.Id);
+
+                // assert
+                Assert.Equal(0, service.ProductService.GetProductById(productEntity.Id).Images.Count);
+            }
+        }
     }
 }
