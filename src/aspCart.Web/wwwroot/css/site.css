@@ -32,3 +32,44 @@ textarea {
     line-height: 60px; /* Vertically center the text there */
     background-color: #f5f5f5;
 }
+
+.card {
+    padding-bottom: 50px;
+}
+
+.card.order-history {
+    padding-bottom: 0px;
+}
+
+.card-img-top {
+    max-width: 170px;
+    min-height: 170px;
+    max-height: 170px;
+    padding-top: 10px;
+}
+
+a.card-title {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 18px;
+    margin-bottom: 0px;
+}
+
+.card-text:last-child {
+    margin-bottom: -10px;
+}
+
+.card-footer{
+    position:absolute;
+    bottom:0;
+    width:100%;
+}
+
+.cart-item-image {
+    width: auto;
+    height: auto;
+    max-width: 96px;
+    max-height: 96px;
+}

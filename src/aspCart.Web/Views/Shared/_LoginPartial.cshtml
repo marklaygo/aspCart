@@ -1,11 +1,29 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Http
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+
+@{ 
+    string _cartItemsCountSessionKey = "CartItemsCount";
+}
 
 @if (SignInManager.IsSignedIn(User))
 {
     <form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
         <ul class="navbar-nav justify-content-end">
+            <li class="nav-item">
+                <a asp-area="" asp-controller="Cart" asp-action="Index" class="nav-link">
+                    <i class="fa fa-shopping-cart"></i>
+                    @if (Context.Session.GetString(_cartItemsCountSessionKey) != null && Context.Session.GetInt32(_cartItemsCountSessionKey) != 0)
+                {
+                        @:Cart (@Context.Session.GetInt32(_cartItemsCountSessionKey).ToString())
+                }
+                else
+                {
+                        @:Cart
+                }
+                </a>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     @UserManager.GetUserName(User)
@@ -21,6 +39,19 @@
 else
 {
     <ul class="navbar-nav justify-content-end">
+        <li class="nav-item">
+            <a asp-area="" asp-controller="Cart" asp-action="Index" class="nav-link">
+                <i class="fa fa-shopping-cart"></i>
+                @if (Context.Session.GetString(_cartItemsCountSessionKey) != null && Context.Session.GetInt32(_cartItemsCountSessionKey) != 0)
+                {
+                    @:Cart (@Context.Session.GetInt32(_cartItemsCountSessionKey).ToString())
+                }
+                else
+                {
+                    @:Cart
+                }
+            </a>
+        </li>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Account

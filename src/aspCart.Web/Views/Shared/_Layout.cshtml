@@ -6,7 +6,13 @@
     <title>@ViewData["Title"] | aspCart</title>
 
     <link href="~/lib/bootstrap-4.0.0-alpha.6-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" />
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap-4.0.0-alpha.6-dist/js/tether.min.js"></script>
+    <script src="~/lib/bootstrap-4.0.0-alpha.6-dist/js/bootstrap.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
 </head>
 <body>
     <nav class="navbar navbar-toggleable-md navbar-light fixed-top bg-faded">
@@ -40,10 +46,6 @@
         </div>
     </footer>
 
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/bootstrap-4.0.0-alpha.6-dist/js/tether.min.js"></script>
-    <script src="~/lib/bootstrap-4.0.0-alpha.6-dist/js/bootstrap.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
