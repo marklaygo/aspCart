@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using aspCart.Web.Models.ManageViewModels;
 using aspCart.Infrastructure.EFModels;
+using aspCart.Core.Interface.User;
+using aspCart.Core.Domain.User;
+using AutoMapper;
 
 namespace aspCart.Web.Controllers
 {
@@ -16,16 +19,22 @@ namespace aspCart.Web.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IBillingAddressService _billingAddressService;
         private readonly ILogger _logger;
+        private readonly IMapper _mapper;
 
         public ManageController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            ILoggerFactory loggerFactory)
+            IBillingAddressService billingAddressService,
+            ILoggerFactory loggerFactory,
+            IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _billingAddressService = billingAddressService;
             _logger = loggerFactory.CreateLogger<ManageController>();
+            _mapper = mapper;
         }
 
         //
@@ -85,6 +94,59 @@ namespace aspCart.Web.Controllers
             }
             return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
         }
+
+        // GET: /Manage/EditBillingAddress
+        public async Task<IActionResult> EditBillingAddress()
+        {
+            var user = await GetCurrentUserAsync();
+            var billingAddressEntity = _billingAddressService.GetBillingAddressById(user.BillingAddressId);
+            if (billingAddressEntity == null)
+                return View();
+
+            var billingAddressModel = _mapper.Map<BillingAddress, BillingAddressModel>(billingAddressEntity);
+
+            return View(billingAddressModel);
+        }
+
+        // POST: /Manage/EditBillingAddress
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditBillingAddress(BillingAddressModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await GetCurrentUserAsync();
+                Guid billingAddressId = Guid.NewGuid();
+
+                // check if there are already billing address
+                var billingAddressEntity = _billingAddressService.GetBillingAddressById(user.BillingAddressId);
+                if (billingAddressEntity == null)
+                {
+                    billingAddressEntity = _mapper.Map<BillingAddressModel, BillingAddress>(model);
+                    billingAddressEntity.Id = billingAddressId;
+
+                    // save billing address in database
+                    _billingAddressService.InsertBillingAddress(billingAddressEntity);
+                }
+                else
+                {
+                    billingAddressId = billingAddressEntity.Id;
+                    billingAddressEntity = _mapper.Map<BillingAddressModel, BillingAddress>(model);
+                    billingAddressEntity.Id = billingAddressId;
+
+                    // update billing address in database
+                    _billingAddressService.UpdateBillingAddress(billingAddressEntity);
+                }
+
+
+                // update user billing address
+                user.BillingAddressId = billingAddressEntity.Id;
+                await _userManager.UpdateAsync(user);
+            }
+
+            return View(model);
+        }
+
 
         #region Helpers
 

@@ -18,6 +18,8 @@ using aspCart.Core.Interface.Services.Catalog;
 using aspCart.Infrastructure.Services.Catalog;
 using AutoMapper;
 using aspCart.Web.Areas.Admin.Helpers;
+using aspCart.Core.Interface.User;
+using aspCart.Infrastructure.Services.User;
 
 namespace aspCart.Web
 {
@@ -84,6 +86,7 @@ namespace aspCart.Web
 
             // Add application services.
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddTransient<IBillingAddressService, BillingAddressService>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IImageManagerService, ImageManagerService>();
             services.AddTransient<IManufacturerService, ManufacturerService>();

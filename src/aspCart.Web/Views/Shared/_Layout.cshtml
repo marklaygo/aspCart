@@ -12,6 +12,7 @@
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/bootstrap-4.0.0-alpha.6-dist/js/tether.min.js"></script>
     <script src="~/lib/bootstrap-4.0.0-alpha.6-dist/js/bootstrap.min.js"></script>
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
     <script src="~/js/site.js" asp-append-version="true"></script>
 </head>
 <body>

@@ -1,4 +1,5 @@
 ﻿using aspCart.Core.Domain.Catalog;
+using aspCart.Core.Domain.User;
 using aspCart.Infrastructure.EFModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ namespace aspCart.Infrastructure
         {
         }
 
+        public DbSet<BillingAddress> BillingAddresses { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<Manufacturer> Manufacturers { get; set; }
@@ -31,6 +33,7 @@ namespace aspCart.Infrastructure
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
 
+            builder.Entity<BillingAddress>().ToTable("BillingAddress");
             builder.Entity<Category>().ToTable("Category");
             builder.Entity<Image>().ToTable("Image");
             builder.Entity<Manufacturer>().ToTable("Manufacturer");

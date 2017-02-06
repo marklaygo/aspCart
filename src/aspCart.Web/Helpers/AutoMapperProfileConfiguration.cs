@@ -1,6 +1,8 @@
 ﻿using aspCart.Core.Domain.Catalog;
+using aspCart.Core.Domain.User;
 using aspCart.Web.Areas.Admin.Models.Catalog;
 using aspCart.Web.Models;
+using aspCart.Web.Models.ManageViewModels;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
@@ -13,6 +15,10 @@ namespace aspCart.Web.Helpers
     {
         public AutoMapperProfileConfiguration()
         {
+            // billing address mappings
+            CreateMap<BillingAddress, BillingAddressModel>()
+                .ReverseMap();
+
             // category mappings
             CreateMap<Category, CategoryListModel>();
             CreateMap<Category, CategoryCreateOrUpdateModel>()

@@ -1,7 +1,9 @@
 ﻿using aspCart.Core.Domain.Catalog;
+using aspCart.Core.Domain.User;
 using aspCart.Infrastructure;
 using aspCart.Infrastructure.EFRepository;
 using aspCart.Infrastructure.Services.Catalog;
+using aspCart.Infrastructure.Services.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +16,7 @@ namespace aspCart.xUnitTest
         public Service(ApplicationDbContext context)
         {
             // repository
+            BillingAddressRepository = new Repository<BillingAddress>(context);
             CategoryRepository = new Repository<Category>(context);
             ImageRepository = new Repository<Image>(context);
             ManufacturerRepository = new Repository<Manufacturer>(context);
@@ -23,6 +26,7 @@ namespace aspCart.xUnitTest
             ProductManufacturerMapping = new Repository<ProductManufacturerMapping>(context);
 
             // service
+            BillingAddressService = new BillingAddressService(context, BillingAddressRepository);
             CategoryService = new CategoryService(context, CategoryRepository, ProductCategoryMapping);
             ManufacturerService = new ManufacturerService(context, ManufacturerRepository, ProductManufacturerMapping);
             ImageManagerService = new ImageManagerService(ImageRepository, ProductImageMapping);
@@ -30,6 +34,7 @@ namespace aspCart.xUnitTest
         }
 
         // repository
+        public Repository<BillingAddress> BillingAddressRepository { get; set; }
         public Repository<Category> CategoryRepository { get; set; }
         public Repository<Image> ImageRepository { get; set; }
         public Repository<Manufacturer> ManufacturerRepository { get; set; }
@@ -39,6 +44,7 @@ namespace aspCart.xUnitTest
         public Repository<ProductManufacturerMapping> ProductManufacturerMapping { get; set; }
 
         // service
+        public BillingAddressService BillingAddressService { get; set; }
         public CategoryService CategoryService { get; set; }
         public ImageManagerService ImageManagerService { get; set; }
         public ManufacturerService ManufacturerService { get; set; }
