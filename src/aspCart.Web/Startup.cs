@@ -20,6 +20,8 @@ using AutoMapper;
 using aspCart.Web.Areas.Admin.Helpers;
 using aspCart.Core.Interface.User;
 using aspCart.Infrastructure.Services.User;
+using aspCart.Core.Interface.Sale;
+using aspCart.Infrastructure.Services.Sale;
 
 namespace aspCart.Web
 {
@@ -90,6 +92,7 @@ namespace aspCart.Web
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IImageManagerService, ImageManagerService>();
             services.AddTransient<IManufacturerService, ManufacturerService>();
+            services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IProductService, ProductService>();
 
             // singleton

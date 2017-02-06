@@ -1,8 +1,10 @@
 ﻿using aspCart.Core.Domain.Catalog;
+using aspCart.Core.Domain.Sale;
 using aspCart.Core.Domain.User;
 using aspCart.Infrastructure;
 using aspCart.Infrastructure.EFRepository;
 using aspCart.Infrastructure.Services.Catalog;
+using aspCart.Infrastructure.Services.Sale;
 using aspCart.Infrastructure.Services.User;
 using System;
 using System.Collections.Generic;
@@ -20,6 +22,8 @@ namespace aspCart.xUnitTest
             CategoryRepository = new Repository<Category>(context);
             ImageRepository = new Repository<Image>(context);
             ManufacturerRepository = new Repository<Manufacturer>(context);
+            OrderRepository = new Repository<Order>(context);
+            OrderItemRepository = new Repository<OrderItem>(context);
             ProductRepository = new Repository<Product>(context);
             ProductCategoryMapping = new Repository<ProductCategoryMapping>(context);
             ProductImageMapping = new Repository<ProductImageMapping>(context);
@@ -29,6 +33,7 @@ namespace aspCart.xUnitTest
             BillingAddressService = new BillingAddressService(context, BillingAddressRepository);
             CategoryService = new CategoryService(context, CategoryRepository, ProductCategoryMapping);
             ManufacturerService = new ManufacturerService(context, ManufacturerRepository, ProductManufacturerMapping);
+            OrderService = new OrderService(context, OrderRepository, OrderItemRepository);
             ImageManagerService = new ImageManagerService(ImageRepository, ProductImageMapping);
             ProductService = new ProductService(context, ProductRepository);
         }
@@ -38,6 +43,8 @@ namespace aspCart.xUnitTest
         public Repository<Category> CategoryRepository { get; set; }
         public Repository<Image> ImageRepository { get; set; }
         public Repository<Manufacturer> ManufacturerRepository { get; set; }
+        public Repository<Order> OrderRepository { get; private set; }
+        public Repository<OrderItem> OrderItemRepository { get; private set; }
         public Repository<Product> ProductRepository { get; set; }
         public Repository<ProductCategoryMapping> ProductCategoryMapping { get; set; }
         public Repository<ProductImageMapping> ProductImageMapping { get; set; }
@@ -48,6 +55,7 @@ namespace aspCart.xUnitTest
         public CategoryService CategoryService { get; set; }
         public ImageManagerService ImageManagerService { get; set; }
         public ManufacturerService ManufacturerService { get; set; }
+        public OrderService OrderService { get; private set; }
         public ProductService ProductService { get; set; }
     }
 }

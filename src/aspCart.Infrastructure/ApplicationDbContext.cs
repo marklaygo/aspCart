@@ -1,4 +1,5 @@
 ﻿using aspCart.Core.Domain.Catalog;
+using aspCart.Core.Domain.Sale;
 using aspCart.Core.Domain.User;
 using aspCart.Infrastructure.EFModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -21,6 +22,8 @@ namespace aspCart.Infrastructure
         public DbSet<Category> Categories { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<Manufacturer> Manufacturers { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategoryMapping> ProductCategoryMappings { get; set; }
         public DbSet<ProductImageMapping> ProductImageMappings { get; set; }
@@ -37,6 +40,8 @@ namespace aspCart.Infrastructure
             builder.Entity<Category>().ToTable("Category");
             builder.Entity<Image>().ToTable("Image");
             builder.Entity<Manufacturer>().ToTable("Manufacturer");
+            builder.Entity<Order>().ToTable("Order");
+            builder.Entity<OrderItem>().ToTable("OrderItem");
             builder.Entity<Product>().ToTable("Product");
             builder.Entity<ProductCategoryMapping>().ToTable("ProductCategoryMapping");
             builder.Entity<ProductImageMapping>().ToTable("ProductImageMapping");
