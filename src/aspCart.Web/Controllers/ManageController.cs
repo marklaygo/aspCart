@@ -11,6 +11,8 @@ using aspCart.Infrastructure.EFModels;
 using aspCart.Core.Interface.User;
 using aspCart.Core.Domain.User;
 using AutoMapper;
+using aspCart.Core.Interface.Sale;
+using aspCart.Web.Models;
 
 namespace aspCart.Web.Controllers
 {
@@ -20,6 +22,7 @@ namespace aspCart.Web.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IBillingAddressService _billingAddressService;
+        private readonly IOrderService _orderService;
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
 
@@ -27,12 +30,14 @@ namespace aspCart.Web.Controllers
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IBillingAddressService billingAddressService,
+            IOrderService orderService,
             ILoggerFactory loggerFactory,
             IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _billingAddressService = billingAddressService;
+            _orderService = orderService;
             _logger = loggerFactory.CreateLogger<ManageController>();
             _mapper = mapper;
         }
@@ -147,6 +152,58 @@ namespace aspCart.Web.Controllers
             return View(model);
         }
 
+        // GET: /Manage/OrderHistoryList
+        public async Task<IActionResult> OrderHistoryList()
+        {
+            // get user
+            var user = await GetCurrentUserAsync();
+
+            // get all orders of current user
+            var orderEntites = _orderService.GetAllOrdersByUserId(Guid.Parse(user.Id));
+
+            var orderModels = new List<OrderModel>();
+            foreach (var order in orderEntites)
+            {
+                var orderModel = new OrderModel
+                {
+                    OrderNumber = order.OrderNumber,
+                    Status = order.Status,
+                    OrderPlacedDateTime = order.OrderPlacementDateTime,
+                };
+                orderModels.Add(orderModel);
+            }
+
+            return View(orderModels.OrderByDescending(x => x.OrderPlacedDateTime));
+        }
+
+        // GET: /Manage/OrderHistory
+        public IActionResult OrderHistory(string id)
+        {
+            // get all orders of current user
+            var orderEntity = _orderService.GetOrderByOrderId(id);
+            if (orderEntity == null)
+                return RedirectToAction("OrderHistoryList");
+
+            var orderModel = new OrderModel
+            {
+                UserId = orderEntity.UserId,
+                OrderNumber = orderEntity.OrderNumber,
+                BillingAddressId = orderEntity.BillingAddressId,
+                Status = orderEntity.Status,
+                OrderPlacedDateTime = orderEntity.OrderPlacementDateTime,
+                Items = orderEntity.Items.ToList(),
+                TotalOrderPrice = orderEntity.TotalOrderPrice
+            };
+
+            // get billing address
+            var billingAddressEntity = _billingAddressService.GetBillingAddressById(orderEntity.BillingAddressId);
+            if (billingAddressEntity != null)
+            {
+                orderModel.BillingAdddress = _mapper.Map<BillingAddress, BillingAddressModel>(billingAddressEntity); ;
+            }
+
+            return View(orderModel);
+        }
 
         #region Helpers
 

@@ -268,7 +268,7 @@ namespace aspCart.Web.Controllers
                 Session.Remove(_cartItesmSessionKey);
                 Session.Remove(_cartItemsCountSessionKey);
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("OrderHistoryList", "Manage");
             }
 
             // something went wrong
