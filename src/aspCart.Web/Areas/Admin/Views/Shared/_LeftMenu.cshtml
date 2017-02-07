@@ -36,6 +36,18 @@
                     <li><a id="menu-catalog-imageManager" asp-controller="ImageManager" asp-action="Index"><i class="fa fa-circle-o"></i><span>Image Manager</span></a></li>
                 </ul>
             </li>
+            <!-- sales tree bar -->
+            <li id="menu-sale" class="treeview">
+                <a href="#">
+                    <i class="fa fa-shopping-cart"></i> <span>Sales</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a id="menu-sale-orders" asp-controller="Order" asp-action="List"><i class="fa fa-circle-o"></i><span>Orders</span></a></li>
+                </ul>
+            </li>
         </ul>
 
         <!-- /.sidebar-menu -->

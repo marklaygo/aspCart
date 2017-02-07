@@ -1,0 +1,68 @@
+﻿@model IEnumerable<OrderListModel>
+@{
+    ViewData["Title"] = ViewData["ContentHeader"] = "Order List";
+}
+
+@section menu {
+    <script type="text/javascript">
+        $(function () {
+            var menuItem = $('#menu-sale');
+            menuItem.addClass('active');
+            var subMenuItem = menuItem.find('#menu-sale-orders').parent();
+            subMenuItem.addClass('active');
+        });
+    </script>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td>Order #</td>
+                            <td>Status</td>
+                            <td>Customer</td>
+                            <td>Order Price</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model)
+                        {
+                            <tr>
+                                <td>
+                                    #@order.OrderNumber
+                                </td>
+                                <td>
+                                    @if (@order.Status == "Pending")
+                                    {
+                                        <h4><span class="label label-warning">@order.Status</span></h4>
+                                    }
+                                    else if (@order.Status == "Complete")
+                                    {
+                                        <h4><span class="label label-success">@order.Status</span></h4>
+                                    }
+                                </td>
+                                <td>
+                                    @order.Name (@order.Email)
+                                </td>
+                                <td>
+                                    @order.TotalOrderPrice.ToString("C2")
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <a asp-controller="Order" asp-action="Manage" asp-route-id="@order.Id" id="@order.Id" class="btn btn-primary input-stack-margin">
+                                            <i class="fa fa-pencil-square-o">&nbsp; Manage</i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div> <!-- box body end -->
+        </div> <!-- box end -->
+    </div> <!-- col md 12 end -->
+</div> <!--  row end -->
