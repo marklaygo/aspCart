@@ -7,6 +7,14 @@ using aspCart.Web.Models;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using aspCart.Core.Interface.Services.Catalog;
+using aspCart.Core.Interface.User;
+using aspCart.Core.Interface.Sale;
+using Microsoft.AspNetCore.Authorization;
+using aspCart.Core.Domain.User;
+using AutoMapper;
+using aspCart.Infrastructure.EFModels;
+using Microsoft.AspNetCore.Identity;
+using aspCart.Core.Domain.Sale;
 
 namespace aspCart.Web.Controllers
 {
@@ -14,8 +22,12 @@ namespace aspCart.Web.Controllers
     {
         #region Fields
 
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IProductService _productService;
+        private readonly IBillingAddressService _billingAddressService;
+        private readonly IOrderService _orderService;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IMapper _mapper;
 
         private ISession Session => _httpContextAccessor.HttpContext.Session;
         private readonly string _cartItesmSessionKey = "CartItems";
@@ -26,10 +38,18 @@ namespace aspCart.Web.Controllers
         #region Constructor
 
         public CartController(
+            UserManager<ApplicationUser> userManager,
             IProductService productService,
-            IHttpContextAccessor httpContextAccessor)
+            IBillingAddressService billingAddressService,
+            IOrderService orderService,
+            IHttpContextAccessor httpContextAccessor,
+            IMapper mapper)
         {
+            _userManager = userManager;
             _productService = productService;
+            _billingAddressService = billingAddressService;
+            _orderService = orderService;
+            _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -162,6 +182,123 @@ namespace aspCart.Web.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        // GET: /Cart/Checkout
+        [Authorize]
+        public async Task<IActionResult> Checkout()
+        {
+            if (Session.GetString(_cartItesmSessionKey) == null)
+                return View("Index");
+
+            var user = await GetCurrentUserAsync();
+            var checkoutModel = new CheckoutModel();
+            var cartItems = JsonConvert.DeserializeObject<List<CartItemModel>>(Session.GetString(_cartItesmSessionKey));
+            var billingAdddressEntity = _billingAddressService.GetBillingAddressById(user.BillingAddressId);
+            if (billingAdddressEntity != null)
+                checkoutModel = _mapper.Map<BillingAddress, CheckoutModel>(billingAdddressEntity);
+
+            checkoutModel.CartItemModel = cartItems;
+
+            return View(checkoutModel);
+        }
+
+        // POST: /Cart/Checkout
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<IActionResult> Checkout(CheckoutModel model)
+        {
+            // get current user
+            var user = await GetCurrentUserAsync();
+            var totalOrderPrice = 0m;
+
+            // create order entity 
+            var orderEntity = new Order
+            {
+                Id = Guid.NewGuid(),
+                OrderNumber = GenerateUniqueOrderNumber(),
+                UserId = Guid.Parse(user.Id),
+                Status = OrderStatus.Pending,
+                OrderPlacementDateTime = DateTime.Now
+            };
+
+            var orderItemEntities = new List<OrderItem>();
+            var cartItems = new List<CartItemModel>();
+
+            // get cart session
+            if (Session.GetString(_cartItesmSessionKey) != null)
+                cartItems = JsonConvert.DeserializeObject<List<CartItemModel>>(Session.GetString(_cartItesmSessionKey));
+
+            foreach(var item in cartItems)
+            {
+                var currentItem = _productService.GetProductById(item.Id);
+                if(currentItem != null)
+                {
+                    var newOrderItem = new OrderItem
+                    {
+                        Id = Guid.NewGuid(),
+                        OrderId = orderEntity.Id,
+                        Name = item.Name,
+                        Quantity = item.Quantity,
+                        Price = item.Price,
+                        TotalPrice = (item.Price * item.Quantity)
+                    };
+
+                    orderItemEntities.Add(newOrderItem);
+                    totalOrderPrice += newOrderItem.TotalPrice;
+                }
+            }
+
+            // check if the order have item/s
+            if (orderItemEntities.Count > 0)
+            {
+                // create billingAddress for this order
+                var billingAddressEntity = _mapper.Map<CheckoutModel, BillingAddress>(model);
+                _billingAddressService.InsertBillingAddress(billingAddressEntity);
+
+                orderEntity.Items = orderItemEntities;
+                orderEntity.TotalOrderPrice = totalOrderPrice;
+                orderEntity.BillingAddressId = billingAddressEntity.Id;
+
+                // save
+                _orderService.InsertOrder(orderEntity);
+
+                // clear cart session
+                Session.Remove(_cartItesmSessionKey);
+                Session.Remove(_cartItemsCountSessionKey);
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            // something went wrong
+            cartItems = new List<CartItemModel>();
+            return RedirectToAction("Index", "Cart", cartItems);
+        }
+
+        #endregion
+
+        #region Helpers
+
+        private string GenerateUniqueOrderNumber()
+        {
+            var rand = new Random();
+            string orderNumber = rand.Next(100, 999) + "-" + rand.Next(100, 999) + "-" + rand.Next(100000, 999999);
+
+            var orderId = _orderService.GetOrderByOrderId(orderNumber);
+            
+            while (orderId != null)
+            {
+                orderNumber = rand.Next(100, 999) + "-" + rand.Next(100, 999) + "-" + rand.Next(100000, 999999);
+                orderId = _orderService.GetOrderByOrderId(orderNumber);
+            }
+
+            return orderNumber;
+        }
+
+        private Task<ApplicationUser> GetCurrentUserAsync()
+        {
+            return _userManager.GetUserAsync(HttpContext.User);
         }
 
         #endregion

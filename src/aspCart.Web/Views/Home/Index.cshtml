@@ -24,7 +24,7 @@
                     </center>
                     <div class="card-block">
                         <a href="/Product/@product.SeoUrl" class="card-title text-muted" title="@product.Name">@product.Name</a>
-                        <div class="card-text">$@product.Price</div>
+                        <div class="card-text">@product.Price.ToString("C2")</div>
                     </div>
                     <div class="card-footer">
                         <form asp-area="" asp-controller="Cart" asp-action="Add" method="post">

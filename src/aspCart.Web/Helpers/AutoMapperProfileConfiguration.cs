@@ -18,6 +18,8 @@ namespace aspCart.Web.Helpers
             // billing address mappings
             CreateMap<BillingAddress, BillingAddressModel>()
                 .ReverseMap();
+            CreateMap<BillingAddress, CheckoutModel>()
+                .ReverseMap();
 
             // category mappings
             CreateMap<Category, CategoryListModel>();

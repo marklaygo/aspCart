@@ -53,7 +53,7 @@
                             <span class="field-validation-valid text-danger" data-valmsg-for="quantity-@cartItem.Id" data-valmsg-replace="true"></span>
                         </td>
                         <td style="width: 18%;">
-                            <div class="">$@cartItem.Price ea.</div>
+                            <div class="">@cartItem.Price.ToString("C2") ea.</div>
                         </td>
                         <td style="width: 10%">
                             <button type="button" class="btn btn-danger remove"><i class="fa fa-close"></i></button>
@@ -66,12 +66,13 @@
                     <td style="width: 15%" class="text-sm-right">
                         <div></div>Total Price:
                     </td>
-                    <td style="width: 15%">$@totalPrice</td>
+                    <td style="width: 15%">@totalPrice.ToString("C2")</td>
                     <td style="width: 10%"></td>
                 </tr>
                 <tr>
                     <td colspan="5">
                         <button type="button" id="save" class="btn btn-success">Save</button>
+                        <a asp-controller="Cart" asp-action="Checkout" class="btn btn-primary">Checkout</a>
                     </td>
                 </tr>
             </tbody>

@@ -1,0 +1,123 @@
+﻿@model CheckoutModel
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<h5>Checkout</h5>
+<hr />
+<form asp-controller="Cart" asp-action="Checkout" id="cartForm" method="post">
+    <div class="row">
+        <div class="col-md-6">
+            <h6>Billing Address</h6>
+            <hr />
+            <div class="form-horizontal">
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <label asp-for="FirstName" class="control-label"></label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="col-sm-6">
+                        <label asp-for="LastName" class="control-label"></label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <label asp-for="Address" class="control-label"></label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <label asp-for="City" class="control-label"></label>
+                        <input asp-for="City" class="form-control" />
+                        <span asp-validation-for="City" class="text-danger"></span>
+                    </div>
+                    <div class="col-sm-6">
+                        <label asp-for="StateProvince" class="control-label"></label>
+                        <input asp-for="StateProvince" class="form-control" />
+                        <span asp-validation-for="StateProvince" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <label asp-for="ZipPostalCode" class="control-label"></label>
+                        <input asp-for="ZipPostalCode" class="form-control" />
+                        <span asp-validation-for="ZipPostalCode" class="text-danger"></span>
+                    </div>
+                    <div class="col-sm-6">
+                        <label asp-for="Country" class="control-label"></label>
+                        <input asp-for="Country" class="form-control" />
+                        <span asp-validation-for="Country" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <label asp-for="Telephone" class="control-label"></label>
+                        <input asp-for="Telephone" class="form-control" />
+                        <span asp-validation-for="Telephone" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h6>Order Review</h6>
+            <hr />
+            @if (Model != null)
+            {
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <td style="border-top: none;">Name</td>
+                            <td style="border-top: none;">Quantity</td>
+                            <td style="border-top: none;">Sub total</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            decimal totalPrice = 0.0m;
+                        }
+                        @foreach (var cartItem in Model.CartItemModel)
+                        {
+                            totalPrice += (cartItem.Price * cartItem.Quantity);
+                            <tr>
+                                <td style="width: 60%;">
+                                    <a href="/Product/@cartItem.SeoUrl" class="text-muted" title="@cartItem.Name">@cartItem.Name</a>
+                                </td>
+                                <td>
+                                    @cartItem.Quantity
+                                </td>
+                                <td>
+                                    <div class="">@cartItem.Price.ToString("C2")</div>
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td></td>
+                            <td class="text-sm-right">
+                                <div></div>Total Price:
+                            </td>
+                            <td>@totalPrice.ToString("C2")</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="background-color:white">
+                                <button type="submit" id="placeOrder" class="btn btn-primary">Place Order</button>
+                                <a asp-area="" asp-controller="Cart" asp-action="Index" class="btn btn-secondary">Back</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</form>
