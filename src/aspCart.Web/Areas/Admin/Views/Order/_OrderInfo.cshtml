@@ -1,0 +1,83 @@
+﻿@model OrderManageModel
+
+<div class="form-horizontal">
+    <!-- Customer Name -->
+    <div class="form-group">
+        <label class="control-label col-sm-2">Order Number</label>
+        <div class="col-sm-10">
+            <label class="control-label">#@Model.OrderNumber</label>
+        </div>
+    </div>
+
+    <!-- Order status -->
+    <div class="form-group">
+        <label asp-for="OrderStatus" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <select asp-for="OrderStatus" asp-items="Html.GetEnumSelectList<aspCart.Core.Domain.Sale.OrderStatus>()"></select>
+        </div>
+    </div>
+
+    <!-- Customer Name -->
+    <div class="form-group">
+        <label class="control-label col-sm-2">Customer Name</label>
+        <div class="col-sm-10">
+            <label class="control-label">@(Model.FirstName + " " + Model.LastName)</label>
+        </div>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+        <label asp-for="Email" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <label class="control-label">@Model.Email</label>
+        </div>
+    </div>
+
+    <!-- Address -->
+    <div class="form-group">
+        <label asp-for="Address" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <label class="control-label">@Model.Address</label>
+        </div>
+    </div>
+
+    <!-- City -->
+    <div class="form-group">
+        <label asp-for="City" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <label class="control-label">@Model.City</label>
+        </div>
+    </div>
+
+    <!-- State/Province -->
+    <div class="form-group">
+        <label asp-for="StateProvince" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <label class="control-label">@Model.StateProvince</label>
+        </div>
+    </div>
+
+    <!-- Zip/Postal code -->
+    <div class="form-group">
+        <label asp-for="ZipPostalCode" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <label class="control-label">@Model.ZipPostalCode</label>
+        </div>
+    </div>
+
+    <!-- Country -->
+    <div class="form-group">
+        <label asp-for="Country" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <label class="control-label">@Model.Country</label>
+        </div>
+    </div>
+
+    <!-- Telephone -->
+    <div class="form-group">
+        <label asp-for="Telephone" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <label class="control-label">@Model.Telephone</label>
+        </div>
+    </div>
+</div> <!-- form horizontal end -->

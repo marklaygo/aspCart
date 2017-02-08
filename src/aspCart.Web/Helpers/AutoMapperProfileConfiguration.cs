@@ -1,6 +1,8 @@
 ﻿using aspCart.Core.Domain.Catalog;
+using aspCart.Core.Domain.Sale;
 using aspCart.Core.Domain.User;
 using aspCart.Web.Areas.Admin.Models.Catalog;
+using aspCart.Web.Areas.Admin.Models.Sale;
 using aspCart.Web.Models;
 using aspCart.Web.Models.ManageViewModels;
 using AutoMapper;
@@ -30,6 +32,9 @@ namespace aspCart.Web.Helpers
             CreateMap<Manufacturer, ManufacturerListModel>();
             CreateMap<Manufacturer, ManufacturerCreateOrUpdateModel>()
                 .ReverseMap();
+
+            // order mapping
+            CreateMap<OrderManageModel, Order>();
 
             // product mappings
             CreateMap<Product, ProductListModel>();

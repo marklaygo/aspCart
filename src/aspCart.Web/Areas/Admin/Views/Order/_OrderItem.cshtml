@@ -1,0 +1,35 @@
+﻿@model OrderManageModel
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td style="border-top: none;">Name</td>
+            <td style="border-top: none;">Price</td>
+            <td style="border-top: none;">Quantity</td>
+            <td style="border-top: none;">Sub total</td>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            decimal totalPrice = 0.0m;
+        }
+        @foreach (var item in Model.OrderItems)
+        {
+            totalPrice += (item.Price * item.Quantity);
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Price.ToString("C2")</td>
+                <td>@item.Quantity</td>
+                <td>@((item.Price * item.Quantity).ToString("C2"))</td>
+            </tr>
+        }
+        <tr>
+            <td></td>
+            <td></td>
+            <td class="text-right">
+                <div>Total Price:</div>
+            </td>
+            <td>@totalPrice.ToString("C2")</td>
+        </tr>
+    </tbody>
+</table>

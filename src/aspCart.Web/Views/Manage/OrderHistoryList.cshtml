@@ -16,19 +16,19 @@
                     &nbsp;&nbsp;&nbsp;
                     @if (order.Status.ToString() == "Pending")
                     {
-                        <small>
-                            <span class="alert alert-warning">
-                                @order.Status
-                            </span>
-                        </small>
+                        <small><span class="alert alert-warning">@order.Status</span></small>
+                    }
+                    else if (order.Status.ToString() == "Processing")
+                    {
+                        <small><span class="alert alert-info">@order.Status</span></small>
                     }
                     else if (order.Status.ToString() == "Complete")
                     {
-                        <small>
-                            <span class="alert alert-success">
-                                @order.Status
-                            </span>
-                        </small>
+                        <small><span class="alert alert-success">@order.Status</span></small>
+                    }
+                    else if (order.Status.ToString() == "Cancelled")
+                    {
+                        <small><span class="alert alert-danger">@order.Status</span></small>
                     }
                 </li>
             }

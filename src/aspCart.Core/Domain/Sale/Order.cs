@@ -10,9 +10,9 @@ namespace aspCart.Core.Domain.Sale
     public enum OrderStatus
     {
         Pending,
-        Cancel,
+        Processing,
         Complete,
-        Return
+        Cancelled
     };
 
     public class Order

@@ -1,0 +1,93 @@
+﻿@model OrderManageModel
+@{
+    ViewData["Title"] = ViewData["ContentHeader"] = "Manage order";
+}
+
+@section menu {
+    <script type="text/javascript">
+        $(function () {
+            var menuItem = $('#menu-sale');
+            menuItem.addClass('active');
+            var subMenuItem = menuItem.find('#menu-sale-orders').parent();
+            subMenuItem.addClass('active');
+        });
+    </script>
+}
+
+@section headerLeftOptional {
+    <a asp-action="List" class="fa fa-arrow-circle-left"> back to list</a>
+}
+
+@section actionHeader {
+    <div class="input-group">
+        <button type="button" class="btn btn-primary input-stack-margin" id="save"><i class="fa fa-save"></i>&nbsp; Save</button>
+        <button type="button" class="btn btn-primary input-stack-margin" id="continue"><i class="fa fa-save"></i>&nbsp; Save and continue editing</button>
+    </div>
+}
+
+<form asp-controller="Order" asp-action="Manage" method="post" id="orderForm">
+    <input type="hidden" asp-for="ActiveTab" />
+    <input type="hidden" id="continueEditing" name="continueEditing" value="false" />
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="nav-tabs-custom">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation"><a href="#infoContent" class="tabNav" id="info" data-toggle="tab">Order Info</a></li>
+                    <li role="presentation"><a href="#itemContent" class="tabNav" id="item" data-toggle="tab">Item/s</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane" id="infoContent">
+                        @await Html.PartialAsync("_OrderInfo", Model)
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="itemContent">
+                        @await Html.PartialAsync("_OrderItem", Model)
+                    </div>
+                </div>
+
+            </div> <!-- nav tabs custom end --> 
+        </div> <!-- end col md 12 -->
+    </div> <!-- end row -->
+</form>
+
+
+<script>
+    // run validator on all tabs
+    $.validator.setDefaults({
+        ignore: []
+    });
+
+    // onready
+    $(function () {
+        initializeNav();
+        $('#OrderStatus').kendoDropDownList();
+    });
+
+    // set hidden value of nav and content
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        $('#ActiveTab').val(e.target.getAttribute('id'));
+    })
+
+    // submit form
+    $('#save').on('click', function (e) {
+        e.preventDefault();
+        $('#continueEditing').val(false);
+        $('#orderForm').submit();
+    });
+
+    // form save and continue editing
+    $('#continue').on('click', function (e) {
+        e.preventDefault();
+        $('#continueEditing').val(true);
+        $('#orderForm').submit();
+    });
+
+    // set active nav
+    function initializeNav() {
+        $('.tabNav#@Model.ActiveTab').parent().addClass('active');
+        $('.tab-pane#@(Model.ActiveTab + "Content")').addClass('active');
+    };
+</script>

@@ -24,6 +24,7 @@
                             <td>Order #</td>
                             <td>Status</td>
                             <td>Customer</td>
+                            <td>Placement Date</td>
                             <td>Order Price</td>
                             <td></td>
                         </tr>
@@ -40,13 +41,24 @@
                                     {
                                         <h4><span class="label label-warning">@order.Status</span></h4>
                                     }
+                                    else if (@order.Status == "Processing")
+                                    {
+                                        <h4><span class="label label-info">@order.Status</span></h4>
+                                    }
                                     else if (@order.Status == "Complete")
                                     {
                                         <h4><span class="label label-success">@order.Status</span></h4>
                                     }
+                                    else if (@order.Status == "Cancelled")
+                                    {
+                                        <h4><span class="label label-danger">@order.Status</span></h4>
+                                    }
                                 </td>
                                 <td>
                                     @order.Name (@order.Email)
+                                </td>
+                                <td>
+                                    @order.OrderPlacementDateTime.ToString("MMM dd, yyyy hh:mm:ss tt")
                                 </td>
                                 <td>
                                     @order.TotalOrderPrice.ToString("C2")
