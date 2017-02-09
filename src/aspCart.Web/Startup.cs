@@ -18,9 +18,9 @@ using aspCart.Core.Interface.Services.Catalog;
 using aspCart.Infrastructure.Services.Catalog;
 using AutoMapper;
 using aspCart.Web.Areas.Admin.Helpers;
-using aspCart.Core.Interface.User;
+using aspCart.Core.Interface.Services.User;
 using aspCart.Infrastructure.Services.User;
-using aspCart.Core.Interface.Sale;
+using aspCart.Core.Interface.Services.Sale;
 using aspCart.Infrastructure.Services.Sale;
 
 namespace aspCart.Web

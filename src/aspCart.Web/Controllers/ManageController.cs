@@ -8,10 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using aspCart.Web.Models.ManageViewModels;
 using aspCart.Infrastructure.EFModels;
-using aspCart.Core.Interface.User;
+using aspCart.Core.Interface.Services.User;
 using aspCart.Core.Domain.User;
 using AutoMapper;
-using aspCart.Core.Interface.Sale;
+using aspCart.Core.Interface.Services.Sale;
 using aspCart.Web.Models;
 
 namespace aspCart.Web.Controllers

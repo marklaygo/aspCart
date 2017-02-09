@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace aspCart.Core.Interface.User
+namespace aspCart.Core.Interface.Services.User
 {
     public interface IBillingAddressService
     {

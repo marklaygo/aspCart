@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace aspCart.Core.Interface.Sale
+namespace aspCart.Core.Interface.Services.Sale
 {
     public interface IOrderService
     {

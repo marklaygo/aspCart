@@ -1,5 +1,5 @@
 ﻿using aspCart.Core.Domain.User;
-using aspCart.Core.Interface.User;
+using aspCart.Core.Interface.Services.User;
 using aspCart.Infrastructure.EFRepository;
 using System;
 using System.Collections.Generic;

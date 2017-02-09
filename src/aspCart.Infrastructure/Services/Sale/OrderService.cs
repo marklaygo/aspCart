@@ -1,5 +1,5 @@
 ﻿using aspCart.Core.Domain.Sale;
-using aspCart.Core.Interface.Sale;
+using aspCart.Core.Interface.Services.Sale;
 using aspCart.Infrastructure.EFRepository;
 using Microsoft.EntityFrameworkCore;
 using System;
