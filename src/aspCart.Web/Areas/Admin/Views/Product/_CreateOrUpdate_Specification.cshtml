@@ -1,0 +1,155 @@
+﻿@model ProductCreateOrUpdateModel
+
+<div class="input-group">
+    <button type="button" id="addNewSpecification" class="btn btn-success input-stack-margin">
+        <i class="fa fa-plus-circle"></i>&nbsp; Add new specification field
+    </button>
+</div>
+<br />
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <td>Sort order</td>
+            <td>Key</td>
+            <td>Value</td>
+            <td>Remove</td>
+        </tr>
+    </thead>
+    <tbody id="specWrapper">
+        @{
+            int id = 0;
+        }
+        @if (Model.Specifications != null)
+        {
+            for (int i = 0; i < Model.Specifications.Count(); i++)
+            {
+                <tr>
+                    <td>
+                        <input asp-for="Specifications[i].SortOrder" class="specSortOrder" /><br />
+                        <span asp-validation-for="Specifications[id].SortOrder" class="text-danger"></span>
+                    </td>
+                    <td>
+                        <select asp-for="Specifications[i].Key" asp-items="Model.SpecificationKeySelectList" class="specKey">
+                            <option value="@Guid.Empty">Select an option</option>
+                        </select>
+                    </td>
+                    <td>
+                        <textarea asp-for="Specifications[i].Value" class="specValue"></textarea>
+                    </td>
+                    <td>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-danger remove"><i class="fa fa-close"></i></button>
+                        </div>
+                    </td>
+                </tr>
+                id++;
+            }
+        }
+    </tbody>
+</table>
+
+<script>
+    // on ready call
+    $(function () {
+        $('select.specKey').kendoDropDownList();
+        initializeCKEditor();
+    });
+
+    // initialize ckeditor
+    function initializeCKEditor() {
+        $('.specValue').each(function () {
+            var editor = CKEDITOR.instances[this.id];
+            if (editor)
+                return;
+
+            // ckeditor
+            CKEDITOR.replace(this.id, {
+                customConfig: false,
+                toolbarGroups: [
+                    { name: 'clipboard', groups: ['clipboard', 'undo'] },
+                    { name: 'editing', groups: ['find', 'selection', 'spellchecker'] },
+                    { name: 'forms' },
+                    { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
+                    { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'] },
+                    { name: 'links' },
+                    { name: 'insert' },
+                    { name: 'styles' },
+                    { name: 'colors' },
+                    { name: 'tools' },
+                    { name: 'others' },
+                    { name: 'document', groups: ['mode', 'document', 'doctools'] },
+                    { name: 'about' }
+                ],
+                removeButtons: 'Cut,Copy,Paste,Anchor,Underline,Strike,Subscript,Superscript',
+                removeDialogTabs: 'link:advanced',
+                removePlugins: 'a11yhelp,bidi,panelbutton,colorbutton,colordialog,menu,contextmenu,dialogadvtab,div,entities,popup,filebrowser,find,flash,floatingspace,font,forms,htmlwriter,iframe,indentblock,liststyle,magicline,newpage,pagebreak,pastefromword,pastetext,preview,print,resize,save,menubutton,scayt,selectall,showblocks,showborders,smiley,specialchar,tab,table,tabletools,templates,wsc',
+                height: 200
+            });
+        });
+    }
+
+    // add new product specification
+    $(function () {
+        var wrapper = $("#specWrapper");
+        var addButton = $("#addNewSpecification");
+        var id =  @Html.Raw(id);
+        var tmpId = id;
+
+        // tempalte
+        var template = `
+            <tr>
+                <td>
+                    <input class="specSortOrder" type="number" data-val="true" data-val-range="The field Sort order must be between 0 and 100." data-val-range-max="100" data-val-range-min="0" data-val-required="The Sort order field is required." id="Specifications_replaceThisString__SortOrder" name="Specifications[replaceThisString].SortOrder" value="0" /><br />
+                    <span class="text-danger field-validation-valid" data-valmsg-for="Specifications[replaceThisString].SortOrder" data-valmsg-replace="true"></span>
+                </td>
+                <td>
+                    @{
+                        <select asp-items="Model.SpecificationKeySelectList" class="specKey">
+                            <option value="@Guid.Empty">Select an option</option>
+                        </select>
+                    }
+                </td>
+                <td>
+                    <textarea class="specValue" id="Specifications_replaceThisString__Value" name="Specifications[replaceThisString].Value"></textarea>
+                </td>
+                <td>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-danger remove"><i class="fa fa-close"></i></button>
+                    </div>
+                </td>
+            </tr>
+        `
+
+        // add new input
+        $(addButton).click(function (e) {
+            e.preventDefault();
+            var newId = tmpId;
+
+            var newInput = template;
+            newInput = newInput.replace('<select class="specKey">', '<select class="specKey" id="Specifications_' + newId + '__Key" name="Specifications[' + newId + '].Key">');
+            newInput = newInput.replace(/replaceThisString/g, newId);
+
+            // append the new input
+            $(wrapper).append(newInput);
+            tmpId++;
+
+            // re initialize validation
+            $('#productForm').removeData('validator');
+            $('#productForm').removeData('unobtrusiveValidation');
+            $.validator.unobtrusive.parse($('#productForm'));
+
+            // re initialize kendo drop down list
+            $('select.specKey').kendoDropDownList();
+
+            // re initialize ckeditor
+            initializeCKEditor();
+        });
+
+        // remove input
+        $(wrapper).on("click", ".remove", function (e) {
+            e.preventDefault();
+            $(this).parent().parent().parent().remove();
+        })
+    });
+</script>

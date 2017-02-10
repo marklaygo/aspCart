@@ -95,6 +95,10 @@ namespace aspCart.Web.Areas.Admin.Models.Catalog
 
         public SelectList ManufacturerSelectList { get; set; }
 
+        public List<ProductSpecificationModel> Specifications { get; set; }
+
+        public SelectList SpecificationKeySelectList { get; set; }
+
         public bool Published { get; set; }
         public DateTime DateAdded { get; set; }
     }

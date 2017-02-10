@@ -21,6 +21,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
         private readonly IImageManagerService _imageManagerService;
         private readonly IManufacturerService _manufacturerService;
         private readonly IProductService _productService;
+        private readonly ISpecificationService _specificationService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ViewHelper _viewHelper;
         private readonly DataHelper _dataHelper;
@@ -38,6 +39,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
             IImageManagerService imageManagerService,
             IManufacturerService manufacturerService,
             IProductService productService,
+            ISpecificationService specificationService,
             IHttpContextAccessor httpContextAccessor,
             ViewHelper viewHelper,
             DataHelper dataHelper,
@@ -47,6 +49,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
             _imageManagerService = imageManagerService;
             _manufacturerService = manufacturerService;
             _productService = productService;
+            _specificationService = specificationService;
             _httpContextAccessor = httpContextAccessor;
             _viewHelper = viewHelper;
             _dataHelper = dataHelper;
@@ -96,6 +99,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
             var model = new ProductCreateOrUpdateModel();
             model.CategorySelectList = _viewHelper.GetCategorySelectList();
             model.ManufacturerSelectList = _viewHelper.GetManufacturerSelectList();
+            model.SpecificationKeySelectList = _viewHelper.GetSpecificationKeySelectList();
             return View(model);
         }
 
@@ -146,6 +150,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
                     SaveCategoryMappings(model);
                     SaveManufacturerMappings(model);
                     SaveImageMappings(model);
+                    SaveSpecificationMappings(model);
 
                     if (continueEditing)
                         return RedirectToAction("Edit", new { id = productEntity.Id, ActiveTab = model.ActiveTab });
@@ -157,6 +162,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
             // something went wrong, redisplay form
             model.CategorySelectList = _viewHelper.GetCategorySelectList();
             model.ManufacturerSelectList = _viewHelper.GetManufacturerSelectList();
+            model.SpecificationKeySelectList = _viewHelper.GetSpecificationKeySelectList();
             return View(model);
         }
 
@@ -181,7 +187,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
             foreach (var manufacturer in productEntity.Manufacturers)
                 manufacturerIds.Add(manufacturer.Manufacturer.Id.ToString());
 
-            // get all images of the product
+            // get all images
             var images = new List<ImageModel>();
             foreach (var image in productEntity.Images.OrderBy(x => x.Position))
             {
@@ -194,16 +200,31 @@ namespace aspCart.Web.Areas.Admin.Controllers
                 images.Add(img);
             }
 
+            // get all specifications
+            var specifications = new List<ProductSpecificationModel>();
+            foreach(var specification in productEntity.Specifications.OrderBy(x => x.Position))
+            {
+                var spec = new ProductSpecificationModel
+                {
+                    Key = specification.SpecificationId.ToString(),
+                    Value = specification.Value,
+                    SortOrder = specification.SortOrder
+                };
+                specifications.Add(spec);
+            }
+
             // map entity to view model
             var model = _mapper.Map<Product, ProductCreateOrUpdateModel>(productEntity);
             model.CategoryIds = categoryIds;
             model.ManufacturerIds = manufacturerIds;
             model.Images = images;
+            model.Specifications = specifications;
 
             // view helper
             model.ActiveTab = ActiveTab ?? model.ActiveTab;
             model.CategorySelectList = _viewHelper.GetParentCategorySelectList();
             model.ManufacturerSelectList = _viewHelper.GetManufacturerSelectList();
+            model.SpecificationKeySelectList = _viewHelper.GetSpecificationKeySelectList();
 
             // add model to session
             Session.SetString(_sessionKey, JsonConvert.SerializeObject(model));
@@ -267,6 +288,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
                     SaveCategoryMappings(model);
                     SaveManufacturerMappings(model);
                     SaveImageMappings(model);
+                    SaveSpecificationMappings(model);
 
                     if (continueEditing)
                         return RedirectToAction("Edit", new { id = productEntity.Id, ActiveTab = model.ActiveTab });
@@ -278,6 +300,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
             // something went wrong, redisplay form
             model.CategorySelectList = _viewHelper.GetCategorySelectList();
             model.ManufacturerSelectList = _viewHelper.GetManufacturerSelectList();
+            model.SpecificationKeySelectList = _viewHelper.GetSpecificationKeySelectList();
             return View(model);
         }
 
@@ -397,6 +420,44 @@ namespace aspCart.Web.Areas.Admin.Controllers
             // save to database
             _manufacturerService.DeleteAllProductManufacturersMappings(model.Id);
             _manufacturerService.InsertProductManufacturerMappings(manufacturerMappings);
+        }
+
+        [NonAction]
+        private void SaveSpecificationMappings(ProductCreateOrUpdateModel model)
+        {
+            var specificationMappings = new List<ProductSpecificationMapping>();
+            if(model.Specifications != null)
+            {
+                int i = 0;
+                foreach(var spec in model.Specifications)
+                {
+                    // check if specification exist
+                    Guid specificationId;
+                    if(Guid.TryParse(spec.Key, out specificationId))
+                    {
+                        if (specificationId == Guid.Empty)
+                            continue;
+
+                        // create mapping entity
+                        var specificationMapping = new ProductSpecificationMapping
+                        {
+                            Id = Guid.NewGuid(),
+                            ProductId = model.Id,
+                            SpecificationId = specificationId,
+                            Value = spec.Value,
+                            SortOrder = spec.SortOrder,
+                            Position = i
+                        };
+                        i++;
+
+                        specificationMappings.Add(specificationMapping);
+                    }
+                }
+            }
+
+            // save to database
+            _specificationService.DeleteAllProductSpecificationMappings(model.Id);
+            _specificationService.InsertProductSpecificationMappings(specificationMappings);
         }
 
         #endregion

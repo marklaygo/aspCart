@@ -41,7 +41,10 @@ namespace aspCart.Web.Helpers
             CreateMap<Product, ProductModel>();
             CreateMap<Product, ProductCreateOrUpdateModel>()
                 .ForMember(dest => dest.Images, opt => opt.Ignore())
-                .ReverseMap();
+                .ForMember(dest => dest.Specifications, opt => opt.Ignore());
+            CreateMap<ProductCreateOrUpdateModel, Product>()
+                .ForMember(dest => dest.Images, opt => opt.Ignore())
+                .ForMember(dest => dest.Specifications, opt => opt.Ignore());
 
             // specifications
             CreateMap<Specification, SpecificationListModel>();

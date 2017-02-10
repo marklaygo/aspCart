@@ -41,6 +41,7 @@
                     <li role="presentation"><a href="#dataContent" class="tabNav" id="data" data-toggle="tab">Data</a></li>
                     <li role="presentation"><a href="#seoContent" class="tabNav" id="seo" data-toggle="tab">SEO</a></li>
                     <li role="presentation"><a href="#imageContent" class="tabNav" id="image" data-toggle="tab">Images</a></li>
+                    <li role="presentation"><a href="#specificationContent" class="tabNav" id="specification" data-toggle="tab">Specifications</a></li>
                 </ul>
 
                 <!-- Tab panes -->
@@ -56,6 +57,9 @@
                     </div>
                     <div role="tabpanel" class="tab-pane" id="imageContent">
                         @await Html.PartialAsync("_CreateOrUpdate_Images", Model)
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="specificationContent">
+                        @await Html.PartialAsync("_CreateOrUpdate_Specification", Model)
                     </div>
                 </div>
 
@@ -96,8 +100,28 @@
 
                 // rename imagesort order name
                 $('input.img-sort-order').each(function () {
-                    var input = $(this);
-                    input.attr('name', "ImageSortOrder");
+                    $(this).attr('name', "ImageSortOrder");
+                });
+
+                // rename specSortOrder
+                var counter = 0;
+                $('input.specSortOrder').each(function () {
+                    $(this).attr('name', "Specifications[" + counter + "].SortOrder");
+                    counter++;
+                });
+
+                // rename specKey
+                counter = 0;
+                $('select.specKey').each(function () {
+                    $(this).attr('name', "Specifications[" + counter + "].Key");
+                    counter++;
+                });
+
+                // rename specValue
+                counter = 0;
+                $('textarea.specValue').each(function () {
+                    $(this).attr('name', "Specifications[" + counter + "].Value");
+                    counter++;
                 });
 
                 $('#productForm').submit();
@@ -119,8 +143,28 @@
 
                 // rename imagesort order name
                 $('input.img-sort-order').each(function () {
-                    var input = $(this);
-                    input.attr('name', "ImageSortOrder");
+                    $(this).attr('name', "ImageSortOrder");
+                });
+
+                // rename specSortOrder
+                var counter = 0;
+                $('input.specSortOrder').each(function () {
+                    $(this).attr('name', "Specifications[" + counter + "].SortOrder");
+                    counter++;
+                });
+
+                // rename specKey
+                counter = 0;
+                $('select.specKey').each(function () {
+                    $(this).attr('name', "Specifications[" + counter + "].Key");
+                    counter++;
+                });
+
+                // rename specValue
+                counter = 0;
+                $('textarea.specValue').each(function () {
+                    $(this).attr('name', "Specifications[" + counter + "].Value");
+                    counter++;
                 });
 
                 $('#productForm').submit();

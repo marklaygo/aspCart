@@ -14,18 +14,20 @@ namespace aspCart.Web.Areas.Admin.Helpers
 
         private readonly ICategoryService _categoryService;
         private readonly IManufacturerService _manufacturerService;
+        private readonly ISpecificationService _specificationService;
 
         #endregion
-
 
         #region Constructor
 
         public ViewHelper(
             ICategoryService categoryService,
-            IManufacturerService manufacturerService)
+            IManufacturerService manufacturerService,
+            ISpecificationService specificationService)
         {
             _categoryService = categoryService;
             _manufacturerService = manufacturerService;
+            _specificationService = specificationService;
         }
 
         #endregion
@@ -150,6 +152,30 @@ namespace aspCart.Web.Areas.Admin.Helpers
             }
 
             var selectList = new SelectList(manufacturerSelectList.OrderBy(x => x.Text), "Value", "Text");
+            return selectList;
+        }
+
+        /// <summary>
+        /// Get specification key select list
+        /// </summary>
+        /// <returns>Select list specification key</returns>
+        public SelectList GetSpecificationKeySelectList()
+        {
+            var specifications = _specificationService.GetAllSpecifications();
+            var specificationList = new List<SpecificationKeySelectList>();
+
+            foreach(var specification in specifications)
+            {
+                var specificationModel = new SpecificationKeySelectList
+                {
+                    Text = specification.Name,
+                    Value = specification.Id.ToString()
+                };
+
+                specificationList.Add(specificationModel);
+            }
+
+            var selectList = new SelectList(specificationList.OrderBy(x => x.Text), "Value", "Text");
             return selectList;
         }
 
