@@ -11,7 +11,8 @@ namespace aspCart.Web.Areas.Admin.Helpers
     {
         Category,
         Manufacturer,
-        Product
+        Product,
+        Specification
     }
 
     public enum DataType
@@ -27,6 +28,7 @@ namespace aspCart.Web.Areas.Admin.Helpers
         private readonly ICategoryService _categoryService;
         private readonly IManufacturerService _manufacturerService;
         private readonly IProductService _productService;
+        private readonly ISpecificationService _specificationService;
 
         #endregion
 
@@ -35,11 +37,13 @@ namespace aspCart.Web.Areas.Admin.Helpers
         public DataHelper(
             ICategoryService categoryService,
             IManufacturerService manufacturerService,
-            IProductService productService)
+            IProductService productService,
+            ISpecificationService specificationService)
         {
             _categoryService = categoryService;
             _manufacturerService = manufacturerService;
             _productService = productService;
+            _specificationService = specificationService;
         }
 
         #endregion
@@ -111,6 +115,12 @@ namespace aspCart.Web.Areas.Admin.Helpers
                 else if (serviceType == ServiceType.Product)
                 {
                     entities = _productService.GetAllProducts()
+                        .Select(x => x.Name.ToLower())
+                        .ToList();
+                }
+                else if(serviceType == ServiceType.Specification)
+                {
+                    entities = _specificationService.GetAllSpecifications()
                         .Select(x => x.Name.ToLower())
                         .ToList();
                 }

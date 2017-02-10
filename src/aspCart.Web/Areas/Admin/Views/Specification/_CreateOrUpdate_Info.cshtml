@@ -1,0 +1,56 @@
+﻿@model SpecificationCreateOrUpdateModel
+
+<div class="form-horizontal">
+    <!-- Published -->
+    <div class="form-group">
+        <label asp-for="Published" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <input type="checkbox" asp-for="Published" class="" />
+            <span asp-validation-for="Published" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!-- Name -->
+    <div class="form-group">
+        <label asp-for="Name" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+        <label asp-for="Description" class="control-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+</div> <!-- form horizontal end -->
+
+<script>
+    // CKEditor
+    CKEDITOR.replace('Description', {
+        customConfig: false,
+        toolbarGroups: [
+		    { name: 'clipboard', groups: ['clipboard', 'undo'] },
+		    { name: 'editing', groups: ['find', 'selection', 'spellchecker'] },
+		    { name: 'forms' },
+		    { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
+		    { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'] },
+		    { name: 'links' },
+		    { name: 'insert' },
+		    { name: 'styles' },
+		    { name: 'colors' },
+		    { name: 'tools' },
+		    { name: 'others' },
+            { name: 'document', groups: ['mode', 'document', 'doctools'] },
+		    { name: 'about' }
+        ],
+        removeButtons: 'Cut,Copy,Paste,Anchor,Underline,Strike,Subscript,Superscript',
+        removeDialogTabs: 'link:advanced',
+        removePlugins: 'a11yhelp,bidi,panelbutton,colorbutton,colordialog,menu,contextmenu,dialogadvtab,div,entities,popup,filebrowser,find,flash,floatingspace,font,forms,htmlwriter,iframe,indentblock,liststyle,magicline,newpage,pagebreak,pastefromword,pastetext,preview,print,resize,save,menubutton,scayt,selectall,showblocks,showborders,smiley,specialchar,tab,table,tabletools,templates,wsc',
+        height: 300
+    });
+</script>
