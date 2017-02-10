@@ -43,6 +43,7 @@ namespace aspCart.Infrastructure.Services.Catalog
                 .Include(x => x.Categories).ThenInclude(x => x.Category)
                 .Include(x => x.Images).ThenInclude(x => x.Image)
                 .Include(x => x.Manufacturers).ThenInclude(x => x.Manufacturer)
+                .Include(x => x.Specifications).ThenInclude(x => x.Specification)
                 .AsNoTracking()
                 .ToList();
 
@@ -65,6 +66,7 @@ namespace aspCart.Infrastructure.Services.Catalog
                 .Include(x => x.Categories).ThenInclude(x => x.Category)
                 .Include(x => x.Images).ThenInclude(x => x.Image)
                 .Include(x => x.Manufacturers).ThenInclude(x => x.Manufacturer)
+                .Include(x => x.Specifications).ThenInclude(x => x.Specification)
                 .AsNoTracking()
                 .SingleOrDefault(x => x.Id == id);
 
@@ -86,6 +88,7 @@ namespace aspCart.Infrastructure.Services.Catalog
                 .Include(x => x.Categories).ThenInclude(x => x.Category)
                 .Include(x => x.Images).ThenInclude(x => x.Image)
                 .Include(x => x.Manufacturers).ThenInclude(x => x.Manufacturer)
+                .Include(x => x.Specifications).ThenInclude(x => x.Specification)
                 .AsNoTracking()
                 .SingleOrDefault(x => x.SeoUrl == seo);
 

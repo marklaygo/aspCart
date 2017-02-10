@@ -94,6 +94,7 @@ namespace aspCart.Web
             services.AddTransient<IManufacturerService, ManufacturerService>();
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<ISpecificationService, SpecificationService>();
 
             // singleton
             services.AddSingleton(sp => MapperConfiguration.CreateMapper());
