@@ -17,32 +17,36 @@
 </head>
 <body>
     <nav class="navbar navbar-toggleable-md navbar-light fixed-top bg-faded">
-        <div class="container">
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">aspCart</a>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="nav-link">Admin dashboard</a>
-                    </li>
-                </ul>
-                @await Html.PartialAsync("_LoginPartial")
-            </div>
+        <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">aspCart</a>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="nav-link">Admin dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <form asp-area="" asp-controlle="Home" asp-action="ProductSearch" method="get" class="form-inline">
+                        <input class="form-control mr-sm-2" name="name" placeholder="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </li>
+            </ul>
+            @await Html.PartialAsync("_LoginPartial")
         </div>
     </nav>
     
-    <div class="container body-content">
+    <div class="container-fluid">
         @RenderBody()
     </div>
 
     <footer class="footer">
-        <div class="container">
+        <div class="container-fluid">
             <span class="text-muted">&copy; 2017 - aspCart</span>
         </div>
     </footer>

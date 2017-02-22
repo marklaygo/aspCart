@@ -61,6 +61,80 @@ namespace aspCart.Web.Controllers
             return View(productList);
         }
 
+        // GET: /Home/ProductInfo ?? /Product/{seo}
+        public IActionResult ProductInfo(string seo)
+        {
+            if(seo != null)
+            {
+                var productEntity = _productService.GetProductBySeo(seo);
+                if(productEntity != null)
+                {
+                    var productModel = _mapper.Map<Product, ProductModel>(productEntity);
+
+                    // get image
+                    if(productEntity.Images.Count > 0)
+                    {
+                        productModel.MainImage = productEntity.Images
+                            .OrderBy(x => x.SortOrder)
+                            .ThenBy(x => x.Position)
+                            .FirstOrDefault()
+                            .Image.FileName;
+                    }
+
+                    // get all specifications
+                    var specifications = productEntity.Specifications.OrderBy(x => x.SortOrder).ThenBy(x => x.Position);
+                    foreach(var specification in specifications)
+                    {
+                        productModel.Specifications.Add(new SpecificationModel
+                        {
+                            Key = specification.Specification.Name,
+                            Value = specification.Value,
+                            SortOrder = specification.SortOrder
+                        });
+                    }
+
+                    return View(productModel);
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        // GET: /Home/ProductSearch
+        public IActionResult ProductSearch(string name)
+        {
+            if(name != string.Empty && name != null)
+            {
+                var searchResult = _productService.GetAllProducts()
+                .Where(x =>
+                    x.Name.ToLower().Contains(name.ToLower()) &&
+                    x.Published == true);
+                var productList = new List<ProductModel>();
+
+                foreach (var product in searchResult)
+                {
+                    var productModel = _mapper.Map<Product, ProductModel>(product);
+
+                    // get main image
+                    if (product.Images.Count > 0)
+                    {
+                        productModel.MainImage = product.Images
+                            .OrderBy(x => x.SortOrder)
+                            .ThenBy(x => x.Position)
+                            .FirstOrDefault()
+                            .Image
+                            .FileName;
+                    }
+
+                    productList.Add(productModel);
+                }
+
+                return View(productList);
+            }
+
+            return RedirectToAction("Index");
+        }
+
         public IActionResult Error()
         {
             return View();

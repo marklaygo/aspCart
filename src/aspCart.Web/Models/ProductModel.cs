@@ -7,6 +7,11 @@ namespace aspCart.Web.Models
 {
     public class ProductModel
     {
+        public ProductModel()
+        {
+            Specifications = new List<SpecificationModel>();
+        }
+
         public Guid Id { get; set; }
 
         public string Name { get; set; }
@@ -24,5 +29,7 @@ namespace aspCart.Web.Models
         public string MetaKeywords { get; set; }
 
         public string MetaDescription { get; set; }
+
+        public List<SpecificationModel> Specifications { get; set; }
     }
 }

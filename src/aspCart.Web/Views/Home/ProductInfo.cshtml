@@ -1,0 +1,62 @@
+﻿@model ProductModel
+@{
+    ViewData["Title"] = @Model.MetaTitle ?? Model.Name;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <center>
+                @{ 
+                    var mainImageSrc = "/images/system/no-image.png";
+                    if (Model.MainImage != null)
+                    {
+                        mainImageSrc = "/images/app/" + Model.MainImage;
+                    }
+                }
+                <img class="product-main-image img-fluid" src="@mainImageSrc" alt="@Model.Name" />
+            </center>
+        </div>
+        <div class="col-md-8">
+            <h4>@Model.Name</h4>
+            <h6>$@Model.Price</h6>
+            <form asp-area="" asp-controller="Cart" asp-action="Add" method="post">
+                <input type="hidden" value="@Model.Id" name="id" />
+                <button type="submit" id="addToCart" class="btn btn-primary btn-sm">Add to cart</button>
+            </form>
+        </div>
+    </div> <!-- row end -->
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#description" role="tab">Description</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#specification" role="tab">Specification</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#reviews" role="tab">Reviews</a>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane active" id="description" role="tabpanel">
+                    <br />
+                    @await Html.PartialAsync("_ProductDescription", Model)
+                </div>
+                <div class="tab-pane" id="specification" role="tabpanel">
+                    <br />
+                    @await Html.PartialAsync("_ProductSpecification", Model)
+                </div>
+                <div class="tab-pane" id="reviews" role="tabpanel">
+                    <br />
+                    @await Html.PartialAsync("_ProductReview", Model)
+                </div>
+            </div>
+        </div> 
+    </div> <!-- row end -->
+</div> <!-- container end -->

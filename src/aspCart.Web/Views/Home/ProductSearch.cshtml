@@ -1,0 +1,41 @@
+﻿@model IEnumerable<ProductModel>
+@{
+    ViewData["Title"] = "Search";
+}
+
+<div class="row-side">
+    <div class="left-nav">
+        @await Component.InvokeAsync("Filter")
+    </div>
+</div>
+<div class="row">
+    @foreach (var product in Model)
+    {
+        <div class="col-md-6 col-lg-4 col-xl-3">
+            <div class="card">
+                <center>
+                    <a href="/Product/@product.SeoUrl">
+                        @if (product.MainImage != null)
+                        {
+                            <img class="card-img-top img-fluid" src="~/images/app/@product.MainImage" alt="@product.Name" />
+                        }
+                        else
+                        {
+                            <img class="card-img-top img-fluid" src="~/images/system/no-image.png" alt="@product.Name" />
+                        }
+                    </a>
+                </center>
+                <div class="card-block">
+                    <a href="/Product/@product.SeoUrl" class="card-title text-muted" title="@product.Name">@product.Name</a>
+                    <div class="card-text">@product.Price.ToString("C2")</div>
+                </div>
+                <div class="card-footer">
+                    <form asp-area="" asp-controller="Cart" asp-action="Add" method="post">
+                        <input type="hidden" value="@product.Id" name="id" />
+                        <button type="submit" id="addToCart" class="btn btn-primary btn-sm">Add to cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+</div>
