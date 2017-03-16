@@ -3,110 +3,112 @@
     ViewData["Title"] = "Cart";
 }
 
-@if (Model.Count() > 0)
-{
-    <form asp-controller="Cart" asp-action="Save" id="cartForm" method="post">
-        <table class="table">
-            <thead>
-                <tr>
-                    <td></td>
-                    <td>Name</td>
-                    <td>Quantity</td>
-                    <td>Price</td>
-                    <td>Remove</td>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    decimal totalPrice = 0.0m;
-                }
-                @foreach (var cartItem in Model)
-                {
-                    totalPrice += (cartItem.Price * cartItem.Quantity);
+<div class="container">
+    @if (Model.Count() > 0)
+    {
+        <form asp-controller="Cart" asp-action="Save" id="cartForm" method="post">
+            <table class="table">
+                <thead>
                     <tr>
-                        <td style="width: 15%">
-                            <div class="text-sm-center">
-                                @if (cartItem.MainImage != null)
-                                {
-                                    <img src="~/images/app/@cartItem.MainImage" class="cart-item-image" alt="@cartItem.Name" />
-                                }
-                                else
-                                {
-                                    <img src="~/images/system/no-image.png" class="cart-item-image" alt="@cartItem.Name" />
-                                }
-                            </div>
+                        <td></td>
+                        <td>Name</td>
+                        <td>Quantity</td>
+                        <td>Price</td>
+                        <td>Remove</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        decimal totalPrice = 0.0m;
+                    }
+                    @foreach (var cartItem in Model)
+                    {
+                        totalPrice += (cartItem.Price * cartItem.Quantity);
+                        <tr>
+                            <td style="width: 15%">
+                                <div class="text-sm-center">
+                                    @if (cartItem.MainImage != null)
+                                    {
+                                        <img src="@cartItem.MainImage" class="cart-item-image" alt="@cartItem.Name" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/images/system/no-image.png" class="cart-item-image" alt="@cartItem.Name" />
+                                    }
+                                </div>
+                            </td>
+                            <td style="width: 40%">
+                                <a href="/Product/@cartItem.SeoUrl" class="text-muted" title="@cartItem.Name">@cartItem.Name</a>
+                            </td>
+                            <td style="width: 17%">
+                                <input type="hidden" name="ids" value="@cartItem.Id" />
+                                <input type="text"
+                                       name="quantity-@cartItem.Id"
+                                       class="form-control cart-quantity-input"
+                                       data-val="true"
+                                       data-val-required="Quantity is required."
+                                       data-val-range="0 - @cartItem.MaxCartQuantity are allowed for this product."
+                                       data-val-range-min="0"
+                                       data-val-range-max="@cartItem.MaxCartQuantity"
+                                       value="@cartItem.Quantity" />
+                                <span class="field-validation-valid text-danger" data-valmsg-for="quantity-@cartItem.Id" data-valmsg-replace="true"></span>
+                            </td>
+                            <td style="width: 18%;">
+                                <div class="">@cartItem.Price.ToString("C2") ea.</div>
+                            </td>
+                            <td style="width: 10%">
+                                <button type="button" class="btn btn-danger remove"><i class="fa fa-close"></i></button>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td style="width: 15%" class="text-sm-right">
+                            <div></div>Total Price:
                         </td>
-                        <td style="width: 40%">
-                            <a href="/Product/@cartItem.SeoUrl" class="text-muted" title="@cartItem.Name">@cartItem.Name</a>
-                        </td>
-                        <td style="width: 17%">
-                            <input type="hidden" name="ids" value="@cartItem.Id" />
-                            <input type="text"
-                                   name="quantity-@cartItem.Id"
-                                   class="form-control cart-quantity-input"
-                                   data-val="true"
-                                   data-val-required="Quantity is required."
-                                   data-val-range="0 - @cartItem.MaxCartQuantity are allowed for this product."
-                                   data-val-range-min="0"
-                                   data-val-range-max="@cartItem.MaxCartQuantity"
-                                   value="@cartItem.Quantity" />
-                            <span class="field-validation-valid text-danger" data-valmsg-for="quantity-@cartItem.Id" data-valmsg-replace="true"></span>
-                        </td>
-                        <td style="width: 18%;">
-                            <div class="">@cartItem.Price.ToString("C2") ea.</div>
-                        </td>
-                        <td style="width: 10%">
-                            <button type="button" class="btn btn-danger remove"><i class="fa fa-close"></i></button>
+                        <td style="width: 15%">@totalPrice.ToString("C2")</td>
+                        <td style="width: 10%"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <button type="button" id="save" class="btn btn-success">Save</button>
+                            <a asp-controller="Cart" asp-action="Checkout" class="btn btn-primary">Checkout</a>
                         </td>
                     </tr>
+                </tbody>
+            </table>
+        </form>
+    }
+    else
+    {
+        <h5>Cart is empty.</h5>
+    }
+
+    @section Scripts {
+        @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    }
+
+    <script>
+        $(function () {
+            $('#save').on('click', function (e) {
+                e.preventDefault();
+
+                var result = $('#cartForm').valid();
+
+                if (result != 0) {
+                    $('input.cart-quantity-input').each(function () {
+                        var input = $(this);
+                        input.attr('name', "quantity");
+                    });
+
+                    $('#cartForm').submit();
                 }
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td style="width: 15%" class="text-sm-right">
-                        <div></div>Total Price:
-                    </td>
-                    <td style="width: 15%">@totalPrice.ToString("C2")</td>
-                    <td style="width: 10%"></td>
-                </tr>
-                <tr>
-                    <td colspan="5">
-                        <button type="button" id="save" class="btn btn-success">Save</button>
-                        <a asp-controller="Cart" asp-action="Checkout" class="btn btn-primary">Checkout</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </form>
-}
-else
-{
-    <div>Cart is empty.</div>
-}
+            });
 
-@section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-}
-
-<script>
-    $(function () {
-        $('#save').on('click', function (e) {
-            e.preventDefault();
-
-            var result = $('#cartForm').valid();
-
-            if (result != 0) {
-                $('input.cart-quantity-input').each(function () {
-                    var input = $(this);
-                    input.attr('name', "quantity");
-                });
-
-                $('#cartForm').submit();
-            }
+            $('.remove').on('click', function () {
+                var tr = $(this).parent().parent().remove();
+            });
         });
-
-        $('.remove').on('click', function () {
-            var tr = $(this).parent().parent().remove();
-        });
-    });
-</script>
+    </script>
+</div>

@@ -207,7 +207,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
                 var spec = new ProductSpecificationModel
                 {
                     Key = specification.SpecificationId.ToString(),
-                    Value = specification.Value,
+                    Value = System.Net.WebUtility.HtmlDecode(specification.Value),
                     SortOrder = specification.SortOrder
                 };
                 specifications.Add(spec);
@@ -215,6 +215,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
 
             // map entity to view model
             var model = _mapper.Map<Product, ProductCreateOrUpdateModel>(productEntity);
+            model.Description = System.Net.WebUtility.HtmlDecode(model.Description);
             model.CategoryIds = categoryIds;
             model.ManufacturerIds = manufacturerIds;
             model.Images = images;

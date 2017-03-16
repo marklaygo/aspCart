@@ -3,81 +3,83 @@
     ViewData["Title"] = "Order History";
 }
 
-<h5>Order ID: # @Model.OrderNumber <small><a asp-controller="Manage" asp-action="OrderHistoryList" class="fa fa-arrow-circle-left"> back</a></small></h5>
-<hr />
-<div class="card card-block order-history">
-    <div class="row">
-        <div class="col-sm-4">
-            <h6>Billing Address</h6>
-            <hr />
-            <div>Name: @(Model.BillingAdddress.FirstName + " " + Model.BillingAdddress.LastName) </div>
-            <div>Address: @Model.BillingAdddress.Address</div>
-            <div>City: @Model.BillingAdddress.City</div>
-            <div>State/Province: @Model.BillingAdddress.StateProvince</div>
-            <div>Country: @Model.BillingAdddress.Country</div>
-            <div>Zip/Postal Code: @Model.BillingAdddress.ZipPostalCode</div>
-            <div>Phone No: @Model.BillingAdddress.Telephone</div>
-            <div></div>
+<div class="container">
+    <h5>Order ID: # @Model.OrderNumber <small><a asp-controller="Manage" asp-action="OrderHistoryList" class="fa fa-arrow-circle-left"> back</a></small></h5>
+    <hr />
+    <div class="card card-block order-history">
+        <div class="row">
+            <div class="col-sm-4">
+                <h6>Billing Address</h6>
+                <hr />
+                <div>Name: @(Model.BillingAdddress.FirstName + " " + Model.BillingAdddress.LastName) </div>
+                <div>Address: @Model.BillingAdddress.Address</div>
+                <div>City: @Model.BillingAdddress.City</div>
+                <div>State/Province: @Model.BillingAdddress.StateProvince</div>
+                <div>Country: @Model.BillingAdddress.Country</div>
+                <div>Zip/Postal Code: @Model.BillingAdddress.ZipPostalCode</div>
+                <div>Phone No: @Model.BillingAdddress.Telephone</div>
+                <div></div>
+            </div>
+            <div class="col-sm-4">
+                <h6>Order's Info</h6>
+                <hr />
+                <div>Order ID: # @Model.OrderNumber</div>
+                @if (Model.Status.ToString() == "Pending")
+                {
+                    <div>Status: <span class="badge badge-warning">@Model.Status</span></div>
+                }
+                else if (Model.Status.ToString() == "Processing")
+                {
+                    <div>Status: <span class="badge badge-info">@Model.Status</span></div>
+                }
+                else if (Model.Status.ToString() == "Complete")
+                {
+                    <div>Status: <span class="badge badge-success">@Model.Status</span></div>
+                }
+                else if (Model.Status.ToString() == "Cancelled")
+                {
+                    <div>Status: <span class="badge badge-danger">@Model.Status</span></div>
+                }
+                <div>Order placement date: @Model.OrderPlacedDateTime</div>
+            </div>
+            <div class="col-sm-4">
+                <h6>Payment's Info</h6>
+                <hr />
+            </div>
         </div>
-        <div class="col-sm-4">
-            <h6>Order's Info</h6>
-            <hr />
-            <div>Order ID: # @Model.OrderNumber</div>
-            @if (Model.Status.ToString() == "Pending")
-            {
-                <div>Status: <span class="badge badge-warning">@Model.Status</span></div>
-            }
-            else if (Model.Status.ToString() == "Processing")
-            {
-                <div>Status: <span class="badge badge-info">@Model.Status</span></div>
-            }
-            else if (Model.Status.ToString() == "Complete")
-            {
-                <div>Status: <span class="badge badge-success">@Model.Status</span></div>
-            }
-            else if (Model.Status.ToString() == "Cancelled")
-            {
-                <div>Status: <span class="badge badge-danger">@Model.Status</span></div>
-            }
-            <div>Order placement date: @Model.OrderPlacedDateTime</div>
-        </div>
-        <div class="col-sm-4">
-            <h6>Payment's Info</h6>
-            <hr />
-        </div>
-    </div>
 
-    <br />
-    <div>Items: </div>
-    <div class="row">
-        <div class="col-xs-12 table-responsive">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <td>Name</td>
-                        <td>Qauntity</td>
-                        <td>Price</td>
-                        <td>SubTotal</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.Items)
-                    {
+        <br />
+        <div>Items: </div>
+        <div class="row">
+            <div class="col-xs-12 table-responsive">
+                <table class="table table-striped">
+                    <thead>
                         <tr>
-                            <td>@item.Name</td>
-                            <td>@item.Quantity</td>
-                            <td>@item.Price.ToString("C2")</td>
-                            <td>@item.TotalPrice.ToString("C2")</td>
+                            <td>Name</td>
+                            <td>Qauntity</td>
+                            <td>Price</td>
+                            <td>SubTotal</td>
                         </tr>
-                    }
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td class="float-sm-right">Total Price</td>
-                        <td>@Model.TotalOrderPrice.ToString("C2")</td>
-                    </tr>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>@item.Quantity</td>
+                                <td>@item.Price.ToString("C2")</td>
+                                <td>@item.TotalPrice.ToString("C2")</td>
+                            </tr>
+                        }
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td class="float-sm-right">Total Price</td>
+                            <td>@Model.TotalOrderPrice.ToString("C2")</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

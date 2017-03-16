@@ -3,77 +3,79 @@
     ViewData["Title"] = "Edit billing address";
 }
 
-<form asp-controller="Manage" asp-action="EditBillingAddress" method="post" class="form-horizontal">
-    <h4>Edit Billing Address</h4>
-    <hr />
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8">
-            <div class="form-horizontal">
-                <div class="form-group row">
-                    <div class="col-sm-6">
-                        <label asp-for="FirstName" class="control-label"></label>
-                        <input asp-for="FirstName" class="form-control" />
-                        <span asp-validation-for="FirstName" class="text-danger"></span>
+<div class="container">
+    <form asp-controller="Manage" asp-action="EditBillingAddress" method="post" class="form-horizontal">
+        <h4>Edit Billing Address</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8">
+                <div class="form-horizontal">
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label asp-for="FirstName" class="control-label"></label>
+                            <input asp-for="FirstName" class="form-control" />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <label asp-for="LastName" class="control-label"></label>
+                            <input asp-for="LastName" class="form-control" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
                     </div>
-                    <div class="col-sm-6">
-                        <label asp-for="LastName" class="control-label"></label>
-                        <input asp-for="LastName" class="form-control" />
-                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <label asp-for="Email" class="control-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-12">
-                        <label asp-for="Email" class="control-label"></label>
-                        <input asp-for="Email" class="form-control" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <label asp-for="Address" class="control-label"></label>
+                            <input asp-for="Address" class="form-control" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-12">
-                        <label asp-for="Address" class="control-label"></label>
-                        <input asp-for="Address" class="form-control" />
-                        <span asp-validation-for="Address" class="text-danger"></span>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label asp-for="City" class="control-label"></label>
+                            <input asp-for="City" class="form-control" />
+                            <span asp-validation-for="City" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <label asp-for="StateProvince" class="control-label"></label>
+                            <input asp-for="StateProvince" class="form-control" />
+                            <span asp-validation-for="StateProvince" class="text-danger"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-6">
-                        <label asp-for="City" class="control-label"></label>
-                        <input asp-for="City" class="form-control" />
-                        <span asp-validation-for="City" class="text-danger"></span>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label asp-for="ZipPostalCode" class="control-label"></label>
+                            <input asp-for="ZipPostalCode" class="form-control" />
+                            <span asp-validation-for="ZipPostalCode" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <label asp-for="Country" class="control-label"></label>
+                            <input asp-for="Country" class="form-control" />
+                            <span asp-validation-for="Country" class="text-danger"></span>
+                        </div>
                     </div>
-                    <div class="col-sm-6">
-                        <label asp-for="StateProvince" class="control-label"></label>
-                        <input asp-for="StateProvince" class="form-control" />
-                        <span asp-validation-for="StateProvince" class="text-danger"></span>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <label asp-for="Telephone" class="control-label"></label>
+                            <input asp-for="Telephone" class="form-control" />
+                            <span asp-validation-for="Telephone" class="text-danger"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-6">
-                        <label asp-for="ZipPostalCode" class="control-label"></label>
-                        <input asp-for="ZipPostalCode" class="form-control" />
-                        <span asp-validation-for="ZipPostalCode" class="text-danger"></span>
-                    </div>
-                    <div class="col-sm-6">
-                        <label asp-for="Country" class="control-label"></label>
-                        <input asp-for="Country" class="form-control" />
-                        <span asp-validation-for="Country" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-12">
-                        <label asp-for="Telephone" class="control-label"></label>
-                        <input asp-for="Telephone" class="form-control" />
-                        <span asp-validation-for="Telephone" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-md-offset-2 col-md-10">
-                        <button type="submit" class="btn btn-primary">Save</button>
-                        <a asp-action="Index" class="btn btn-secondary"> Cancel</a>
+                    <div class="form-group row">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <a asp-action="Index" class="btn btn-secondary"> Cancel</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
+</div>

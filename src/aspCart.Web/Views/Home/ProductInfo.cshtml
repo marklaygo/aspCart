@@ -11,7 +11,7 @@
                     var mainImageSrc = "/images/system/no-image.png";
                     if (Model.MainImage != null)
                     {
-                        mainImageSrc = "/images/app/" + Model.MainImage;
+                        mainImageSrc = Model.MainImage;
                     }
                 }
                 <img class="product-main-image img-fluid" src="@mainImageSrc" alt="@Model.Name" />
@@ -19,7 +19,16 @@
         </div>
         <div class="col-md-8">
             <h4>@Model.Name</h4>
-            <h6>$@Model.Price</h6>
+            @{
+                string mLink = "";
+                foreach (var manufacturer in Model.Manufacturers)
+                {
+                    mLink += "<a href=\"#\">" + manufacturer.Name + "</a>, ";
+                }
+                mLink = mLink.TrimEnd(new char[] { ' ', ',' });
+            }
+            <h6>@Html.Raw(mLink)</h6>
+            <h6>@Model.Price.ToString("C2")</h6>
             <form asp-area="" asp-controller="Cart" asp-action="Add" method="post">
                 <input type="hidden" value="@Model.Id" name="id" />
                 <button type="submit" id="addToCart" class="btn btn-primary btn-sm">Add to cart</button>

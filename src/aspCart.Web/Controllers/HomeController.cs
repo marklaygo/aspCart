@@ -70,15 +70,26 @@ namespace aspCart.Web.Controllers
                 if(productEntity != null)
                 {
                     var productModel = _mapper.Map<Product, ProductModel>(productEntity);
+                    productModel.Description = System.Net.WebUtility.HtmlDecode(productModel.Description);
 
                     // get image
-                    if(productEntity.Images.Count > 0)
+                    if (productEntity.Images.Count > 0)
                     {
                         productModel.MainImage = productEntity.Images
                             .OrderBy(x => x.SortOrder)
                             .ThenBy(x => x.Position)
                             .FirstOrDefault()
                             .Image.FileName;
+                    }
+
+                    var manufacturers = productEntity.Manufacturers;
+                    foreach(var manufacturer in manufacturers)
+                    {
+                        productModel.Manufacturers.Add(new ManufacturerModel
+                        {
+                            Name = manufacturer.Manufacturer.Name,
+                            SeoUrl = manufacturer.Manufacturer.SeoUrl
+                        });
                     }
 
                     // get all specifications
@@ -88,7 +99,7 @@ namespace aspCart.Web.Controllers
                         productModel.Specifications.Add(new SpecificationModel
                         {
                             Key = specification.Specification.Name,
-                            Value = specification.Value,
+                            Value = System.Net.WebUtility.HtmlDecode(specification.Value),
                             SortOrder = specification.SortOrder
                         });
                     }

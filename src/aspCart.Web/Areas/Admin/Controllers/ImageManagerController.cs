@@ -111,7 +111,7 @@ namespace aspCart.Web.Areas.Admin.Controllers
                         var productImage = new Image
                         {
                             Id = Guid.NewGuid(),
-                            FileName = imageFileName
+                            FileName = "/images/app/" + imageFileName
                         };
 
                         // save image to local disk

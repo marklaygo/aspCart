@@ -1,0 +1,15 @@
+﻿@model IEnumerable<aspCart.Core.Domain.Catalog.Category>
+
+<ul class="navbar-nav">
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="categoryDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Categories
+        </a>
+        <div class="dropdown-menu" aria-labelledby="categoryDropdown">
+            @foreach (var category in Model)
+            {
+                <a href="#" class="dropdown-item">@category.Name</a>
+            }
+        </div>
+    </li>
+</ul>

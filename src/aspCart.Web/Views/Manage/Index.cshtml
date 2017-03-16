@@ -3,27 +3,29 @@
     ViewData["Title"] = "Manage your account";
 }
 
-<p class="text-success">@ViewData["StatusMessage"]</p>
-<div>
-    <h4>Change your account settings</h4>
-    <hr />
-    <div class="form-horizontal">
-        <div class="form-group row">
-            <label class="col-md-2 control-label">Password: </label>
-            <div class="col-md-10">
-                <a asp-controller="Manage" asp-action="ChangePassword" class="btn-bracketed">Change Password</a>
+<div class="container">
+    <p class="text-success">@ViewData["StatusMessage"]</p>
+    <div>
+        <h4>Change your account settings</h4>
+        <hr />
+        <div class="form-horizontal">
+            <div class="form-group row">
+                <label class="col-md-2 control-label">Password: </label>
+                <div class="col-md-10">
+                    <a asp-controller="Manage" asp-action="ChangePassword" class="btn-bracketed">Change Password</a>
+                </div>
             </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-md-2 control-label">Billing address: </label>
-            <div class="col-md-10">
-                <a asp-controller="Manage" asp-action="EditBillingAddress" class="btn-bracketed">Edit Billing Address</a>
+            <div class="form-group row">
+                <label class="col-md-2 control-label">Billing address: </label>
+                <div class="col-md-10">
+                    <a asp-controller="Manage" asp-action="EditBillingAddress" class="btn-bracketed">Edit Billing Address</a>
+                </div>
             </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-md-2 control-label">Order's history: </label>
-            <div class="col-md-10">
-                <a asp-controller="Manage" asp-action="OrderHistoryList" class="btn-bracketed">View</a>
+            <div class="form-group row">
+                <label class="col-md-2 control-label">Order's history: </label>
+                <div class="col-md-10">
+                    <a asp-controller="Manage" asp-action="OrderHistoryList" class="btn-bracketed">View</a>
+                </div>
             </div>
         </div>
     </div>

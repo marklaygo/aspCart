@@ -9,6 +9,7 @@ namespace aspCart.Web.Models
     {
         public ProductModel()
         {
+            Manufacturers = new List<ManufacturerModel>();
             Specifications = new List<SpecificationModel>();
         }
 
@@ -29,6 +30,8 @@ namespace aspCart.Web.Models
         public string MetaKeywords { get; set; }
 
         public string MetaDescription { get; set; }
+
+        public List<ManufacturerModel> Manufacturers { get; set; }
 
         public List<SpecificationModel> Specifications { get; set; }
     }
