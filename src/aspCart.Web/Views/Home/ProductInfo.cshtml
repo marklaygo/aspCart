@@ -23,7 +23,8 @@
                 string mLink = "";
                 foreach (var manufacturer in Model.Manufacturers)
                 {
-                    mLink += "<a href=\"#\">" + manufacturer.Name + "</a>, ";
+                    mLink += "<a href=\"/Manufacturer/" + manufacturer.Name + "\">" + @manufacturer.Name + "</a>, ";
+                    // <a asp-area="" asp-controller="Manufacturer" asp-action="@manufacturer.Name">@manufacturer.Name</a>
                 }
                 mLink = mLink.TrimEnd(new char[] { ' ', ',' });
             }
