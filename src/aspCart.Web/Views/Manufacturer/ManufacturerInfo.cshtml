@@ -5,7 +5,7 @@
 
 <div class="row-side">
     <div class="left-nav">
-        @await Component.InvokeAsync("Filter")
+        @await Component.InvokeAsync("Filter", new { isManufacturerViewFilter = true, manufacturer = ViewData["Manufacturer"] })
     </div>
 </div>
 <div class="row">

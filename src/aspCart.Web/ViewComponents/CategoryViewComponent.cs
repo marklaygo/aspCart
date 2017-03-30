@@ -19,7 +19,9 @@ namespace aspCart.Web.ViewComponents
 
         public IViewComponentResult Invoke()
         {
-            return View(_categoryService.GetAllCategoriesWithoutParent());
+            return View(
+                _categoryService.GetAllCategoriesWithoutParent().Where(x => x.Published)
+            );
         }
     }
 }

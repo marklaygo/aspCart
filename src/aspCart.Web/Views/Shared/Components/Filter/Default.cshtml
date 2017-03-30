@@ -1,1 +1,17 @@
-﻿filter placeholder
+﻿@model IEnumerable<CategoryFilterViewModel>
+
+<h5>Item filter</h5><br />
+
+<h6>Category</h6>
+<hr />
+<form asp-area="" asp-controller="Manufacturer" asp-action="ManufacturerInfo" method="get">
+    @foreach (var category in Model)
+    {
+        <div>
+            <input type="checkbox" id="@category.Id" name="Category" value="@category.Name" />
+            <label for="@category.Id">@category.Name</label>
+            (@category.Quantity)
+        </div>
+    }
+    <button type="submit" class="btn btn-sm btn-primary">Apply</button>
+</form>

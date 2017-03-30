@@ -60,7 +60,8 @@ namespace aspCart.Web.Helpers
 
             var categoryList = new List<Category>
             {
-                new Category { Id = new Guid("8c4825ef-8c4c-4162-b2e3-08d46c337976"), Name = "Laptop", SeoUrl = "Laptop", DateAdded = DateTime.Now, DateModified = DateTime.Now, ParentCategoryId = Guid.Empty }
+                new Category { Id = new Guid("8c4825ef-8c4c-4162-b2e3-08d46c337976"), Name = "Laptop", SeoUrl = "Laptop", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now, ParentCategoryId = Guid.Empty },
+                new Category { Id = new Guid("fdc32bdd-013d-4ced-9106-c3e722e4650a"), Name = "Video Card", SeoUrl = "Video-Card", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now, ParentCategoryId = Guid.Empty }
             };
             context.Categories.AddRange(categoryList);
             await context.SaveChangesAsync();
@@ -78,7 +79,8 @@ namespace aspCart.Web.Helpers
             var imageList = new List<Image>
             {
                 new Image { Id = new Guid("1c34435f-2dc2-45fc-a903-7bca40eb5674"), FileName = "/images/test_images/ROG G701VI (7th Gen Intel Core).jpg" },
-                new Image { Id = new Guid("dd733338-513d-4e30-9e7f-d4b09f975dd3"), FileName = "/images/test_images/Predator_17X.png" }
+                new Image { Id = new Guid("dd733338-513d-4e30-9e7f-d4b09f975dd3"), FileName = "/images/test_images/Predator_17X.png" },
+                new Image { Id = new Guid("af740663-4919-47dd-b2a5-a393af28bbd5"), FileName = "/images/test_images/asus gtx 1080 ti founder.jpg" }
             };
 
             context.Images.AddRange(imageList);
@@ -87,22 +89,32 @@ namespace aspCart.Web.Helpers
             // specification
             var specificationList = new List<Specification>
             {
-                new Specification { Id = new Guid("75477c08-8245-4211-ab74-9c7c14d4dae9"), Name = "Processor", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
-                new Specification { Id = new Guid("ed46ee55-ac40-4d77-80be-69ab6b0d010c"), Name = "Operating", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
-                new Specification { Id = new Guid("f48d837a-22e1-43e1-967a-a989d5889f37"), Name = "Chipset", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
-                new Specification { Id = new Guid("928a7270-7d70-4a37-9440-c650c2a6d782"), Name = "Memory", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
-                new Specification { Id = new Guid("6144e4ab-722e-4b13-bffe-6f0ea8b168b2"), Name = "Display", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
-                new Specification { Id = new Guid("27201fbe-59d6-42a4-b698-a75dcb3e9f52"), Name = "Graphic", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
-                new Specification { Id = new Guid("8ad5f582-c787-4ba2-a49e-d8f8dd2ee621"), Name = "Storage", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
-                new Specification { Id = new Guid("c2a6ac96-7de8-4bdc-a322-fc56f27c8fc8"), Name = "Keyboard", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
-                new Specification { Id = new Guid("e611379b-5c1f-4286-8a54-9c8c45a5697d"), Name = "WebCam", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
-                new Specification { Id = new Guid("f7af0f50-137c-4ce6-b27d-920c83d4ebc7"), Name = "Networking", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
-                new Specification { Id = new Guid("eca1dc44-190e-4806-ba8a-1af16fbd8d24"), Name = "Interface", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("58f74c41-14b7-426f-aa46-ddbd73989292"), Name = "Accessories", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("d957dae6-c254-4266-b45c-27fa04f00761"), Name = "Battery", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("f48d837a-22e1-43e1-967a-a989d5889f37"), Name = "Chipset", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("e229d9c0-459c-44f9-8f7d-d670cfb4d1d6"), Name = "CUDA Core", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("19dfc537-f02a-4c7d-9919-5b939d08186f"), Name = "Dimensions", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
-                new Specification { Id = new Guid("93d8b1f6-8a3d-41e5-b3d5-7513bd7f3b33"), Name = "Weight", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("6144e4ab-722e-4b13-bffe-6f0ea8b168b2"), Name = "Display", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("6dcd49e6-7aa5-4971-80d3-30be12898633"), Name = "Engine Clock", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("42f0a5df-e976-4ab6-adab-e260f9cef244"), Name = "Gaming Series", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("27201fbe-59d6-42a4-b698-a75dcb3e9f52"), Name = "Graphic", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("a0e252f2-39df-4f19-a139-260dd2935097"), Name = "Graphics Engine", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("eca1dc44-190e-4806-ba8a-1af16fbd8d24"), Name = "Interface", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("c2a6ac96-7de8-4bdc-a322-fc56f27c8fc8"), Name = "Keyboard", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("928a7270-7d70-4a37-9440-c650c2a6d782"), Name = "Memory", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("20dabff6-aea8-4197-88a6-a3de73d9c36c"), Name = "Memory Clock", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("d969d702-d7da-4eac-b203-2450c576bde7"), Name = "Memory Interface", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("f7af0f50-137c-4ce6-b27d-920c83d4ebc7"), Name = "Networking", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("ed46ee55-ac40-4d77-80be-69ab6b0d010c"), Name = "Operating", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("1ecc8164-69d8-4134-96a3-8ac89618be75"), Name = "Power Connectors", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("75477c08-8245-4211-ab74-9c7c14d4dae9"), Name = "Processor", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("9ed7299e-1637-4809-a375-5d0bdff8b613"), Name = "Resolution", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("1c9cef2e-b9df-4c90-b88e-f45f7d688646"), Name = "Software", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("8ad5f582-c787-4ba2-a49e-d8f8dd2ee621"), Name = "Storage", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("2db5ac64-a42d-4bad-8eba-d26ff4e7f727"), Name = "Video Memory", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("88bcd475-ceb8-4ae3-a385-c3ec07b787e7"), Name = "VR", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
-                new Specification { Id = new Guid("42f0a5df-e976-4ab6-adab-e260f9cef244"), Name = "Gaming Series", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now }
+                new Specification { Id = new Guid("e611379b-5c1f-4286-8a54-9c8c45a5697d"), Name = "WebCam", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("93d8b1f6-8a3d-41e5-b3d5-7513bd7f3b33"), Name = "Weight", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now }
             };
 
             context.Specifications.AddRange(specificationList);
@@ -196,7 +208,49 @@ namespace aspCart.Web.Helpers
                         new ProductSpecificationMapping { ProductId = new Guid("c85f8f8b-3245-4be5-9fa7-96f1df2dbdc7"), SpecificationId = new Guid("eca1dc44-190e-4806-ba8a-1af16fbd8d24"), Value = "4 x USB 3.0 (One with Power-off Charging)<br />1 x Thunderbolt 3 (Full USB 3.1 Type C)<br />1 x DisplayPort<br />1 x HDMI 2.0<br />1 x Headphone / Speaker / Line-out Jack", SortOrder = 0, Position = 8 },
                         new ProductSpecificationMapping { ProductId = new Guid("c85f8f8b-3245-4be5-9fa7-96f1df2dbdc7"), SpecificationId = new Guid("d957dae6-c254-4266-b45c-27fa04f00761"), Value = "8-cell Li-ion Battery (6000 mAh)", SortOrder = 0, Position = 9 },
                         new ProductSpecificationMapping { ProductId = new Guid("c85f8f8b-3245-4be5-9fa7-96f1df2dbdc7"), SpecificationId = new Guid("19dfc537-f02a-4c7d-9919-5b939d08186f"), Value = "16.65\" x 12.66\" x 1.77\" (WxDxH)", SortOrder = 0, Position = 10 },
-                        new ProductSpecificationMapping { ProductId = new Guid("c85f8f8b-3245-4be5-9fa7-96f1df2dbdc7"), SpecificationId = new Guid("93d8b1f6-8a3d-41e5-b3d5-7513bd7f3b33"), Value = "10.03 lbs.", SortOrder = 0, Position = 10 }
+                        new ProductSpecificationMapping { ProductId = new Guid("c85f8f8b-3245-4be5-9fa7-96f1df2dbdc7"), SpecificationId = new Guid("93d8b1f6-8a3d-41e5-b3d5-7513bd7f3b33"), Value = "10.03 lbs.", SortOrder = 0, Position = 11 }
+                    }
+                },
+                new Product // asus gtx 1080 ti founder
+                {
+                    Id = new Guid("9de9aad6-7dca-4861-842f-20021a2c5fa0"),
+                    Name = "ASUS GeForce GTX 1080 TI 11GB GDDR5X Founders Edition",
+                    Description = "<ul><li>Fastest gaming GPU with 3584 NVIDIA\u00AE CUDA\u00AE cores and massive 11GB frame buffer, delivering 35% faster performance than the GeForce GTX 1080</li><li>Get up to 3X the performance and power efficiency of previous generation GPUs.</li><li>Ultra-fast FinFET and high-speed GDDR5X technologies, plus support for DirectX\u2122 12 features.</li><li>NVIDIA GameWorks\u2122 for a more interactive and cinematic experience, as well as incredibly smooth gameplay.</li><li>ASUS GPU Tweak II with XSplit Gamecaster for intuitive performance tweaking and instant gameplay streaming.</li></ul><br /><br /><strong>Ultimate ASUS GeForce GTX 1080 Ti</strong><hr /><br /><img alt=\"\" src=\"https://www.asus.com/websites/global/products/jkXGrxp17lHUXBxV/img/GTX1080-8G_3D_500.png\" style=\"height:210px; width:300px\" /><br /><br />ASUS GeForce\u00AE GTX 1080 Ti Founders Edition is the most powerful and efficient hardware that is up to 35% faster than the GeForce GTX 1080, and is even faster in games than the NVIDIA TITAN X. The card is packed with extreme gaming horsepower, next-gen 11 Gbps GDDR5X memory, and a massive 11GB frame buffer. It is bundled with a free 1-year premium license of customized ASUS GPU Tweak II and XSplit Gamecaster for intuitive performance tweaking and instant gameplay streaming.<br /><br /><br /><strong>Ultimate GeForce</strong><hr /><img alt=\"\" src=\"http://cdn.wccftech.com/wp-content/uploads/2012/12/GeForce-logo.jpg\" style=\"height:88px; width:200px\" /><br /><br />The GeForce\u00AE GTX 1080 Ti is NVIDIA\u2019s new flagship gaming GPU, based on the NVIDIA Pascal\u2122 architecture. The latest addition to the ultimate gaming platform, this card is packed with extreme gaming horsepower, next-gen 11 Gbps GDDR5X memory, and a massive 11 GB frame buffer. #GameReady.<br /><br /><br /><strong>Performance</strong><hr />The GeForce\u00AE GTX 1080 Ti is the world\u2019s fastest gaming GPU. 3584 NVIDIA\u00AE CUDA\u00AE cores and a massive 11 GB frame buffer deliver 35% faster performance than the GeForce GTX 1080.<br /><br /><br /><strong>NVIDIA Pascal</strong><hr />GeForce\u00AE GTX 10-Series graphics cards are powered by Pascal to deliver up to 3X the performance of previous-generation graphics cards, plus breakthrough gaming technologies and VR experiences.<br /><br /><br /><strong>VR Ready</strong><hr /><img alt=\"\" src=\"http://images.nvidia.com/content/virtual-reality/vr-ready-program/geforce-gtx-virtual-reality.jpg\" style=\"height:96px; width:400px\" /><br />Discover next-generation VR performance, the lowest latency, and plug-and-play compatibility with leading headsets\u2014driven by NVIDIA VRWorks\u2122 technologies. VR audio, physics, and haptics let you hear and feel every moment.<br /><br /><br /><strong>Innovative Design</strong><hr /><img alt=\"\" src=\"https://www.msi.com/asset/resize/image/global/product/product_10_20170302172320_58b7e488df2c8.png62405b38c58fe0f07fcef2367d8a9ba1/600.png\" style=\"height:240px; width:300px\" /><br />Unprecedented gaming horsepower. Exceptional craftsmanship. A 7-phase dualFET power supply. All cooled by a radial fan with an advanced vapor chamber designed to for consistent performance in even the most thermally challenging environments. This is the forward-thinking innovation that makes the GeForce\u00AE GTX 1080 Ti the Ultimate GeForce.",
+                    Price = 829.99m,
+                    StockQuantity = 1000,
+                    NotifyForQuantityBelow = 1,
+                    MinimumCartQuantity = 1,
+                    MaximumCartQuantity = 1000,
+                    SeoUrl = "ASUS-GeForce-GTX-1080-TI-11GB-GDDR5X-Founders-Edition",
+                    Published = true,
+                    DateAdded = DateTime.Now,
+                    DateModified = DateTime.Now,
+                    Categories = new List<ProductCategoryMapping>
+                    {
+                        new ProductCategoryMapping { ProductId = new Guid("9de9aad6-7dca-4861-842f-20021a2c5fa0"), CategoryId = new Guid("fdc32bdd-013d-4ced-9106-c3e722e4650a") }
+                    },
+                    Manufacturers = new List<ProductManufacturerMapping>
+                    {
+                        new ProductManufacturerMapping { ProductId = new Guid("9de9aad6-7dca-4861-842f-20021a2c5fa0"), ManufacturerId = new Guid("8d942bc6-7407-417f-92f2-08d46c31e55a") }
+                    },
+                    Images = new List<ProductImageMapping>
+                    {
+                        new ProductImageMapping { ProductId = new Guid("851559fb-1684-47d8-8fb9-348a39c90c7d"), ImageId = new Guid("af740663-4919-47dd-b2a5-a393af28bbd5"), SortOrder = 0, Position = 0 }
+                    },
+                    Specifications = new List<ProductSpecificationMapping>
+                    {
+                        new ProductSpecificationMapping { ProductId = new Guid("9de9aad6-7dca-4861-842f-20021a2c5fa0"), SpecificationId = new Guid("a0e252f2-39df-4f19-a139-260dd2935097"), Value = "NVIDIA GeForce GTX 1080 TI", SortOrder = 0, Position = 0 },
+                        new ProductSpecificationMapping { ProductId = new Guid("9de9aad6-7dca-4861-842f-20021a2c5fa0"), SpecificationId = new Guid("2db5ac64-a42d-4bad-8eba-d26ff4e7f727"), Value = "GDDR5X 11GB", SortOrder = 0, Position = 1 },
+                        new ProductSpecificationMapping { ProductId = new Guid("9de9aad6-7dca-4861-842f-20021a2c5fa0"), SpecificationId = new Guid("6dcd49e6-7aa5-4971-80d3-30be12898633"), Value = "GPU Boost Clock : 1582 MHz<br />GPU Base Clock : 1480 MHz", SortOrder = 0, Position = 2 },
+                        new ProductSpecificationMapping { ProductId = new Guid("9de9aad6-7dca-4861-842f-20021a2c5fa0"), SpecificationId = new Guid("e229d9c0-459c-44f9-8f7d-d670cfb4d1d6"), Value = "3584", SortOrder = 0, Position = 3 },
+                        new ProductSpecificationMapping { ProductId = new Guid("9de9aad6-7dca-4861-842f-20021a2c5fa0"), SpecificationId = new Guid("20dabff6-aea8-4197-88a6-a3de73d9c36c"), Value = "11010 MHz", SortOrder = 0, Position = 4 },
+                        new ProductSpecificationMapping { ProductId = new Guid("9de9aad6-7dca-4861-842f-20021a2c5fa0"), SpecificationId = new Guid("d969d702-d7da-4eac-b203-2450c576bde7"), Value = "352-bit", SortOrder = 0, Position = 5 },
+                        new ProductSpecificationMapping { ProductId = new Guid("9de9aad6-7dca-4861-842f-20021a2c5fa0"), SpecificationId = new Guid("9ed7299e-1637-4809-a375-5d0bdff8b613"), Value = "Digital Max Resolution: 7680 x 4320", SortOrder = 0, Position = 6 },
+                        new ProductSpecificationMapping { ProductId = new Guid("9de9aad6-7dca-4861-842f-20021a2c5fa0"), SpecificationId = new Guid("eca1dc44-190e-4806-ba8a-1af16fbd8d24"), Value = "HDMI Output : Yes x 1 (Native) (HDMI 2.0)<br />Display Port : Yes x 3 (Native) (Regular DP)<br />HDCP Support : Yes", SortOrder = 0, Position = 7 },
+                        new ProductSpecificationMapping { ProductId = new Guid("9de9aad6-7dca-4861-842f-20021a2c5fa0"), SpecificationId = new Guid("1ecc8164-69d8-4134-96a3-8ac89618be75"), Value = "1 x 6-pin, 1 x 8-pin", SortOrder = 0, Position = 8 },
+                        new ProductSpecificationMapping { ProductId = new Guid("9de9aad6-7dca-4861-842f-20021a2c5fa0"), SpecificationId = new Guid("58f74c41-14b7-426f-aa46-ddbd73989292"), Value = "1 x DP-DVI Dongle", SortOrder = 0, Position = 9 },
+                        new ProductSpecificationMapping { ProductId = new Guid("9de9aad6-7dca-4861-842f-20021a2c5fa0"), SpecificationId = new Guid("1c9cef2e-b9df-4c90-b88e-f45f7d688646"), Value = "ASUS GPU Tweak II & Driver", SortOrder = 0, Position = 10 },
+                        new ProductSpecificationMapping { ProductId = new Guid("9de9aad6-7dca-4861-842f-20021a2c5fa0"), SpecificationId = new Guid("19dfc537-f02a-4c7d-9919-5b939d08186f"), Value = "10.5 \" x 4.376 \" x 1.5 \" Inch<br />26.67 x 11.12 x3.81 Centimeter", SortOrder = 0, Position = 11 }
                     }
                 }
             };

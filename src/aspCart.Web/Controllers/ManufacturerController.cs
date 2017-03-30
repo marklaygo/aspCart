@@ -33,7 +33,7 @@ namespace aspCart.Web.Controllers
 
         #region Methods
 
-        public IActionResult ManufacturerInfo(string seo)
+        public IActionResult ManufacturerInfo([FromQuery] string[] category, string seo)
         {
             if(seo != null)
             {
@@ -57,7 +57,22 @@ namespace aspCart.Web.Controllers
                             .FileName;
                     }
 
-                    productList.Add(productModel);
+                    // filter result by category
+                    if(category.Length > 0)
+                    {
+                        foreach (var c in category)
+                        {
+                            if (product.Categories.Any(x => x.Category.Name == c))
+                            {
+                                productList.Add(productModel);
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        productList.Add(productModel);
+                    }
                 }
 
                 return View(productList);
