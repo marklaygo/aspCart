@@ -78,7 +78,7 @@ namespace aspCart.Web.Controllers
                     var tmpResult = new List<ProductModel>();
                     foreach (var p in price)
                     {
-                        var tmpPrice = p.Split(new char[] { ',' });
+                        var tmpPrice = p.Split(new char[] { '-' });
                         int minPrice = Convert.ToInt32(tmpPrice[0]);
                         int maxPrice = Convert.ToInt32(tmpPrice[1]);
 
@@ -88,7 +88,9 @@ namespace aspCart.Web.Controllers
                     }
                     result = tmpResult;
                 }
-                
+
+                var allFilters = category.Concat(price).ToList();
+                ViewData["SortKey"] = allFilters;
 
                 return View(result);
             }

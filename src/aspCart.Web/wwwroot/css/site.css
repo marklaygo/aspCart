@@ -95,3 +95,16 @@ a.card-title {
     border-right: 1px solid #ccc;
     box-sizing: border-box;
 }
+
+.sort-key {
+    font-size: 14px;
+}
+
+.badge-delete {
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.badge-delete:hover {
+    color: red;
+}

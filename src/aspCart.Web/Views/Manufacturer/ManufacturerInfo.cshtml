@@ -16,7 +16,32 @@
                 <hr />
             </div>
         </div>
-        <div class="row">
+        <div class="row"> <!-- sorting place holder -->
+            <div class="col-md-12">
+                <label>Sort by: </label>
+                <select id="sortBy">
+                    <option>Default</option>
+                    <option>Lowest Price</option>
+                    <option>Highest Price</option>
+                    <option>Best Selling</option>
+                    <option>Most Reviews</option>
+                    <option>Newest to Oldest</option>
+                </select>
+            </div>
+        </div>
+        <div class="row"> <!-- sort badge -->
+            <div class="col-md-12">
+                <div class="form-horizontal">
+                    @foreach (var c in (List<string>)ViewData["SortKey"])
+                    {
+                        <span class="badge badge-info sort-key">
+                            @c <span class="badge-delete" data-value="@c">x</span>
+                        </span>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 8px;"> <!-- main content -->
             @if (Model.Count() > 0)
             {
                 @foreach (var product in Model)
@@ -58,3 +83,22 @@
         </div>
     </div>
 </div>
+
+<script>
+    // recheck all selected filters
+    $(function () {
+        let sortKey = @Json.Serialize(ViewData["SortKey"]);
+        $.each(sortKey, function(index, value){
+            $("[id='" + value + "']").prop('checked', true);
+        });
+    });
+
+    $(function(){
+        $('.badge-delete').on('click', function() {
+            let idToDelete = $(this).data('value');
+            $(this).parent().remove();
+            $("[id='" + idToDelete + "']").prop('checked', false);
+            $('#filterForm').submit(); // submit form from file Views/Shared/Components/Filter/Default.cshtml
+        });
+    });
+</script>
