@@ -33,7 +33,7 @@ namespace aspCart.Web.Controllers
 
         #region Methods
 
-        public IActionResult ManufacturerInfo([FromQuery] string[] category, string seo)
+        public IActionResult ManufacturerInfo([FromQuery] string[] category, [FromQuery] string[] price, string seo)
         {
             if(seo != null)
             {
@@ -57,25 +57,40 @@ namespace aspCart.Web.Controllers
                             .FileName;
                     }
 
-                    // filter result by category
-                    if(category.Length > 0)
+                    // get all categories
+                    foreach(var c in product.Categories)
                     {
-                        foreach (var c in category)
-                        {
-                            if (product.Categories.Any(x => x.Category.Name == c))
-                            {
-                                productList.Add(productModel);
-                                break;
-                            }
-                        }
+                        productModel.Categories.Add(new CategoryModel { Name = c.Category.Name, SeoUrl = c.Category.SeoUrl });
                     }
-                    else
-                    {
-                        productList.Add(productModel);
-                    }
+
+                    productList.Add(productModel);
                 }
 
-                return View(productList);
+                var result = productList;
+
+                if(category.Length > 0)
+                {
+                    result = result.Where(x => x.Categories.Select(c => c.Name).Intersect(category).Count() > 0).ToList();
+                }
+
+                if(price.Length > 0)
+                {
+                    var tmpResult = new List<ProductModel>();
+                    foreach (var p in price)
+                    {
+                        var tmpPrice = p.Split(new char[] { ',' });
+                        int minPrice = Convert.ToInt32(tmpPrice[0]);
+                        int maxPrice = Convert.ToInt32(tmpPrice[1]);
+
+                        var r = result.Where(x => x.Price >= minPrice && x.Price <= maxPrice).ToList();
+
+                        if (r.Count > 0) { tmpResult.AddRange(r); }
+                    }
+                    result = tmpResult;
+                }
+                
+
+                return View(result);
             }
 
             return RedirectToAction("Index", "Home");

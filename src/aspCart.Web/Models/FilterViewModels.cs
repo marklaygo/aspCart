@@ -5,6 +5,15 @@ using System.Threading.Tasks;
 
 namespace aspCart.Web.Models
 {
+    public class FilterViewModel
+    {
+        public List<CategoryFilterViewModel> CategoryFilterViewModel { get; set; }
+
+        public IEnumerable<IGrouping<int, decimal>> PriceGroupings { get; set; }
+
+        public int[] PriceRange { get; set; }
+    }
+
     public class CategoryFilterViewModel
     {
         public Guid Id { get; set; }
