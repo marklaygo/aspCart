@@ -81,7 +81,8 @@ namespace aspCart.Web.Helpers
                 new Image { Id = new Guid("1c34435f-2dc2-45fc-a903-7bca40eb5674"), FileName = "/images/test_images/ROG G701VI (7th Gen Intel Core).jpg" },
                 new Image { Id = new Guid("dd733338-513d-4e30-9e7f-d4b09f975dd3"), FileName = "/images/test_images/Predator_17X.png" },
                 new Image { Id = new Guid("af740663-4919-47dd-b2a5-a393af28bbd5"), FileName = "/images/test_images/asus gtx 1080 ti founder.jpg" },
-                new Image { Id = new Guid("04096de0-531e-4f9d-848e-a2c36794181e"), FileName = "/images/test_images/asus gtx 1070 strix.png" }
+                new Image { Id = new Guid("04096de0-531e-4f9d-848e-a2c36794181e"), FileName = "/images/test_images/asus gtx 1070 strix.png" },
+                new Image { Id = new Guid("2f077ad1-ab0c-4ff0-864c-4b45e4c31d8c"), FileName = "/images/test_images/rog strix rx480 O8G gaming.jpg" }
             };
 
             context.Images.AddRange(imageList);
@@ -294,6 +295,47 @@ namespace aspCart.Web.Helpers
                         new ProductSpecificationMapping { ProductId = new Guid("d9122044-3401-4bee-aaac-9c7802a7027e"), SpecificationId = new Guid("58f74c41-14b7-426f-aa46-ddbd73989292"), Value = "2 x ROG Cable Ties", SortOrder = 0, Position = 9 },
                         new ProductSpecificationMapping { ProductId = new Guid("d9122044-3401-4bee-aaac-9c7802a7027e"), SpecificationId = new Guid("1c9cef2e-b9df-4c90-b88e-f45f7d688646"), Value = "ASUS GPU Tweak II & Driver", SortOrder = 0, Position = 10 },
                         new ProductSpecificationMapping { ProductId = new Guid("d9122044-3401-4bee-aaac-9c7802a7027e"), SpecificationId = new Guid("19dfc537-f02a-4c7d-9919-5b939d08186f"), Value = "11.73\" x 5.28\" x 1.57\" Inch<br />29.8 x 13.4 x4 Centimeter", SortOrder = 0, Position = 11 }
+                    }
+                },
+                new Product // rog strix rx480 O8G gaming
+                {
+                    Id = new Guid("5f1c200c-b551-4ceb-9273-3ccf9c4718da"),
+                    Name = "ROG STRIX RX480 O8G GAMING",
+                    Description = "<strong>ASUS ROG Strix RX 480 outshines the competition with Aura RGB Lighting</strong><hr /><ul><li>1330MHz boost clock in OC mode for outstanding performance and gaming experience</li><li>DirectCU III with Patented Wing-Blade Fans delivers 30% cooler and 3X quieter performance.</li><li>ASUS FanConnect features 4-pin GPU-controlled headers connected to system fans for optimal thermal performance.</li><li>Industry Only Auto-Extreme Technology with Super Alloy Power II delivers premium quality and best reliability.</li><li>Aura RGB Lighting to express personalized gaming style.</li><li>VR-friendly HDMI Ports for immersive virtual reality experiences.</li><li>GPU Tweak II with XSplit Gamecaster provides intuitive performance tweaking and lets you stream your gameplay instantly.</li></ul><br /><strong>OUTSHINE THE COMPETITION</strong><hr />ROG Strix Radeon RX 480 gaming graphics cards are packed with exclusive ASUS technologies, including DirectCU III Technology with Patented Wing-Blade Fans for 30% cooler and 3X quieter performance, and Industry-only Auto-Extreme Technology for premium quality and the best reliability. Aura RGB Lighting enables a gaming system personalization and VR-friendly HDMI ports let gamers easily enjoy immersive virtual reality experiences. ROG Strix Radeon RX 480 also has GPU Tweak II with XSplit Gamecaster that provides intuitive performance tweaking and instant gameplay streaming.<br /><br /><br /><img alt=\"\" src=\"https://www.asus.com/Graphics-Cards/ROG-STRIX-GTX1070-O8G-GAMING/overview/websites/global/products/IkF5VLiS13T4hUIG/img/overview.jpg\" style=\"height:300px; width:700px\" /><br /><br /><br /><strong>LEVEL UP PERFORMANCE</strong><hr />DOOM\u2122 Resolution: 3840 x 2160 Setting: Ultra<br /><img alt=\"\" src=\"https://www.asus.com/ROG-Republic-Of-Gamers/ROG-STRIX-RX480-O8G-GAMING/overview/websites/global/products/FEFh1zLUB6OEcm1o/img/performance-chart1.png\" style=\"height:202px; width:485px\" /><br /><br />Hitman\u2122 Resolution: 2560 x 1440 Setting: Ultra<br /><img alt=\"\" src=\"https://www.asus.com/ROG-Republic-Of-Gamers/ROG-STRIX-RX480-O8G-GAMING/overview/websites/global/products/FEFh1zLUB6OEcm1o/img/performance-chart2.png\" style=\"height:202px; width:485px\" /><br /><br /><br /><strong>GAME COOL AND PLAY SILENT</strong><hr /><ul><li><strong>DirectCU III Technology&nbsp;with Direct-GPU Contact Heatpipes</strong><ul><li>30% Cooler and 3X Quieter Performance</li><li>Exclusive DirectCU III cooling technology features direct-GPU contact heatpipes that transports more heat away from the GPU and outperform reference designs, achieving up to 30% cooler gaming performance.</li></ul></li></ul>\u00A0<ul><li><strong>Patented Triple Wing-Blade 0dB Fans</strong><ul><li>Max Air Flow with 105% More Air Pressure</li><li>DirectCU III features triple 0dB fans engineered with a patented wing-blade design that delivers maximum air flow and improved 105% static pressure over the heat sink, while operating at 3X quieter volumes than reference cards. The 0dB fans also let you enjoy games in complete silence and make DirectCU III the coolest and quietest graphics card in the market.</li></ul></li></ul>\u00A0<ul><li><strong>ASUS FanConnect</strong><ul><li>Targeted Supplemental Cooling</li><li>When gaming, GPU temperatures are often higher than CPU temps. However, chassis fans usually reference CPU temperatures only, which results in inefficient cooling of the system. For optimal thermal performance, ROG Strix graphics cards feature two 4-pin GPU-controlled headers that can be connected to system fans for targeted cooling.</li></ul></li></ul>",
+                    Price = 264.99m,
+                    StockQuantity = 1000,
+                    NotifyForQuantityBelow = 1,
+                    MinimumCartQuantity = 1,
+                    MaximumCartQuantity = 1000,
+                    SeoUrl = "ROG-STRIX-RX480-O8G-GAMING",
+                    Published = true,
+                    DateAdded = DateTime.Now,
+                    DateModified = DateTime.Now,
+                    Categories = new List<ProductCategoryMapping>
+                    {
+                        new ProductCategoryMapping { ProductId = new Guid("5f1c200c-b551-4ceb-9273-3ccf9c4718da"), CategoryId = new Guid("fdc32bdd-013d-4ced-9106-c3e722e4650a") }
+                    },
+                    Manufacturers = new List<ProductManufacturerMapping>
+                    {
+                        new ProductManufacturerMapping { ProductId = new Guid("5f1c200c-b551-4ceb-9273-3ccf9c4718da"), ManufacturerId = new Guid("8d942bc6-7407-417f-92f2-08d46c31e55a") }
+                    },
+                    Images = new List<ProductImageMapping>
+                    {
+                        new ProductImageMapping { ProductId = new Guid("5f1c200c-b551-4ceb-9273-3ccf9c4718da"), ImageId = new Guid("2f077ad1-ab0c-4ff0-864c-4b45e4c31d8c"), SortOrder = 0, Position = 0 }
+                    },
+                    Specifications = new List<ProductSpecificationMapping>
+                    {
+                        new ProductSpecificationMapping { ProductId = new Guid("5f1c200c-b551-4ceb-9273-3ccf9c4718da"), SpecificationId = new Guid("a0e252f2-39df-4f19-a139-260dd2935097"), Value = "AMD Radeon RX 480", SortOrder = 0, Position = 0 },
+                        new ProductSpecificationMapping { ProductId = new Guid("5f1c200c-b551-4ceb-9273-3ccf9c4718da"), SpecificationId = new Guid("2db5ac64-a42d-4bad-8eba-d26ff4e7f727"), Value = "GDDR5 8GB", SortOrder = 0, Position = 1 },
+                        new ProductSpecificationMapping { ProductId = new Guid("5f1c200c-b551-4ceb-9273-3ccf9c4718da"), SpecificationId = new Guid("6dcd49e6-7aa5-4971-80d3-30be12898633"), Value = "1330 MHz (OC Mode)<br />1310 MHz (Gaming Mode)<br />*Retail goods are with default Gaming Mode, OC Mode can be adjusted with one click on GPU Tweak II", SortOrder = 0, Position = 2 },
+                        new ProductSpecificationMapping { ProductId = new Guid("5f1c200c-b551-4ceb-9273-3ccf9c4718da"), SpecificationId = new Guid("20dabff6-aea8-4197-88a6-a3de73d9c36c"), Value = "8000 MHz", SortOrder = 0, Position = 3 },
+                        new ProductSpecificationMapping { ProductId = new Guid("5f1c200c-b551-4ceb-9273-3ccf9c4718da"), SpecificationId = new Guid("d969d702-d7da-4eac-b203-2450c576bde7"), Value = "256-bit", SortOrder = 0, Position = 4 },
+                        new ProductSpecificationMapping { ProductId = new Guid("5f1c200c-b551-4ceb-9273-3ccf9c4718da"), SpecificationId = new Guid("9ed7299e-1637-4809-a375-5d0bdff8b613"), Value = "Digital Max Resolution:7680 x 4320", SortOrder = 0, Position = 5 },
+                        new ProductSpecificationMapping { ProductId = new Guid("5f1c200c-b551-4ceb-9273-3ccf9c4718da"), SpecificationId = new Guid("eca1dc44-190e-4806-ba8a-1af16fbd8d24"), Value = "DVI Output : Yes x 1 (Native) (DVI-D)<br />HDMI Output : Yes x 2 (Native) (HDMI 2.0)<br />Display Port : Yes x 2 (Native) (Regular DP)<br />HDCP Support : Yes", SortOrder = 0, Position = 6 },
+                        new ProductSpecificationMapping { ProductId = new Guid("5f1c200c-b551-4ceb-9273-3ccf9c4718da"), SpecificationId = new Guid("1ecc8164-69d8-4134-96a3-8ac89618be75"), Value = "1 x 8-pin", SortOrder = 0, Position = 7 },
+                        new ProductSpecificationMapping { ProductId = new Guid("5f1c200c-b551-4ceb-9273-3ccf9c4718da"), SpecificationId = new Guid("58f74c41-14b7-426f-aa46-ddbd73989292"), Value = "2 x ROG Cable Ties", SortOrder = 0, Position = 8 },
+                        new ProductSpecificationMapping { ProductId = new Guid("5f1c200c-b551-4ceb-9273-3ccf9c4718da"), SpecificationId = new Guid("1c9cef2e-b9df-4c90-b88e-f45f7d688646"), Value = "ASUS GPU Tweak II & Driver<br />Aura (Graphics Card) Software", SortOrder = 0, Position = 9 },
+                        new ProductSpecificationMapping { ProductId = new Guid("5f1c200c-b551-4ceb-9273-3ccf9c4718da"), SpecificationId = new Guid("19dfc537-f02a-4c7d-9919-5b939d08186f"), Value = "11.73\" x 5.28\" x 1.57\" Inch<br />29.8 x 13.4 x4 Centimeter", SortOrder = 0, Position = 10 }
                     }
                 }
             };

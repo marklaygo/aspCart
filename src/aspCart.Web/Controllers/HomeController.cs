@@ -104,6 +104,7 @@ namespace aspCart.Web.Controllers
                         });
                     }
 
+                    ViewData["ProductId"] = productModel.Id;
                     return View(productModel);
                 }
             }

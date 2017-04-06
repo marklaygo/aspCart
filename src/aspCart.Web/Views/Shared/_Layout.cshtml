@@ -31,9 +31,6 @@
                     @await Component.InvokeAsync("Category")
                 </li>
                 <li class="nav-item">
-                    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="nav-link">Admin dashboard</a>
-                </li>
-                <li class="nav-item">
                     <form asp-area="" asp-controller="Home" asp-action="ProductSearch" method="get" class="form-inline">
                         <input class="form-control mr-sm-2" name="name" placeholder="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
@@ -43,6 +40,38 @@
             @await Html.PartialAsync("_LoginPartial")
         </div>
     </nav>
+
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="open-admin" id="open-admin">
+            <span class="fa fa-navicon">&nbsp;Admin</span>
+        </div>
+
+        <div class="admin-menu-body" id="admin-menu-body">
+            <div class="close-admin">
+                <span class="fa fa-close" id="close-admin"></span>
+            </div>
+            <div>
+                <ul>
+                    <li>
+                        <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin dashboard</a>
+                    </li>
+                    @if (ViewData["ProductId"] != null)
+                    {
+                        <li>
+                            <a asp-area="Admin" asp-controller="Product" asp-action="Edit" asp-route-id="@ViewData["ProductId"]">Edit product</a>
+                        </li>
+                    }
+                    <li>
+                        <a asp-area="Admin" asp-controller="Product" asp-action="List">Product Catalog</a>
+                    </li>
+                    <li>
+                        <a asp-area="Admin" asp-controller="Order" asp-action="List">Order List</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    }
     
     <div class="container-fluid">
         @RenderBody()
@@ -57,3 +86,25 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+<script>
+    $(function () {
+        if (JSON.parse(sessionStorage.getItem("isAdminMenuOpen")) === true) {
+            document.getElementById("admin-menu-body").style.transition = "0s";
+            document.getElementById("admin-menu-body").style.right = "0px";
+        }
+    });
+
+    $(function () {
+        $('#open-admin').on('click', function () {
+            document.getElementById("admin-menu-body").style.right = "0px";
+            sessionStorage.setItem("isAdminMenuOpen", JSON.stringify(true));
+        });
+
+        $('#close-admin').on('click', function () {
+            document.getElementById("admin-menu-body").style.transition = "0.5s";
+            document.getElementById("admin-menu-body").style.right = "-200px";
+            sessionStorage.setItem("isAdminMenuOpen", JSON.stringify(false));
+        });
+    });
+</script>

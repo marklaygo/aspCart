@@ -108,3 +108,53 @@ a.card-title {
 .badge-delete:hover {
     color: red;
 }
+
+.open-admin {
+    font-size: 18px;
+    position: fixed;
+    right: 0;
+    background-color: #3c8dbc;
+    padding: 8px;
+    z-index: 1010;
+    color: white;
+}
+
+.close-admin {
+    font-size: 18px;
+    margin: 10px 0 0 10px;
+    color: white;
+}
+
+.close-admin > .fa-close:hover {
+    color: red;
+}
+
+.admin-menu-body {
+    height: 200px;
+    width: 200px;
+    position: fixed;
+    z-index: 1011;
+    right: 0;
+    background-color: #3c8dbc;
+    overflow-x: hidden;
+    transition: 0.5s;
+    right: -200px;
+}
+
+.admin-menu-body > div > ul {
+    list-style: none;
+}
+
+.admin-menu-body > div > ul > li > a {
+    color: white;
+    text-decoration: none;
+}
+
+.admin-menu-body > div > ul > li > a:hover {
+    color: rgba(0, 0, 0, .85);
+}
+
+.admin-menu-body > div > ul > li {
+    border-bottom: 2px solid white;
+    margin-bottom: 5px;
+}
