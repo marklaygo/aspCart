@@ -39,7 +39,9 @@ namespace aspCart.Web.Controllers
             {
                 ViewData["Manufacturer"] = seo;
                 var productEntities = _productService.GetAllProducts()
-                    .Where(x => x.Manufacturers.Any(m => m.Manufacturer.SeoUrl == seo));
+                    .Where(x => x.Manufacturers.Any(m => m.Manufacturer.SeoUrl.ToLower() == seo.ToLower()))
+                    .Where(x => x.Published == true);
+
                 var productList = new List<ProductModel>();
 
                 foreach(var product in productEntities)

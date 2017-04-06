@@ -30,14 +30,15 @@ namespace aspCart.Web.ViewComponents
             // category filter
             var categoryFilterViewModel = new List<CategoryFilterViewModel>();
 
-            var allCategories = _categoryService.GetAllCategoriesWithoutParent().Where(x => x.Published);
+            var allCategories = _categoryService.GetAllCategoriesWithoutParent();
 
             foreach(var category in allCategories)
             {
                 var filterModel = new CategoryFilterViewModel { Name = category.Name, Id = category.Id };
                 var qty = filterModel.Quantity = _productService.GetAllProducts()
-                    .Where(x => x.Manufacturers.Any(m => m.Manufacturer.Name == manufacturer))
-                    .Where(x => x.Categories.Any(c => c.Category.SeoUrl == category.SeoUrl))
+                    .Where(x => x.Manufacturers.Any(m => m.Manufacturer.Name.ToLower() == manufacturer.ToLower()))
+                    .Where(x => x.Categories.Any(c => c.Category.SeoUrl.ToLower() == category.SeoUrl.ToLower()))
+                    .Where(x => x.Published == true)
                     .Count();
 
                 if (qty > 0) { categoryFilterViewModel.Add(filterModel); }
@@ -46,7 +47,8 @@ namespace aspCart.Web.ViewComponents
 
             // price filter
             var allProducts = _productService.GetAllProducts()
-                    .Where(x => x.Manufacturers.Any(m => m.Manufacturer.Name == manufacturer));
+                    .Where(x => x.Manufacturers.Any(m => m.Manufacturer.Name.ToLower() == manufacturer.ToLower()))
+                    .Where(x => x.Published == true);
 
             List<decimal> allPrices = allProducts.Select(x => x.Price).ToList();
 
