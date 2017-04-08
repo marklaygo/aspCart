@@ -5,46 +5,100 @@
 
 <div class="row-side">
     <div class="left-nav">
-        @await Component.InvokeAsync("Filter")
+        @await Component.InvokeAsync("Filter", new { name = ViewData["ProductSearchName"] })
     </div>
 </div>
 <div class="row">
-    @if (Model.Count() > 0)
-    {
-        @foreach (var product in Model)
-        {
-            <div class="col-md-6 col-lg-4 col-xl-3">
-                <div class="card">
-                    <center>
-                        <a href="/Product/@product.SeoUrl">
-                            @if (product.MainImage != null)
-                            {
-                                <img class="card-img-top img-fluid" src="@product.MainImage" alt="@product.Name" />
-                            }
-                            else
-                            {
-                                <img class="card-img-top img-fluid" src="~/images/system/no-image.png" alt="@product.Name" />
-                            }
-                        </a>
-                    </center>
-                    <div class="card-block">
-                        <a href="/Product/@product.SeoUrl" class="card-title text-muted" title="@product.Name">@product.Name</a>
-                        <div class="card-text">@product.Price.ToString("C2")</div>
-                    </div>
-                    <div class="card-footer">
-                        <form asp-area="" asp-controller="Cart" asp-action="Add" method="post">
-                            <input type="hidden" value="@product.Id" name="id" />
-                            <button type="submit" id="addToCart" class="btn btn-primary btn-sm">Add to cart</button>
-                        </form>
-                    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="text-muted">"@ViewData["ProductSearchName"]" search result</h2>
+                <hr />
+            </div>
+        </div>
+        <div class="row"> <!-- sorting place holder -->
+            <div class="col-md-12">
+                <label>Sort by: </label>
+                <select id="sortBy">
+                    <option>Default</option>
+                    <option>Lowest Price</option>
+                    <option>Highest Price</option>
+                    <option>Best Selling</option>
+                    <option>Most Reviews</option>
+                    <option>Newest to Oldest</option>
+                </select>
+            </div>
+        </div>
+        <div class="row"> <!-- sort badge -->
+            <div class="col-md-12">
+                <div class="form-horizontal">
+                    @foreach (var c in (List<string>)ViewData["SortKey"])
+                    {
+                        <span class="badge badge-info sort-key">
+                            @c <span class="badge-delete" data-value="@c">x</span>
+                        </span>
+                    }
                 </div>
             </div>
-        }
-    }
-    else
-    {
-        <div class="col-md-12">
-            <h5>Product not found</h5>
         </div>
-    }
+        <div class="row" style="margin-top: 8px;"> <!-- main content -->
+            @if (Model.Count() > 0)
+            {
+                @foreach (var product in Model)
+                {
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="card">
+                            <center>
+                                <a href="/Product/@product.SeoUrl">
+                                    @if (product.MainImage != null)
+                                    {
+                                        <img class="card-img-top img-fluid" src="@product.MainImage" alt="@product.Name" />
+                                    }
+                                    else
+                                    {
+                                        <img class="card-img-top img-fluid" src="~/images/system/no-image.png" alt="@product.Name" />
+                                    }
+                                </a>
+                            </center>
+                            <div class="card-block">
+                                <a href="/Product/@product.SeoUrl" class="card-title text-muted" title="@product.Name">@product.Name</a>
+                                <div class="card-text">@product.Price.ToString("C2")</div>
+                            </div>
+                            <div class="card-footer">
+                                <form asp-area="" asp-controller="Cart" asp-action="Add" method="post">
+                                    <input type="hidden" value="@product.Id" name="id" />
+                                    <button type="submit" id="addToCart" class="btn btn-primary btn-sm">Add to cart</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-md-12">
+                    <h5>Product not found</h5>
+                </div>
+            }
+        </div>
+    </div>
 </div>
+
+<script>
+    // recheck all selected filters
+    $(function () {
+        let sortKey = @Json.Serialize(ViewData["SortKey"]);
+        $.each(sortKey, function(index, value){
+            $("[id='" + value + "']").prop('checked', true);
+        });
+    });
+
+    $(function(){
+        $('.badge-delete').on('click', function() {
+            let idToDelete = $(this).data('value');
+            $(this).parent().remove();
+            $("[id='" + idToDelete + "']").prop('checked', false);
+            $('#filterForm').submit(); // submit form from file Views/Shared/Components/Filter/Default.cshtml
+        });
+    });
+</script>

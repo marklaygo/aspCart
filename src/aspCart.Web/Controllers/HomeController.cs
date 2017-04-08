@@ -113,7 +113,7 @@ namespace aspCart.Web.Controllers
         }
 
         // GET: /Home/ProductSearch
-        public IActionResult ProductSearch(string name)
+        public IActionResult ProductSearch([FromQuery] string[] category, [FromQuery] string[] price, string name)
         {
             if(name != string.Empty && name != null)
             {
@@ -138,10 +138,43 @@ namespace aspCart.Web.Controllers
                             .FileName;
                     }
 
+                    // get all categories
+                    foreach (var c in product.Categories)
+                    {
+                        productModel.Categories.Add(new CategoryModel { Name = c.Category.Name, SeoUrl = c.Category.SeoUrl });
+                    }
+
                     productList.Add(productModel);
                 }
 
-                return View(productList);
+                var result = productList;
+
+                if (category.Length > 0)
+                {
+                    result = result.Where(x => x.Categories.Select(c => c.Name).Intersect(category).Count() > 0).ToList();
+                }
+
+                if (price.Length > 0)
+                {
+                    var tmpResult = new List<ProductModel>();
+                    foreach (var p in price)
+                    {
+                        var tmpPrice = p.Split(new char[] { '-' });
+                        int minPrice = Convert.ToInt32(tmpPrice[0]);
+                        int maxPrice = Convert.ToInt32(tmpPrice[1]);
+
+                        var r = result.Where(x => x.Price >= minPrice && x.Price <= maxPrice).ToList();
+
+                        if (r.Count > 0) { tmpResult.AddRange(r); }
+                    }
+                    result = tmpResult;
+                }
+
+                var allFilters = category.Concat(price).ToList();
+                ViewData["SortKey"] = allFilters;
+                ViewData["ProductSearchName"] = name;
+
+                return View(result);
             }
 
             return RedirectToAction("Index");

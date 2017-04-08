@@ -12,6 +12,8 @@ namespace aspCart.Web.Models
         public IEnumerable<IGrouping<int, decimal>> PriceGroupings { get; set; }
 
         public int[] PriceRange { get; set; }
+
+        public string FilterType { get; set; }
     }
 
     public class CategoryFilterViewModel
