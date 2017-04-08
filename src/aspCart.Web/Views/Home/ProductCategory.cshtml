@@ -1,18 +1,18 @@
 ﻿@model IEnumerable<ProductModel>
 @{
-    ViewData["Title"] = ViewData["Manufacturer"];
+    ViewData["Title"] = ViewData["Category"];
 }
 
 <div class="row-side">
     <div class="left-nav">
-        @await Component.InvokeAsync("Filter", new { manufacturerFilter = ViewData["Manufacturer"] })
+        @await Component.InvokeAsync("Filter", new { categoryFilter = ViewData["Category"] })
     </div>
 </div>
 <div class="row">
     <div class="col-md-12">
         <div class="row">
             <div class="col-md-12">
-                <h2 class="text-muted">@ViewData["Manufacturer"] product list</h2>
+                <h2 class="text-muted">@ViewData["Category"]</h2>
                 <hr />
             </div>
         </div>
@@ -77,7 +77,7 @@
             else
             {
                 <div class="col-md-12">
-                    <h5>No product listing for this manufacturer</h5>
+                    <h5>Product not found</h5>
                 </div>
             }
         </div>

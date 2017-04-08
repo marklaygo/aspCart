@@ -112,6 +112,77 @@ namespace aspCart.Web.Controllers
             return RedirectToAction("Index");
         }
 
+        // GET: /Home/ProductCategory
+        public IActionResult ProductCategory([FromQuery] string[] manufacturer, [FromQuery] string[] price, string category)
+        {
+            if (category != null)
+            {
+                ViewData["Category"] = category;
+
+                var productEntities = _productService.GetAllProducts()
+                    .Where(x => x.Categories.Any(c => c.Category.Name.ToLower() == category.ToLower()))
+                    .ToList();
+
+                var productList = new List<ProductModel>();
+
+                foreach(var product in productEntities)
+                {
+                    var productModel = _mapper.Map<Product, ProductModel>(product);
+
+                    // get image
+                    if (product.Images.Count > 0)
+                    {
+                        productModel.MainImage = product.Images
+                            .OrderBy(x => x.SortOrder)
+                            .ThenBy(x => x.Position)
+                            .FirstOrDefault()
+                            .Image.FileName;
+                    }
+
+                    // get manufacturer
+                    if(product.Manufacturers.Count > 0)
+                    {
+                        foreach(var m in product.Manufacturers)
+                        {
+                            productModel.Manufacturers.Add(new ManufacturerModel { Name = m.Manufacturer.Name, SeoUrl = m.Manufacturer.SeoUrl });
+                        }
+                    }
+
+                    productList.Add(productModel);
+                }
+
+                var result = productList;
+
+                if (manufacturer.Length > 0)
+                {
+                    result = result.Where(x => x.Manufacturers.Select(c => c.Name).Intersect(manufacturer).Count() > 0).ToList();
+                }
+
+                if (price.Length > 0)
+                {
+                    var tmpResult = new List<ProductModel>();
+                    foreach (var p in price)
+                    {
+                        var tmpPrice = p.Split(new char[] { '-' });
+                        int minPrice = Convert.ToInt32(tmpPrice[0]);
+                        int maxPrice = Convert.ToInt32(tmpPrice[1]);
+
+                        var r = result.Where(x => x.Price >= minPrice && x.Price <= maxPrice).ToList();
+
+                        if (r.Count > 0) { tmpResult.AddRange(r); }
+                    }
+                    result = tmpResult;
+                }
+
+                var allFilters = manufacturer.Concat(price).ToList();
+                ViewData["SortKey"] = allFilters;
+
+                return View(result);
+            }
+
+            return RedirectToAction("Index");
+        }
+
         // GET: /Home/ProductSearch
         public IActionResult ProductSearch([FromQuery] string[] category, [FromQuery] string[] price, string name)
         {

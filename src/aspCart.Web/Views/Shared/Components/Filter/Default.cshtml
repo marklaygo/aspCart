@@ -14,10 +14,33 @@
         formController = "Manufacturer";
         formAction = "ManufacturerInfo";
     }
+    if (Model.FilterType == "category")
+    {
+        formController = "Home";
+        formAction = "ProductCategory";
+    }
 }
 
 <h5>Item filter</h5><br />
 <form id="filterForm" asp-area="" asp-controller="@formController" asp-action="@formAction" method="get">
+    @if (Model.ManufacturerFilterViewModel.Count > 0)
+    {
+        <h6>Manufacturer</h6> <!-- category filter -->
+        <hr />
+        @foreach (var manufacturer in Model.ManufacturerFilterViewModel)
+        {
+            string labelVaue = $"{manufacturer.Name} ({manufacturer.Quantity})";
+
+            <div>
+                <input type="checkbox" id="@manufacturer.Name" name="Manufacturer" value="@manufacturer.Name" />
+                <label for="@manufacturer.Name">@labelVaue</label>
+            </div>
+        }
+        <button type="submit" class="btn btn-sm btn-primary">Apply</button>
+
+        <br /><br />
+    }
+
     @if(Model.FilterType == "name")
     {
         <input type="hidden" name="name" value="@ViewData["name"]" />
@@ -46,7 +69,7 @@
         <hr />
         @foreach (var g in Model.PriceGroupings)
         {
-            int keyIndex = Array.IndexOf(Model.PriceRange, g.Key);
+            int keyIndex = Model.PriceRange.IndexOf(g.Key);
             int prevIndex = keyIndex - (keyIndex == 0 ? 0 : 1);
             string minPrice = Model.PriceRange[prevIndex].ToString();
             string maxPrice = g.Key.ToString();

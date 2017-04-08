@@ -139,6 +139,11 @@ namespace aspCart.Web
                     defaults: new { controller = "Home", action = "ProductInfo" });
 
                 routes.MapRoute(
+                    name: "category",
+                    template: "Category/{category}",
+                    defaults: new { controller = "Home", action = "ProductCategory" });
+
+                routes.MapRoute(
                     name: "productSearch",
                     template: "search/{name?}",
                     defaults: new { controller = "Home", action = "ProductSearch" });
