@@ -55,7 +55,7 @@
         <div class="col-md-12">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
-                @if (Model.Description.Length > 0)
+                @if ((Model.Description != null && Model.Description.Length > 0) || Model.Specifications.Count == 0)
                 {
                     <li class="nav-item">
                         <a class="nav-link active" data-toggle="tab" href="#description" role="tab">Description</a>
@@ -73,7 +73,7 @@
 
             <!-- Tab panes -->
             <div class="tab-content">
-                @if (Model.Description.Length > 0)
+                @if ((Model.Description != null && Model.Description.Length > 0) || Model.Specifications.Count == 0)
                 {
                     <div class="tab-pane active" id="description" role="tabpanel">
                         <br />
