@@ -1,6 +1,7 @@
 ﻿@model ProductModel
 @{
     ViewData["Title"] = @Model.MetaTitle ?? Model.Name;
+    var description = false;
 }
 
 <div class="container">
@@ -16,6 +17,19 @@
                 }
                 <img class="product-main-image img-fluid" src="@mainImageSrc" alt="@Model.Name" />
             </center>
+            @if (Model.ProductImages.Count > 0)
+            {
+                <div class="row">
+                    <div class="col-md-12 product-image-container">
+                        @foreach (var img in Model.ProductImages)
+                        {
+                            <div class="product-image-thumbnail-container">
+                                <img src="@img" class="product-image-thumbnail" />
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
         </div>
         <div class="col-md-8">
             <h4>@Model.Name</h4>
@@ -41,11 +55,16 @@
         <div class="col-md-12">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
+                @if (Model.Description.Length > 0)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#description" role="tab">Description</a>
+                    </li>
+
+                    description = true;
+                }
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#description" role="tab">Description</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#specification" role="tab">Specification</a>
+                    <a class="nav-link @(description == false ? "active" : "")" data-toggle="tab" href="#specification" role="tab">Specification</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#reviews" role="tab">Reviews</a>
@@ -54,11 +73,14 @@
 
             <!-- Tab panes -->
             <div class="tab-content">
-                <div class="tab-pane active" id="description" role="tabpanel">
-                    <br />
-                    @await Html.PartialAsync("_ProductDescription", Model)
-                </div>
-                <div class="tab-pane" id="specification" role="tabpanel">
+                @if (Model.Description.Length > 0)
+                {
+                    <div class="tab-pane active" id="description" role="tabpanel">
+                        <br />
+                        @await Html.PartialAsync("_ProductDescription", Model)
+                    </div>
+                }
+                <div class="tab-pane @(description == false ? "active" : "")" id="specification" role="tabpanel">
                     <br />
                     @await Html.PartialAsync("_ProductSpecification", Model)
                 </div>
@@ -70,3 +92,10 @@
         </div> 
     </div> <!-- row end -->
 </div> <!-- container end -->
+
+<script>
+    $('.product-image-thumbnail').on('click', function () {
+        var imgSrc = $(this).attr('src');
+        $('.product-main-image').attr('src', imgSrc);
+    });
+</script>

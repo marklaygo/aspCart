@@ -72,7 +72,7 @@ namespace aspCart.Web.Controllers
                     var productModel = _mapper.Map<Product, ProductModel>(productEntity);
                     productModel.Description = System.Net.WebUtility.HtmlDecode(productModel.Description);
 
-                    // get image
+                    // get all images
                     if (productEntity.Images.Count > 0)
                     {
                         productModel.MainImage = productEntity.Images
@@ -80,8 +80,11 @@ namespace aspCart.Web.Controllers
                             .ThenBy(x => x.Position)
                             .FirstOrDefault()
                             .Image.FileName;
+
+                        productModel.ProductImages = productEntity.Images.Select(x => x.Image.FileName).ToList();
                     }
 
+                    // get all manufacturers
                     var manufacturers = productEntity.Manufacturers;
                     foreach(var manufacturer in manufacturers)
                     {

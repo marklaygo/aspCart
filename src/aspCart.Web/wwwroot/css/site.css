@@ -158,3 +158,26 @@ a.card-title {
     border-bottom: 2px solid white;
     margin-bottom: 5px;
 }
+
+.product-image-container {
+    margin-top: 12px;
+}
+
+.product-image-thumbnail-container {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    border: 1px solid gray;
+    cursor: pointer; 
+}
+
+.product-image-thumbnail {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    max-height: 100%;
+}

@@ -9,6 +9,7 @@ namespace aspCart.Web.Models
     {
         public ProductModel()
         {
+            ProductImages = new List<string>();
             Categories = new List<CategoryModel>();
             Manufacturers = new List<ManufacturerModel>();
             Specifications = new List<SpecificationModel>();
@@ -23,6 +24,8 @@ namespace aspCart.Web.Models
         public string Description { get; set; }
 
         public string MainImage { get; set; }
+
+        public List<string> ProductImages { get; set; }
 
         public string SeoUrl { get; set; }
 

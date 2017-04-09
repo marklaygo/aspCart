@@ -61,6 +61,7 @@ namespace aspCart.Web.Helpers
             var categoryList = new List<Category>
             {
                 new Category { Id = new Guid("8c4825ef-8c4c-4162-b2e3-08d46c337976"), Name = "Laptop", SeoUrl = "Laptop", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now, ParentCategoryId = Guid.Empty },
+                new Category { Id = new Guid("21e88188-057e-41e0-8746-57ec2fd76a51"), Name = "Processors", SeoUrl = "Processors", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now, ParentCategoryId = Guid.Empty },
                 new Category { Id = new Guid("fdc32bdd-013d-4ced-9106-c3e722e4650a"), Name = "Video Card", SeoUrl = "Video-Card", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now, ParentCategoryId = Guid.Empty }
             };
             context.Categories.AddRange(categoryList);
@@ -70,7 +71,8 @@ namespace aspCart.Web.Helpers
             var manufacturerList = new List<Manufacturer>
             {
                 new Manufacturer { Id = new Guid("609483bf-c285-4d67-92f3-08d46c31e55a"), Name = "Acer", SeoUrl = "Acer", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
-                new Manufacturer { Id = new Guid("8d942bc6-7407-417f-92f2-08d46c31e55a"), Name = "Asus", SeoUrl = "Asus", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now }
+                new Manufacturer { Id = new Guid("8d942bc6-7407-417f-92f2-08d46c31e55a"), Name = "Asus", SeoUrl = "Asus", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Manufacturer { Id = new Guid("d96116b4-d107-4db2-bdbc-be493989d557"), Name = "Intel", SeoUrl = "Intel", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now }
             };
             context.Manufacturers.AddRange(manufacturerList);
             await context.SaveChangesAsync();
@@ -79,10 +81,14 @@ namespace aspCart.Web.Helpers
             var imageList = new List<Image>
             {
                 new Image { Id = new Guid("1c34435f-2dc2-45fc-a903-7bca40eb5674"), FileName = "/images/test_images/ROG G701VI (7th Gen Intel Core).jpg" },
+                new Image { Id = new Guid("cb7d5d64-283c-4d45-9c45-d48c9763956c"), FileName = "/images/test_images/ROG G701VI (7th Gen Intel Core) back.jpg" },
                 new Image { Id = new Guid("dd733338-513d-4e30-9e7f-d4b09f975dd3"), FileName = "/images/test_images/Predator_17X.png" },
+                new Image { Id = new Guid("f27092f1-2931-4dd5-ab7f-3ef2126c9cf8"), FileName = "/images/test_images/Predator_17X back.png" },
                 new Image { Id = new Guid("af740663-4919-47dd-b2a5-a393af28bbd5"), FileName = "/images/test_images/asus gtx 1080 ti founder.jpg" },
+                new Image { Id = new Guid("4ae5aa7a-b7b7-4b47-94d9-180876233776"), FileName = "/images/test_images/asus gtx 1080 ti founder 2.png" },
                 new Image { Id = new Guid("04096de0-531e-4f9d-848e-a2c36794181e"), FileName = "/images/test_images/asus gtx 1070 strix.png" },
-                new Image { Id = new Guid("2f077ad1-ab0c-4ff0-864c-4b45e4c31d8c"), FileName = "/images/test_images/rog strix rx480 O8G gaming.jpg" }
+                new Image { Id = new Guid("2f077ad1-ab0c-4ff0-864c-4b45e4c31d8c"), FileName = "/images/test_images/rog strix rx480 O8G gaming.jpg" },
+                new Image { Id = new Guid("e09f3dd2-a176-47b3-8518-2015eaef32cc"), FileName = "/images/test_images/Intel Core i7-7700K.jpg" }
             };
 
             context.Images.AddRange(imageList);
@@ -91,9 +97,15 @@ namespace aspCart.Web.Helpers
             // specification
             var specificationList = new List<Specification>
             {
+                new Specification { Id = new Guid("18f698d1-7060-485e-b411-7949491f54db"), Name = "# Cores", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("af498fc2-aa53-4a36-b535-891428a92a84"), Name = "# of Threads", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("473dd9cf-ec4d-452e-9e8a-88d9670cc75b"), Name = "64-Bit Support", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("58f74c41-14b7-426f-aa46-ddbd73989292"), Name = "Accessories", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("d957dae6-c254-4266-b45c-27fa04f00761"), Name = "Battery", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("8d7163a1-ef0b-442b-88ce-55363cd9ddbc"), Name = "Brand", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("739b9689-b4e5-4c30-8108-8cec7419aba9"), Name = "Core Name", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("f48d837a-22e1-43e1-967a-a989d5889f37"), Name = "Chipset", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("b9fe1b06-213a-4128-9329-250da2906852"), Name = "CPU Socket Type", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("e229d9c0-459c-44f9-8f7d-d670cfb4d1d6"), Name = "CUDA Core", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("19dfc537-f02a-4c7d-9919-5b939d08186f"), Name = "Dimensions", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("6144e4ab-722e-4b13-bffe-6f0ea8b168b2"), Name = "Display", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
@@ -101,19 +113,29 @@ namespace aspCart.Web.Helpers
                 new Specification { Id = new Guid("42f0a5df-e976-4ab6-adab-e260f9cef244"), Name = "Gaming Series", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("27201fbe-59d6-42a4-b698-a75dcb3e9f52"), Name = "Graphic", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("a0e252f2-39df-4f19-a139-260dd2935097"), Name = "Graphics Engine", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("79136369-aadd-47e2-ac71-2511933881e5"), Name = "Hyper-Threading Support", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("eca1dc44-190e-4806-ba8a-1af16fbd8d24"), Name = "Interface", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("c2a6ac96-7de8-4bdc-a322-fc56f27c8fc8"), Name = "Keyboard", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("282b9279-919d-4300-8109-eb568c02e839"), Name = "L2 Cache", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("f1c8f4aa-9693-4cda-b6e5-c9e967439577"), Name = "L3 Cache", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("1af15e3b-f60d-4d7d-a562-f7dff9a99f20"), Name = "Manufacturing Tech", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("26eb8a9b-3b09-4f47-889c-28859a35b777"), Name = "Max Turbo Frequency", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("928a7270-7d70-4a37-9440-c650c2a6d782"), Name = "Memory", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("20dabff6-aea8-4197-88a6-a3de73d9c36c"), Name = "Memory Clock", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("d969d702-d7da-4eac-b203-2450c576bde7"), Name = "Memory Interface", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("f7af0f50-137c-4ce6-b27d-920c83d4ebc7"), Name = "Networking", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("ed46ee55-ac40-4d77-80be-69ab6b0d010c"), Name = "Operating", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("a5f9adab-4415-415c-8bcc-dac939acfa2f"), Name = "Operating Frequency", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("1ecc8164-69d8-4134-96a3-8ac89618be75"), Name = "Power Connectors", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("75477c08-8245-4211-ab74-9c7c14d4dae9"), Name = "Processor", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("d073700d-c17e-41c8-a283-9abfeb8a8f6a"), Name = "Processors Type", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("9ed7299e-1637-4809-a375-5d0bdff8b613"), Name = "Resolution", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("2ac500ca-e15a-4785-9654-3eef7f26fb1c"), Name = "Series", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("1c9cef2e-b9df-4c90-b88e-f45f7d688646"), Name = "Software", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("8ad5f582-c787-4ba2-a49e-d8f8dd2ee621"), Name = "Storage", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("a74cfddc-9450-4a3d-922b-e7670c9b7924"), Name = "Thermal Design Power", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("2db5ac64-a42d-4bad-8eba-d26ff4e7f727"), Name = "Video Memory", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("a73e43a3-d3d8-4b76-b1e6-274fb682d0a5"), Name = "Virtualization Technology Support", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("88bcd475-ceb8-4ae3-a385-c3ec07b787e7"), Name = "VR", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("e611379b-5c1f-4286-8a54-9c8c45a5697d"), Name = "WebCam", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("93d8b1f6-8a3d-41e5-b3d5-7513bd7f3b33"), Name = "Weight", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now }
@@ -149,7 +171,8 @@ namespace aspCart.Web.Helpers
                     },
                     Images = new List<ProductImageMapping>
                     {
-                        new ProductImageMapping { ProductId = new Guid("337acae3-7adf-4372-8619-1cc9345c61ea"), ImageId = new Guid("1c34435f-2dc2-45fc-a903-7bca40eb5674"), SortOrder = 0, Position = 0 }
+                        new ProductImageMapping { ProductId = new Guid("337acae3-7adf-4372-8619-1cc9345c61ea"), ImageId = new Guid("1c34435f-2dc2-45fc-a903-7bca40eb5674"), SortOrder = 0, Position = 0 },
+                        new ProductImageMapping { ProductId = new Guid("337acae3-7adf-4372-8619-1cc9345c61ea"), ImageId = new Guid("cb7d5d64-283c-4d45-9c45-d48c9763956c"), SortOrder = 0, Position = 1 }
                     },
                     Specifications = new List<ProductSpecificationMapping>
                     {
@@ -195,7 +218,8 @@ namespace aspCart.Web.Helpers
                     },
                     Images = new List<ProductImageMapping>
                     {
-                        new ProductImageMapping { ProductId = new Guid("c85f8f8b-3245-4be5-9fa7-96f1df2dbdc7"), ImageId = new Guid("dd733338-513d-4e30-9e7f-d4b09f975dd3"), SortOrder = 0, Position = 0 }
+                        new ProductImageMapping { ProductId = new Guid("c85f8f8b-3245-4be5-9fa7-96f1df2dbdc7"), ImageId = new Guid("dd733338-513d-4e30-9e7f-d4b09f975dd3"), SortOrder = 0, Position = 0 },
+                        new ProductImageMapping { ProductId = new Guid("c85f8f8b-3245-4be5-9fa7-96f1df2dbdc7"), ImageId = new Guid("f27092f1-2931-4dd5-ab7f-3ef2126c9cf8"), SortOrder = 0, Position = 1 }
                     },
                     Specifications = new List<ProductSpecificationMapping>
                     {
@@ -237,7 +261,8 @@ namespace aspCart.Web.Helpers
                     },
                     Images = new List<ProductImageMapping>
                     {
-                        new ProductImageMapping { ProductId = new Guid("851559fb-1684-47d8-8fb9-348a39c90c7d"), ImageId = new Guid("af740663-4919-47dd-b2a5-a393af28bbd5"), SortOrder = 0, Position = 0 }
+                        new ProductImageMapping { ProductId = new Guid("851559fb-1684-47d8-8fb9-348a39c90c7d"), ImageId = new Guid("af740663-4919-47dd-b2a5-a393af28bbd5"), SortOrder = 0, Position = 0 },
+                        new ProductImageMapping { ProductId = new Guid("851559fb-1684-47d8-8fb9-348a39c90c7d"), ImageId = new Guid("4ae5aa7a-b7b7-4b47-94d9-180876233776"), SortOrder = 0, Position = 1 }
                     },
                     Specifications = new List<ProductSpecificationMapping>
                     {
@@ -336,6 +361,52 @@ namespace aspCart.Web.Helpers
                         new ProductSpecificationMapping { ProductId = new Guid("5f1c200c-b551-4ceb-9273-3ccf9c4718da"), SpecificationId = new Guid("58f74c41-14b7-426f-aa46-ddbd73989292"), Value = "2 x ROG Cable Ties", SortOrder = 0, Position = 8 },
                         new ProductSpecificationMapping { ProductId = new Guid("5f1c200c-b551-4ceb-9273-3ccf9c4718da"), SpecificationId = new Guid("1c9cef2e-b9df-4c90-b88e-f45f7d688646"), Value = "ASUS GPU Tweak II & Driver<br />Aura (Graphics Card) Software", SortOrder = 0, Position = 9 },
                         new ProductSpecificationMapping { ProductId = new Guid("5f1c200c-b551-4ceb-9273-3ccf9c4718da"), SpecificationId = new Guid("19dfc537-f02a-4c7d-9919-5b939d08186f"), Value = "11.73\" x 5.28\" x 1.57\" Inch<br />29.8 x 13.4 x4 Centimeter", SortOrder = 0, Position = 10 }
+                    }
+                },
+                new Product // Intel Core i7-7700K
+                {
+                    Id = new Guid("6176109c-2219-4013-a3f3-7cf90b60d8be"),
+                    Name = "Intel Core i7-7700K Kaby Lake Quad-Core 4.2 GHz LGA 1151 91W Desktop Processor",
+                    Description = "",
+                    Price = 349.99m,
+                    StockQuantity = 1000,
+                    NotifyForQuantityBelow = 1,
+                    MinimumCartQuantity = 1,
+                    MaximumCartQuantity = 1000,
+                    SeoUrl = "Intel-Core-i7-7700K-Kaby-Lake-Quad-Core-42-GHz-LGA-1151-91W-Desktop-Processor",
+                    Published = true,
+                    DateAdded = DateTime.Now,
+                    DateModified = DateTime.Now,
+                    Categories = new List<ProductCategoryMapping>
+                    {
+                        new ProductCategoryMapping { ProductId = new Guid("6176109c-2219-4013-a3f3-7cf90b60d8be"), CategoryId = new Guid("21e88188-057e-41e0-8746-57ec2fd76a51") }
+                    },
+                    Manufacturers = new List<ProductManufacturerMapping>
+                    {
+                        new ProductManufacturerMapping { ProductId = new Guid("6176109c-2219-4013-a3f3-7cf90b60d8be"), ManufacturerId = new Guid("d96116b4-d107-4db2-bdbc-be493989d557") }
+                    },
+                    Images = new List<ProductImageMapping>
+                    {
+                        new ProductImageMapping { ProductId = new Guid("6176109c-2219-4013-a3f3-7cf90b60d8be"), ImageId = new Guid("e09f3dd2-a176-47b3-8518-2015eaef32cc"), SortOrder = 0, Position = 0 }
+                    },
+                    Specifications = new List<ProductSpecificationMapping>
+                    {
+                        new ProductSpecificationMapping { ProductId = new Guid("6176109c-2219-4013-a3f3-7cf90b60d8be"), SpecificationId = new Guid("8d7163a1-ef0b-442b-88ce-55363cd9ddbc"), Value = "Intel", SortOrder = 0, Position = 0 },
+                        new ProductSpecificationMapping { ProductId = new Guid("6176109c-2219-4013-a3f3-7cf90b60d8be"), SpecificationId = new Guid("d073700d-c17e-41c8-a283-9abfeb8a8f6a"), Value = "Desktop", SortOrder = 0, Position = 1 },
+                        new ProductSpecificationMapping { ProductId = new Guid("6176109c-2219-4013-a3f3-7cf90b60d8be"), SpecificationId = new Guid("2ac500ca-e15a-4785-9654-3eef7f26fb1c"), Value = "Core i7 7th Gen", SortOrder = 0, Position = 2 },
+                        new ProductSpecificationMapping { ProductId = new Guid("6176109c-2219-4013-a3f3-7cf90b60d8be"), SpecificationId = new Guid("b9fe1b06-213a-4128-9329-250da2906852"), Value = "LGA 1151", SortOrder = 0, Position = 3 },
+                        new ProductSpecificationMapping { ProductId = new Guid("6176109c-2219-4013-a3f3-7cf90b60d8be"), SpecificationId = new Guid("739b9689-b4e5-4c30-8108-8cec7419aba9"), Value = "Kaby Lake", SortOrder = 0, Position = 4 },
+                        new ProductSpecificationMapping { ProductId = new Guid("6176109c-2219-4013-a3f3-7cf90b60d8be"), SpecificationId = new Guid("18f698d1-7060-485e-b411-7949491f54db"), Value = "Quad-Core", SortOrder = 0, Position = 5 },
+                        new ProductSpecificationMapping { ProductId = new Guid("6176109c-2219-4013-a3f3-7cf90b60d8be"), SpecificationId = new Guid("af498fc2-aa53-4a36-b535-891428a92a84"), Value = "8", SortOrder = 0, Position = 6 },
+                        new ProductSpecificationMapping { ProductId = new Guid("6176109c-2219-4013-a3f3-7cf90b60d8be"), SpecificationId = new Guid("a5f9adab-4415-415c-8bcc-dac939acfa2f"), Value = "4.2 GHz", SortOrder = 0, Position = 7 },
+                        new ProductSpecificationMapping { ProductId = new Guid("6176109c-2219-4013-a3f3-7cf90b60d8be"), SpecificationId = new Guid("26eb8a9b-3b09-4f47-889c-28859a35b777"), Value = "4.50 GHz", SortOrder = 0, Position = 8 },
+                        new ProductSpecificationMapping { ProductId = new Guid("6176109c-2219-4013-a3f3-7cf90b60d8be"), SpecificationId = new Guid("282b9279-919d-4300-8109-eb568c02e839"), Value = "4 x 256KB", SortOrder = 0, Position = 9 },
+                        new ProductSpecificationMapping { ProductId = new Guid("6176109c-2219-4013-a3f3-7cf90b60d8be"), SpecificationId = new Guid("f1c8f4aa-9693-4cda-b6e5-c9e967439577"), Value = "8MB", SortOrder = 0, Position = 10 },
+                        new ProductSpecificationMapping { ProductId = new Guid("6176109c-2219-4013-a3f3-7cf90b60d8be"), SpecificationId = new Guid("1af15e3b-f60d-4d7d-a562-f7dff9a99f20"), Value = "14nm", SortOrder = 0, Position = 11 },
+                        new ProductSpecificationMapping { ProductId = new Guid("6176109c-2219-4013-a3f3-7cf90b60d8be"), SpecificationId = new Guid("473dd9cf-ec4d-452e-9e8a-88d9670cc75b"), Value = "Yes", SortOrder = 0, Position = 12 },
+                        new ProductSpecificationMapping { ProductId = new Guid("6176109c-2219-4013-a3f3-7cf90b60d8be"), SpecificationId = new Guid("79136369-aadd-47e2-ac71-2511933881e5"), Value = "Yes", SortOrder = 0, Position = 13 },
+                        new ProductSpecificationMapping { ProductId = new Guid("6176109c-2219-4013-a3f3-7cf90b60d8be"), SpecificationId = new Guid("a73e43a3-d3d8-4b76-b1e6-274fb682d0a5"), Value = "Yes", SortOrder = 0, Position = 14 },
+                        new ProductSpecificationMapping { ProductId = new Guid("6176109c-2219-4013-a3f3-7cf90b60d8be"), SpecificationId = new Guid("a74cfddc-9450-4a3d-922b-e7670c9b7924"), Value = "91W", SortOrder = 0, Position = 15 }
                     }
                 }
             };
