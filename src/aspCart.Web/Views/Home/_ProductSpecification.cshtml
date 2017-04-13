@@ -7,7 +7,7 @@
             <table class="table table-striped table-specification">
                 <tbody>
                     @foreach (var specification in Model.Specifications)
-                {
+                    {
                         <tr>
                             <td class="table-specification-title">@specification.Key</td>
                             <td>@Html.Raw(specification.Value)</td>

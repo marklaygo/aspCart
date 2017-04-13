@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = @Model.MetaTitle ?? Model.Name;
     var description = false;
+    var imgIndex = 0;
 }
 
 <div class="container">
@@ -15,7 +16,12 @@
                         mainImageSrc = Model.MainImage;
                     }
                 }
-                <img class="product-main-image img-fluid" src="@mainImageSrc" alt="@Model.Name" />
+                <img src="@mainImageSrc"
+                     class="product-main-image img-fluid"
+                     alt="@Model.Name"
+                     data-toggle="modal"
+                     data-target="#lightbox-modal"
+                     data-img-index="0" />
             </center>
             @if (Model.ProductImages.Count > 0)
             {
@@ -24,8 +30,14 @@
                         @foreach (var img in Model.ProductImages)
                         {
                             <div class="product-image-thumbnail-container">
-                                <img src="@img" class="product-image-thumbnail" />
+                                <img src="@img"
+                                     class="product-image-thumbnail"
+                                     data-toggle="modal"
+                                     data-target="#lightbox-modal"
+                                     data-img-index="@imgIndex" />
                             </div>
+
+                            imgIndex++;
                         }
                     </div>
                 </div>
@@ -93,9 +105,79 @@
     </div> <!-- row end -->
 </div> <!-- container end -->
 
+<!-- lightbox modal -->
+<div class="modal fade" id="lightbox-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom: none;">
+                <h5 class="modal-title text-muted"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="width: 100%; height: 100%;">
+
+                @foreach (var img in Model.ProductImages)
+                {
+                    <img src="@img" id="modal-img-src" class="lightbox-slide" />
+                }
+
+                @if (Model.ProductImages.Count > 1)
+                {
+                    <a class="prev text-muted">&#10094;</a>
+                    <a class="next text-muted">&#10095;</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-    $('.product-image-thumbnail').on('click', function () {
-        var imgSrc = $(this).attr('src');
-        $('.product-main-image').attr('src', imgSrc);
+    // lightbox
+    $(function () {
+        var currentSlide = 0;
+        var imgSlides = document.getElementsByClassName('lightbox-slide');
+
+        $('#lightbox-modal').on('show.bs.modal', function (event) {
+            let imgIndex = $(event.relatedTarget).data('img-index');
+
+            imgSlides[imgIndex].style.display = 'block';
+            currentSlide = imgIndex;
+            updateText(currentSlide);
+        });
+
+        $('#lightbox-modal').on('hide.bs.modal', function (event) {
+            imgSlides[currentSlide].style.display = 'none'; // hide the current image
+        });
+
+        $('.next').on('click', function () {
+            imgSlides[currentSlide].style.display = 'none';
+
+            if (currentSlide == imgSlides.length - 1) {
+                currentSlide = 0; // set the currentSlide to the start of slides
+            } else {
+                currentSlide++;
+            }
+
+            imgSlides[currentSlide].style.display = 'block';
+            updateText(currentSlide);
+        });
+
+        $('.prev').on('click', function () {
+            imgSlides[currentSlide].style.display = 'none';
+
+            if (currentSlide == 0) {
+                currentSlide = imgSlides.length - 1; // set the currentSlide to the end of slides
+            } else {
+                currentSlide--;
+            }
+
+            imgSlides[currentSlide].style.display = 'block';
+            updateText(currentSlide);
+        });
+
+        function updateText(n) {
+            $('#lightbox-modal').find('.modal-title').text(n + 1 + ' / ' + imgSlides.length)
+        }
     });
 </script>
