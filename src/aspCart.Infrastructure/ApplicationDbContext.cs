@@ -29,6 +29,7 @@ namespace aspCart.Infrastructure
         public DbSet<ProductImageMapping> ProductImageMappings { get; set; }
         public DbSet<ProductManufacturerMapping> ProductManufacturerMappings { get; set; }
         public DbSet<ProductSpecificationMapping> ProductSpecificationMappings { get; set; }
+        public DbSet<Review> Reviews { get; set; }
         public DbSet<Specification> Specifications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -49,6 +50,7 @@ namespace aspCart.Infrastructure
             builder.Entity<ProductImageMapping>().ToTable("ProductImageMapping");
             builder.Entity<ProductManufacturerMapping>().ToTable("ProductManufacturerMapping");
             builder.Entity<ProductSpecificationMapping>().ToTable("ProductSpecificationMapping");
+            builder.Entity<Review>().ToTable("Review");
             builder.Entity<Specification>().ToTable("Specification");
         }
     }

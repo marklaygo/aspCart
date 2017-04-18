@@ -1,4 +1,6 @@
 ﻿using aspCart.Core.Domain.Catalog;
+using aspCart.Core.Domain.Sale;
+using aspCart.Core.Domain.User;
 using aspCart.Infrastructure;
 using aspCart.Infrastructure.EFModels;
 using Microsoft.AspNetCore.Identity;
@@ -27,37 +29,31 @@ namespace aspCart.Web.Helpers
         {
             var context = serviceProvider.GetService<ApplicationDbContext>();
 
-            SeedAdminAccount(context, configuration);
-            TestDataSeed(context, configuration);
+            
+            SeedAdminAccount(context, configuration).GetAwaiter().GetResult();
+            SeedTestAccount(context, configuration).GetAwaiter().GetResult();
+            TestDataSeed(context, configuration).GetAwaiter().GetResult();
         }
 
-        private static async void TestDataSeed(ApplicationDbContext context, IConfigurationRoot configuration)
+        private static async Task TestDataSeed(ApplicationDbContext context, IConfigurationRoot configuration)
         {
-            // delete all images
-            var allImage = context.Images.ToList();
-            context.Images.RemoveRange(allImage);
+            #region RemoveRange
+
+            context.Images.RemoveRange(context.Images);
+            context.Specifications.RemoveRange(context.Specifications);
+            context.Products.RemoveRange(context.Products);
+            context.Manufacturers.RemoveRange(context.Manufacturers);
+            context.Categories.RemoveRange(context.Categories);
+            context.OrderItems.RemoveRange(context.OrderItems);
+            context.Orders.RemoveRange(context.Orders);
+            context.BillingAddresses.RemoveRange(context.BillingAddresses);
             await context.SaveChangesAsync();
 
-            // delete all specifications
-            var allSpecification = context.Specifications.ToList();
-            context.Specifications.RemoveRange(allSpecification);
-            await context.SaveChangesAsync();
+            #endregion
 
-            // delete all products
-            var allProducts = context.Products.ToList();
-            context.Products.RemoveRange(allProducts);
-            await context.SaveChangesAsync();
+            #region Categories
 
-            // delete all manufacturer
-            var allManufacturers = context.Manufacturers.ToList();
-            context.Manufacturers.RemoveRange(allManufacturers);
-            await context.SaveChangesAsync();
-
-            // delete all category
-            var allCategory = context.Categories.ToList();
-            context.Categories.RemoveRange(allCategory);
-            await context.SaveChangesAsync();
-
+            // categories
             var categoryList = new List<Category>
             {
                 new Category { Id = new Guid("8c4825ef-8c4c-4162-b2e3-08d46c337976"), Name = "Laptop", SeoUrl = "Laptop", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now, ParentCategoryId = Guid.Empty },
@@ -66,6 +62,10 @@ namespace aspCart.Web.Helpers
             };
             context.Categories.AddRange(categoryList);
             await context.SaveChangesAsync();
+
+            #endregion
+
+            #region Manufacturers
 
             // manufacturers 
             var manufacturerList = new List<Manufacturer>
@@ -76,6 +76,10 @@ namespace aspCart.Web.Helpers
             };
             context.Manufacturers.AddRange(manufacturerList);
             await context.SaveChangesAsync();
+
+            #endregion
+
+            #region Images
 
             // images
             var imageList = new List<Image>
@@ -90,9 +94,12 @@ namespace aspCart.Web.Helpers
                 new Image { Id = new Guid("2f077ad1-ab0c-4ff0-864c-4b45e4c31d8c"), FileName = "/images/test_images/rog strix rx480 O8G gaming.jpg" },
                 new Image { Id = new Guid("e09f3dd2-a176-47b3-8518-2015eaef32cc"), FileName = "/images/test_images/Intel Core i7-7700K.jpg" }
             };
-
             context.Images.AddRange(imageList);
             await context.SaveChangesAsync();
+
+            #endregion
+
+            #region Specifications
 
             // specification
             var specificationList = new List<Specification>
@@ -140,13 +147,17 @@ namespace aspCart.Web.Helpers
                 new Specification { Id = new Guid("e611379b-5c1f-4286-8a54-9c8c45a5697d"), Name = "WebCam", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("93d8b1f6-8a3d-41e5-b3d5-7513bd7f3b33"), Name = "Weight", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now }
             };
-
             context.Specifications.AddRange(specificationList);
             await context.SaveChangesAsync();
+
+            #endregion
+
+            #region Products
 
             // product
             var productList = new List<Product>
             {
+                #region rog g7
                 new Product // rog g7
                 {
                     Id = new Guid("337acae3-7adf-4372-8619-1cc9345c61ea"),
@@ -194,6 +205,9 @@ namespace aspCart.Web.Helpers
                         new ProductSpecificationMapping { ProductId = new Guid("337acae3-7adf-4372-8619-1cc9345c61ea"), SpecificationId = new Guid("42f0a5df-e976-4ab6-adab-e260f9cef244"), Value = "G Series", SortOrder = 0, Position = 15 }
                     }
                 },
+                #endregion
+
+                #region acer predator gx
                 new Product // acer predator gx
                 {
                     Id = new Guid("c85f8f8b-3245-4be5-9fa7-96f1df2dbdc7"),
@@ -237,6 +251,9 @@ namespace aspCart.Web.Helpers
                         new ProductSpecificationMapping { ProductId = new Guid("c85f8f8b-3245-4be5-9fa7-96f1df2dbdc7"), SpecificationId = new Guid("93d8b1f6-8a3d-41e5-b3d5-7513bd7f3b33"), Value = "10.03 lbs.", SortOrder = 0, Position = 11 }
                     }
                 },
+                #endregion
+
+                #region asus gtx 1080 ti founder
                 new Product // asus gtx 1080 ti founder
                 {
                     Id = new Guid("9de9aad6-7dca-4861-842f-20021a2c5fa0"),
@@ -280,6 +297,9 @@ namespace aspCart.Web.Helpers
                         new ProductSpecificationMapping { ProductId = new Guid("9de9aad6-7dca-4861-842f-20021a2c5fa0"), SpecificationId = new Guid("19dfc537-f02a-4c7d-9919-5b939d08186f"), Value = "10.5 \" x 4.376 \" x 1.5 \" Inch<br />26.67 x 11.12 x3.81 Centimeter", SortOrder = 0, Position = 11 }
                     }
                 },
+                #endregion
+
+                #region asus gtx 1070 strix
                 new Product // asus gtx 1070 strix
                 {
                     Id = new Guid("d9122044-3401-4bee-aaac-9c7802a7027e"),
@@ -322,6 +342,9 @@ namespace aspCart.Web.Helpers
                         new ProductSpecificationMapping { ProductId = new Guid("d9122044-3401-4bee-aaac-9c7802a7027e"), SpecificationId = new Guid("19dfc537-f02a-4c7d-9919-5b939d08186f"), Value = "11.73\" x 5.28\" x 1.57\" Inch<br />29.8 x 13.4 x4 Centimeter", SortOrder = 0, Position = 11 }
                     }
                 },
+                #endregion
+
+                #region rog strix rx480 O8G gaming
                 new Product // rog strix rx480 O8G gaming
                 {
                     Id = new Guid("5f1c200c-b551-4ceb-9273-3ccf9c4718da"),
@@ -363,6 +386,9 @@ namespace aspCart.Web.Helpers
                         new ProductSpecificationMapping { ProductId = new Guid("5f1c200c-b551-4ceb-9273-3ccf9c4718da"), SpecificationId = new Guid("19dfc537-f02a-4c7d-9919-5b939d08186f"), Value = "11.73\" x 5.28\" x 1.57\" Inch<br />29.8 x 13.4 x4 Centimeter", SortOrder = 0, Position = 10 }
                     }
                 },
+                #endregion
+
+                #region Intel Core i7-7700K
                 new Product // Intel Core i7-7700K
                 {
                     Id = new Guid("6176109c-2219-4013-a3f3-7cf90b60d8be"),
@@ -409,16 +435,64 @@ namespace aspCart.Web.Helpers
                         new ProductSpecificationMapping { ProductId = new Guid("6176109c-2219-4013-a3f3-7cf90b60d8be"), SpecificationId = new Guid("a74cfddc-9450-4a3d-922b-e7670c9b7924"), Value = "91W", SortOrder = 0, Position = 15 }
                     }
                 }
+                #endregion
             };
-
             context.Products.AddRange(productList);
             await context.SaveChangesAsync();
+
+            #endregion
+
+            #region Billing Address
+
+            // billing address
+            var billingAddressList = new List<BillingAddress>
+            {
+                new BillingAddress { Id = Guid.Parse("6670f705-8a06-451c-b267-5dceb9c130b1"), FirstName = "user", LastName = "1", Email = "user1@aspcart.com", Address = "localhost", City = "localhost", StateProvince = "localhost", ZipPostalCode = "11234", Country = "localhost", Telephone = "0123456789" },
+                new BillingAddress { Id = Guid.Parse("8ed5b69b-b4b2-452d-25e0-08d483e4de1d"), FirstName = "user", LastName = "1", Email = "user1@aspcart.com", Address = "localhost", City = "localhost", StateProvince = "localhost", ZipPostalCode = "11234", Country = "localhost", Telephone = "0123456789" }
+            };
+            context.BillingAddresses.AddRange(billingAddressList);
+            await context.SaveChangesAsync();
+
+            #endregion
+
+            #region Order
+
+            // order
+            var orderList = new List<Order>
+            {
+                new Order { Id = Guid.Parse("50ec3a54-0eab-4dfc-bad7-d1538f62f25e"), OrderNumber = "662-347-330787", UserId = Guid.Parse("1966c895-c0d4-40d6-b201-47c0dd0228e1"), BillingAddressId = Guid.Parse("6670f705-8a06-451c-b267-5dceb9c130b1"), TotalOrderPrice = 2699.00m, Status = (OrderStatus)2, OrderPlacementDateTime = DateTime.Now, OrderCompletedDateTime = DateTime.Now },
+                new Order { Id = Guid.Parse("693721cb-61e5-41cd-9d99-376c08ab627b"), OrderNumber = "475-676-632537", UserId = Guid.Parse("1966c895-c0d4-40d6-b201-47c0dd0228e1"), BillingAddressId = Guid.Parse("6670f705-8a06-451c-b267-5dceb9c130b1"), TotalOrderPrice = 1179.98m, Status = 0, OrderPlacementDateTime = DateTime.Now, OrderCompletedDateTime = DateTime.Now }
+            };
+            context.Orders.AddRange(orderList);
+            await context.SaveChangesAsync();
+
+            #endregion
+
+            #region Order item
+
+            // order item
+            var orderItemList = new List<OrderItem>
+            {
+                new OrderItem { Id = Guid.Parse("6f7d2300-67ef-470c-9c67-52e9f228a918"), OrderId = Guid.Parse("50ec3a54-0eab-4dfc-bad7-d1538f62f25e"), ProductId = "c85f8f8b-3245-4be5-9fa7-96f1df2dbdc7", Name = "Acer Predator GX-792-77BL 17.3\" 4K/UHD Intel Core i7 7th Gen 7820HK (2.90 GHz) NVIDIA GeForce GTX 1080 32 GB Memory 512 GB SSD 1 TB HDD Windows 10 Home 64-Bit Gaming Laptop", Quantity = 1, Price = 2699.00m, TotalPrice = 2699.00m },
+                new OrderItem { Id = Guid.Parse("f976cda7-419c-451a-9bfd-78eb4170e441"), OrderId = Guid.Parse("693721cb-61e5-41cd-9d99-376c08ab627b"), ProductId = "6176109c-2219-4013-a3f3-7cf90b60d8be", Name = "Intel Core i7-7700K Kaby Lake Quad-Core 4.2 GHz LGA 1151 91W Desktop Processor", Quantity = 1, Price = 349.99m, TotalPrice = 349.99m },
+                new OrderItem { Id = Guid.Parse("d5a65357-c77e-4a65-aefd-a288ee6c27d0"), OrderId = Guid.Parse("693721cb-61e5-41cd-9d99-376c08ab627b"), ProductId = "9de9aad6-7dca-4861-842f-20021a2c5fa0", Name = "ASUS GeForce GTX 1080 TI 11GB GDDR5X Founders Edition", Quantity = 1, Price = 829.99m, TotalPrice = 829.99m }
+            };
+            context.OrderItems.AddRange(orderItemList);
+            await context.SaveChangesAsync();
+
+            #endregion
         }
 
-        private static async void SeedAdminAccount(ApplicationDbContext context, IConfigurationRoot configuration)
+        private static async Task SeedAdminAccount(ApplicationDbContext context, IConfigurationRoot configuration)
         {
+            context.UserRoles.RemoveRange(context.UserRoles);
+            context.Roles.RemoveRange(context.Roles);
+            context.Users.RemoveRange(context.Users);
+            await context.SaveChangesAsync();
+
             var user = new ApplicationUser()
             {
+                Id = "240de0d4-ade7-417e-a034-9b63cc2de853",
                 UserName = configuration.GetValue<string>("AdminAccount:Email"),
                 NormalizedUserName = configuration.GetValue<string>("AdminAccount:Email").ToUpper(),
                 Email = configuration.GetValue<string>("AdminAccount:Email"),
@@ -444,8 +518,53 @@ namespace aspCart.Web.Helpers
                 await userStore.CreateAsync(user);
                 await userStore.AddToRoleAsync(user, "Admin");
             }
+        }
 
-            await context.SaveChangesAsync();
+        private static async Task SeedTestAccount(ApplicationDbContext context, IConfigurationRoot configuration)
+        {
+            // user1
+            var user1 = new ApplicationUser()
+            {
+                Id = "1966c895-c0d4-40d6-b201-47c0dd0228e1",
+                UserName = "user1@aspcart.com",
+                NormalizedUserName = "user1@aspcart.com".ToUpper(),
+                Email = "user1@aspcart.com",
+                NormalizedEmail = "user1@aspcart.com".ToUpper(),
+                EmailConfirmed = true,
+                LockoutEnabled = false,
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+
+            if (!context.Users.Any(u => u.UserName == user1.UserName))
+            {
+                var passwordHasher = new PasswordHasher<ApplicationUser>();
+                var hashed = passwordHasher.HashPassword(user1, "11234");
+                user1.PasswordHash = hashed;
+                var userStore = new UserStore<ApplicationUser>(context);
+                await userStore.CreateAsync(user1);
+            }
+
+            // user2
+            var user2 = new ApplicationUser()
+            {
+                Id = "ff207e2a-b263-429a-b395-3963e896f40d",
+                UserName = "user2@aspcart.com",
+                NormalizedUserName = "user2@aspcart.com".ToUpper(),
+                Email = "user2@aspcart.com",
+                NormalizedEmail = "user2@aspcart.com".ToUpper(),
+                EmailConfirmed = true,
+                LockoutEnabled = false,
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+
+            if (!context.Users.Any(u => u.UserName == user2.UserName))
+            {
+                var passwordHasher = new PasswordHasher<ApplicationUser>();
+                var hashed = passwordHasher.HashPassword(user2, "11234");
+                user2.PasswordHash = hashed;
+                var userStore = new UserStore<ApplicationUser>(context);
+                await userStore.CreateAsync(user2);
+            }
         }
     }
 }

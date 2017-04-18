@@ -8,9 +8,10 @@ using aspCart.Infrastructure;
 namespace aspCart.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170416012945_addProductIdInOrderItem")]
+    partial class addProductIdInOrderItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -218,28 +219,6 @@ namespace aspCart.Infrastructure.Migrations
                     b.HasIndex("SpecificationId");
 
                     b.ToTable("ProductSpecificationMapping");
-                });
-
-            modelBuilder.Entity("aspCart.Core.Domain.Catalog.Review", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedOn");
-
-                    b.Property<string>("Message");
-
-                    b.Property<Guid>("ProductId");
-
-                    b.Property<int>("Rating");
-
-                    b.Property<string>("Title");
-
-                    b.Property<Guid>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Review");
                 });
 
             modelBuilder.Entity("aspCart.Core.Domain.Catalog.Specification", b =>

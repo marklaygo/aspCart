@@ -55,7 +55,6 @@ namespace aspCart.Web.Controllers
 
         #endregion
 
-
         #region Methods
 
         // GET: /Cart/
@@ -239,6 +238,7 @@ namespace aspCart.Web.Controllers
                     {
                         Id = Guid.NewGuid(),
                         OrderId = orderEntity.Id,
+                        ProductId = item.Id.ToString(),
                         Name = item.Name,
                         Quantity = item.Quantity,
                         Price = item.Price,
