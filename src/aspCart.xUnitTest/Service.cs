@@ -29,6 +29,7 @@ namespace aspCart.xUnitTest
             ProductImageMapping = new Repository<ProductImageMapping>(context);
             ProductManufacturerMapping = new Repository<ProductManufacturerMapping>(context);
             ProductSpecificationMapping = new Repository<ProductSpecificationMapping>(context);
+            ReviewRepository = new Repository<Review>(context);
             SpecificationRepository = new Repository<Specification>(context);
 
             // service
@@ -38,6 +39,7 @@ namespace aspCart.xUnitTest
             OrderService = new OrderService(context, OrderRepository, OrderItemRepository);
             ImageManagerService = new ImageManagerService(ImageRepository, ProductImageMapping);
             ProductService = new ProductService(context, ProductRepository);
+            ReviewService = new ReviewService(context, ReviewRepository);
             SpecificationService = new SpecificationService(context, SpecificationRepository, ProductSpecificationMapping);
         }
 
@@ -53,6 +55,7 @@ namespace aspCart.xUnitTest
         public Repository<ProductImageMapping> ProductImageMapping { get; set; }
         public Repository<ProductManufacturerMapping> ProductManufacturerMapping { get; set; }
         public Repository<ProductSpecificationMapping> ProductSpecificationMapping { get; set; }
+        public Repository<Review> ReviewRepository { get; set; }
         public Repository<Specification> SpecificationRepository { get; set; }
 
         // service
@@ -62,6 +65,7 @@ namespace aspCart.xUnitTest
         public ManufacturerService ManufacturerService { get; set; }
         public OrderService OrderService { get; private set; }
         public ProductService ProductService { get; set; }
+        public ReviewService ReviewService { get; set; }
         public SpecificationService SpecificationService { get; set; }
     }
 }
