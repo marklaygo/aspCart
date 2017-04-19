@@ -13,12 +13,12 @@ namespace aspCart.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    Message = table.Column<string>(nullable: true),
+                    UserId = table.Column<Guid>(nullable: false),
                     ProductId = table.Column<Guid>(nullable: false),
-                    Rating = table.Column<int>(nullable: false),
                     Title = table.Column<string>(nullable: true),
-                    UserId = table.Column<Guid>(nullable: false)
+                    Message = table.Column<string>(nullable: true),
+                    Rating = table.Column<int>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
                 },
                 constraints: table =>
                 {
