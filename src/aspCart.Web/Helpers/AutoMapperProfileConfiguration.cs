@@ -49,6 +49,10 @@ namespace aspCart.Web.Helpers
                 .ForMember(dest => dest.Images, opt => opt.Ignore())
                 .ForMember(dest => dest.Specifications, opt => opt.Ignore());
 
+            // review
+            CreateMap<Review, ReviewModel>()
+                .ReverseMap();
+
             // specifications
             CreateMap<Specification, SpecificationListModel>();
             CreateMap<Specification, SpecificationCreateOrUpdateModel>()

@@ -7,6 +7,9 @@ using aspCart.Core.Interface.Services.Catalog;
 using aspCart.Web.Models;
 using AutoMapper;
 using aspCart.Core.Domain.Catalog;
+using aspCart.Infrastructure.EFModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace aspCart.Web.Controllers
 {
@@ -14,7 +17,9 @@ namespace aspCart.Web.Controllers
     {
         #region Fields
 
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IProductService _productService;
+        private readonly IReviewService _reviewService;
         private readonly IMapper _mapper;
 
         #endregion
@@ -22,10 +27,14 @@ namespace aspCart.Web.Controllers
         #region Constructor
 
         public HomeController(
+            UserManager<ApplicationUser> userManager,
             IProductService productService,
+            IReviewService reviewService,
             IMapper mapper)
         {
+            _userManager = userManager;
             _productService = productService;
+            _reviewService = reviewService;
             _mapper = mapper;
         }
 
@@ -252,6 +261,84 @@ namespace aspCart.Web.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        // GET: /Home/ProductReview
+        public async Task<IActionResult> ProductReview(string id)
+        {
+            var model = new List<ReviewModel>();
+            if (id != null && id.Length > 0)
+            {
+                Guid result = Guid.Empty;
+
+                if (Guid.TryParse(id, out result))
+                {
+                    var reviewEntities = _reviewService.GetReviewsByProductId(result);
+                    if (reviewEntities != null && reviewEntities.Count > 0)
+                    {
+                        foreach (var review in reviewEntities)
+                        {
+                            var r = _mapper.Map<Review, ReviewModel>(review);
+
+                            var user = await _userManager.FindByIdAsync(review.UserId.ToString());
+                            r.Username = await _userManager.GetUserNameAsync(user);
+
+                            model.Add(r);
+                        }
+                    }
+                }
+            }
+
+            return Json(model.OrderByDescending(x => x.CreatedOn));
+        }
+
+        // GET Home/ProductReview
+        [Authorize]
+        public IActionResult CreateReview(string id)
+        {
+            if(id != null && id.Length > 0)
+            {
+                Guid result = Guid.Empty;
+                var model = new CreateReviewModel();
+
+                if(Guid.TryParse(id, out result))
+                {
+                    var productEntity = _productService.GetProductById(result);
+                    model.ProductId = productEntity.Id;
+                    model.ProductName = productEntity.Name;
+                    model.ProductSeo = productEntity.SeoUrl;
+                    model.Rating = 1;
+                }
+
+                return View(model);
+            }
+            return RedirectToAction("Index");
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateReview(CreateReviewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var reviewEntity = new Review
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = Guid.Parse(_userManager.GetUserId(HttpContext.User)),
+                    ProductId = model.ProductId,
+                    Title = model.Title,
+                    Message = model.Message,
+                    Rating = model.Rating,
+                    CreatedOn = DateTime.Now
+                };
+
+                _reviewService.InsertReview(reviewEntity);
+
+                return RedirectToAction(model.ProductSeo, "Product");
+            }
+
+            return View(model);
         }
 
         public IActionResult Error()

@@ -155,6 +155,11 @@ namespace aspCart.Web
                     defaults: new { controller = "Manufacturer", action = "ManufacturerInfo" });
 
                 routes.MapRoute(
+                    name: "create review",
+                    template: "CreateReview/{id}",
+                    defaults: new { controller = "Home", action = "CreateReview" });
+
+                routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });

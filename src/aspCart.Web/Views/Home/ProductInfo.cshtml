@@ -66,20 +66,20 @@
     <div class="row">
         <div class="col-md-12">
             <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
+            <ul class="nav nav-tabs" role="tablist" id="product-info-tabs">
                 @if ((Model.Description != null && Model.Description.Length > 0) || Model.Specifications.Count == 0)
                 {
                     <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#description" role="tab">Description</a>
+                        <a class="nav-link active" id="description" data-toggle="tab" href="#descriptionTab" role="tab">Description</a>
                     </li>
 
                     description = true;
                 }
                 <li class="nav-item">
-                    <a class="nav-link @(description == false ? "active" : "")" data-toggle="tab" href="#specification" role="tab">Specification</a>
+                    <a class="nav-link @(description == false ? "active" : "")" id="specification" data-toggle="tab" href="#specificationTab" role="tab">Specification</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#reviews" role="tab">Reviews</a>
+                    <a class="nav-link" id="reviews" data-toggle="tab" href="#reviewsTab" role="tab">Reviews</a>
                 </li>
             </ul>
 
@@ -87,16 +87,16 @@
             <div class="tab-content">
                 @if ((Model.Description != null && Model.Description.Length > 0) || Model.Specifications.Count == 0)
                 {
-                    <div class="tab-pane active" id="description" role="tabpanel">
+                    <div class="tab-pane active" id="descriptionTab" role="tabpanel">
                         <br />
                         @await Html.PartialAsync("_ProductDescription", Model)
                     </div>
                 }
-                <div class="tab-pane @(description == false ? "active" : "")" id="specification" role="tabpanel">
+                <div class="tab-pane @(description == false ? "active" : "")" id="specificationTab" role="tabpanel">
                     <br />
                     @await Html.PartialAsync("_ProductSpecification", Model)
                 </div>
-                <div class="tab-pane" id="reviews" role="tabpanel">
+                <div class="tab-pane" id="reviewsTab" role="tabpanel">
                     <br />
                     @await Html.PartialAsync("_ProductReview", Model)
                 </div>
@@ -179,5 +179,18 @@
         function updateText(n) {
             $('#lightbox-modal').find('.modal-title').text(n + 1 + ' / ' + imgSlides.length)
         }
+    });
+
+    $(function () {
+        $('#product-info-tabs li a').on('click', function (e) {
+            window.location.hash = '#!#' + e.target.id;
+        });
+
+        $(function () {
+            if(window.location.hash.length > 0){
+                let id = window.location.hash.replace('#!', '');
+                $(id).tab('show');
+            }
+        })
     });
 </script>

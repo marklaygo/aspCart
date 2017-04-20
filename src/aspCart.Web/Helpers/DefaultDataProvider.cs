@@ -47,6 +47,7 @@ namespace aspCart.Web.Helpers
             context.OrderItems.RemoveRange(context.OrderItems);
             context.Orders.RemoveRange(context.Orders);
             context.BillingAddresses.RemoveRange(context.BillingAddresses);
+            context.Reviews.RemoveRange(context.Reviews);
             await context.SaveChangesAsync();
 
             #endregion
@@ -481,6 +482,24 @@ namespace aspCart.Web.Helpers
             await context.SaveChangesAsync();
 
             #endregion
+
+            #region Reviews
+
+            // product review
+
+            var reviewList = new List<Review>
+            {
+                new Review { Id = Guid.Parse("4940f169-932d-4cee-88eb-630cf02c707d"), UserId = Guid.Parse("1966c895-c0d4-40d6-b201-47c0dd0228e1"), ProductId = Guid.Parse("337acae3-7adf-4372-8619-1cc9345c61ea"), Title = "Lorem ipsum", Message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quam massa, lobortis a ex at, euismod varius orci. Maecenas posuere justo non interdum fringilla. Praesent nec consectetur nulla. Vestibulum tortor lectus, lacinia id ante quis, elementum malesuada libero. Mauris nec semper orci, sit amet vulputate elit. Fusce id dignissim sapien. Aenean tempor erat elit, quis gravida nisi molestie vel. Duis in hendrerit mi. Proin gravida, purus ut porttitor porttitor, lectus nisl eleifend nunc, sit amet mollis urna nibh ac magna. Nullam feugiat sem odio. Aliquam erat volutpat. Fusce tincidunt metus nec quam pretium pretium quis vitae augue. Ut libero orci, laoreet sed justo ut, pretium convallis nisi. Etiam quis massa eu elit facilisis egestas. Duis ultrices ex mauris, ac iaculis nibh mattis vitae. Aenean sodales ante sed lorem consequat, non blandit dui efficitur.", Rating = 3, CreatedOn = DateTime.Now },
+                new Review { Id = Guid.Parse("4ee720b4-d5cd-4f01-8181-175fb5f59fab"), UserId = Guid.Parse("1966c895-c0d4-40d6-b201-47c0dd0228e1"), ProductId = Guid.Parse("c85f8f8b-3245-4be5-9fa7-96f1df2dbdc7"), Title = "Lorem ipsum", Message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quam massa, lobortis a ex at, euismod varius orci. Maecenas posuere justo non interdum fringilla. Praesent nec consectetur nulla. Vestibulum tortor lectus, lacinia id ante quis, elementum malesuada libero. Mauris nec semper orci, sit amet vulputate elit. Fusce id dignissim sapien. Aenean tempor erat elit, quis gravida nisi molestie vel. Duis in hendrerit mi. Proin gravida, purus ut porttitor porttitor, lectus nisl eleifend nunc, sit amet mollis urna nibh ac magna. Nullam feugiat sem odio. Aliquam erat volutpat. Fusce tincidunt metus nec quam pretium pretium quis vitae augue. Ut libero orci, laoreet sed justo ut, pretium convallis nisi. Etiam quis massa eu elit facilisis egestas. Duis ultrices ex mauris, ac iaculis nibh mattis vitae. Aenean sodales ante sed lorem consequat, non blandit dui efficitur.", Rating = 3, CreatedOn = DateTime.Now },
+                new Review { Id = Guid.Parse("9a0dd123-2ddc-4850-ab89-b7de75c6c7e4"), UserId = Guid.Parse("1966c895-c0d4-40d6-b201-47c0dd0228e1"), ProductId = Guid.Parse("9de9aad6-7dca-4861-842f-20021a2c5fa0"), Title = "Lorem ipsum", Message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quam massa, lobortis a ex at, euismod varius orci. Maecenas posuere justo non interdum fringilla. Praesent nec consectetur nulla. Vestibulum tortor lectus, lacinia id ante quis, elementum malesuada libero. Mauris nec semper orci, sit amet vulputate elit. Fusce id dignissim sapien. Aenean tempor erat elit, quis gravida nisi molestie vel. Duis in hendrerit mi. Proin gravida, purus ut porttitor porttitor, lectus nisl eleifend nunc, sit amet mollis urna nibh ac magna. Nullam feugiat sem odio. Aliquam erat volutpat. Fusce tincidunt metus nec quam pretium pretium quis vitae augue. Ut libero orci, laoreet sed justo ut, pretium convallis nisi. Etiam quis massa eu elit facilisis egestas. Duis ultrices ex mauris, ac iaculis nibh mattis vitae. Aenean sodales ante sed lorem consequat, non blandit dui efficitur.", Rating = 3, CreatedOn = DateTime.Now },
+                new Review { Id = Guid.Parse("01acf2bf-cb15-496e-899b-94e4de3fc08c"), UserId = Guid.Parse("1966c895-c0d4-40d6-b201-47c0dd0228e1"), ProductId = Guid.Parse("d9122044-3401-4bee-aaac-9c7802a7027e"), Title = "Lorem ipsum", Message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quam massa, lobortis a ex at, euismod varius orci. Maecenas posuere justo non interdum fringilla. Praesent nec consectetur nulla. Vestibulum tortor lectus, lacinia id ante quis, elementum malesuada libero. Mauris nec semper orci, sit amet vulputate elit. Fusce id dignissim sapien. Aenean tempor erat elit, quis gravida nisi molestie vel. Duis in hendrerit mi. Proin gravida, purus ut porttitor porttitor, lectus nisl eleifend nunc, sit amet mollis urna nibh ac magna. Nullam feugiat sem odio. Aliquam erat volutpat. Fusce tincidunt metus nec quam pretium pretium quis vitae augue. Ut libero orci, laoreet sed justo ut, pretium convallis nisi. Etiam quis massa eu elit facilisis egestas. Duis ultrices ex mauris, ac iaculis nibh mattis vitae. Aenean sodales ante sed lorem consequat, non blandit dui efficitur.", Rating = 3, CreatedOn = DateTime.Now },
+                new Review { Id = Guid.Parse("fd7412ad-98c3-4ed7-bc70-df2f22530335"), UserId = Guid.Parse("1966c895-c0d4-40d6-b201-47c0dd0228e1"), ProductId = Guid.Parse("5f1c200c-b551-4ceb-9273-3ccf9c4718da"), Title = "Lorem ipsum", Message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quam massa, lobortis a ex at, euismod varius orci. Maecenas posuere justo non interdum fringilla. Praesent nec consectetur nulla. Vestibulum tortor lectus, lacinia id ante quis, elementum malesuada libero. Mauris nec semper orci, sit amet vulputate elit. Fusce id dignissim sapien. Aenean tempor erat elit, quis gravida nisi molestie vel. Duis in hendrerit mi. Proin gravida, purus ut porttitor porttitor, lectus nisl eleifend nunc, sit amet mollis urna nibh ac magna. Nullam feugiat sem odio. Aliquam erat volutpat. Fusce tincidunt metus nec quam pretium pretium quis vitae augue. Ut libero orci, laoreet sed justo ut, pretium convallis nisi. Etiam quis massa eu elit facilisis egestas. Duis ultrices ex mauris, ac iaculis nibh mattis vitae. Aenean sodales ante sed lorem consequat, non blandit dui efficitur.", Rating = 3, CreatedOn = DateTime.Now },
+                new Review { Id = Guid.Parse("ab13fa29-e462-49a3-84c3-8e901d0bfe61"), UserId = Guid.Parse("1966c895-c0d4-40d6-b201-47c0dd0228e1"), ProductId = Guid.Parse("6176109c-2219-4013-a3f3-7cf90b60d8be"), Title = "Lorem ipsum", Message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quam massa, lobortis a ex at, euismod varius orci. Maecenas posuere justo non interdum fringilla. Praesent nec consectetur nulla. Vestibulum tortor lectus, lacinia id ante quis, elementum malesuada libero. Mauris nec semper orci, sit amet vulputate elit. Fusce id dignissim sapien. Aenean tempor erat elit, quis gravida nisi molestie vel. Duis in hendrerit mi. Proin gravida, purus ut porttitor porttitor, lectus nisl eleifend nunc, sit amet mollis urna nibh ac magna. Nullam feugiat sem odio. Aliquam erat volutpat. Fusce tincidunt metus nec quam pretium pretium quis vitae augue. Ut libero orci, laoreet sed justo ut, pretium convallis nisi. Etiam quis massa eu elit facilisis egestas. Duis ultrices ex mauris, ac iaculis nibh mattis vitae. Aenean sodales ante sed lorem consequat, non blandit dui efficitur.", Rating = 3, CreatedOn = DateTime.Now }
+            };
+            context.Reviews.AddRange(reviewList);
+            await context.SaveChangesAsync();
+
+            #endregion
         }
 
         private static async Task SeedAdminAccount(ApplicationDbContext context, IConfigurationRoot configuration)
@@ -542,28 +561,6 @@ namespace aspCart.Web.Helpers
                 user1.PasswordHash = hashed;
                 var userStore = new UserStore<ApplicationUser>(context);
                 await userStore.CreateAsync(user1);
-            }
-
-            // user2
-            var user2 = new ApplicationUser()
-            {
-                Id = "ff207e2a-b263-429a-b395-3963e896f40d",
-                UserName = "user2@aspcart.com",
-                NormalizedUserName = "user2@aspcart.com".ToUpper(),
-                Email = "user2@aspcart.com",
-                NormalizedEmail = "user2@aspcart.com".ToUpper(),
-                EmailConfirmed = true,
-                LockoutEnabled = false,
-                SecurityStamp = Guid.NewGuid().ToString()
-            };
-
-            if (!context.Users.Any(u => u.UserName == user2.UserName))
-            {
-                var passwordHasher = new PasswordHasher<ApplicationUser>();
-                var hashed = passwordHasher.HashPassword(user2, "11234");
-                user2.PasswordHash = hashed;
-                var userStore = new UserStore<ApplicationUser>(context);
-                await userStore.CreateAsync(user2);
             }
         }
     }

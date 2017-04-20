@@ -4,7 +4,6 @@
 }
 
 body {
-    padding-top: 75px;
     padding-bottom: 20px;
     margin-bottom: 60px;
 }
@@ -14,6 +13,14 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+.max-width {
+    max-width: 100%;
+}
+
+ul {
+    list-style: none;
 }
 
 .footer {
@@ -224,4 +231,121 @@ a.card-title {
 
 .close {
     font-size: 36px;
+}
+
+.review-table {
+    width: 100%;
+}
+
+.review-table tbody th {
+    width: 20%;
+    padding: 12px;
+    vertical-align: top;
+    font-weight: 400;
+    text-align: left;
+    border-right: 1px solid rgba(0, 0, 0, .1) !important;
+}
+
+.review-table tbody tr {
+    border-bottom: 2px solid gray!important;
+}
+
+.review-table tbody tr:last-child {
+    border-bottom: none!important;
+}
+
+.review-table tbody td {
+    padding: 5px;
+}
+
+.review-table tbody th ul {
+    margin: 0;
+    padding: 0;
+}
+
+.review-table tbody th ul li {
+    margin-bottom: 1px;
+}
+
+.review-table tbody th ul li:last-child {
+    margin-bottom: 0;
+}
+
+li.r-date {
+    min-width: 155px;
+    font-size: 14px !important;
+}
+
+li.r-user {
+    font-weight: 500;
+}
+
+.r-verified {
+    font-size: 14px;
+}
+
+.verefied-check {
+    color: #5cb85c;
+}
+
+.review-title {
+    font-weight: 500;
+}
+
+.review-message {
+    min-height: 150px;
+    padding: 10px 5px 10px 5px;
+    border-top: 1px solid rgba(0, 0, 0, .1) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, .1) !important;
+}
+
+.helpful {
+    margin: 0;
+    padding-top: .5em;
+    padding-bottom: .25em;
+    text-align: right;
+    clear: both;
+}
+
+.review-rating-result {
+    padding: 14px;
+    border-bottom: 1px solid gray !important;
+    background-color: rgba(0, 0, 0, .05);
+}
+
+.star-active {
+    color: #fbbc05;
+}
+
+.star-inactive {
+    color: rgba(0, 0, 0, .35);
+}
+
+.star {
+    margin: 0 3px 0 3px;
+}
+
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    width: 175px;
+    font-size: 28px;
+}
+
+.star-rating input {
+    display:none;
+}
+
+.star-rating label {
+    color: rgba(0, 0, 0, .35);
+    cursor: pointer;
+}
+
+.star-rating :checked ~ label {
+    color: #fbbc05;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: #e7711b;
 }
