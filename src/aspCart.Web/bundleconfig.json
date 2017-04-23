@@ -1,0 +1,77 @@
+[
+  {
+    "outputFileName": "wwwroot/dist/site.min.css",
+    "inputFiles": [
+      "wwwroot/lib/bootstrap-4.0.0-alpha.6-dist/css/bootstrap.min.css",
+      "wwwroot/lib/font-awesome/css/font-awesome.css",
+      "wwwroot/css/site.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/dist/site.min.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery/dist/jquery.js",
+      "wwwroot/lib/bootstrap-4.0.0-alpha.6-dist/js/tether.min.js",
+      "wwwroot/lib/bootstrap-4.0.0-alpha.6-dist/js/bootstrap.min.js",
+      "wwwroot/lib/jquery-validation/dist/jquery.validate.js",
+      "wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
+      "wwwroot/js/site.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/dist/admin1.min.css",
+    "inputFiles": [
+      "wwwroot/lib/bootstrap/dist/css/bootstrap.css",
+      "wwwroot/lib/font-awesome/css/font-awesome.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/dist/admin2.min.css",
+    "inputFiles": [
+      "wwwroot/lib/icheck/skins/square/blue.css",
+      "wwwroot/lib/datatables/dist/css/dataTables.bootstrap.css",
+      "wwwroot/lib/kendoui.2017.1.118.core/styles/kendo.common-bootstrap.min.css",
+      "wwwroot/lib/kendoui.2017.1.118.core/styles/kendo.bootstrap.min.css",
+      "wwwroot/css/admin.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/dist/admin.min.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery/dist/jquery.js",
+      "wwwroot/lib/bootstrap/dist/js/bootstrap.js",
+      "wwwroot/lib/adminlte/dist/js/app.js",
+      "wwwroot/lib/icheck/icheck.js",
+      "wwwroot/lib/datatables/dist/js/jquery.dataTables.js",
+      "wwwroot/lib/datatables/dist/js/dataTables.bootstrap.js",
+      "wwwroot/lib/kendoui.2017.1.118.core/js/kendo.ui.core.min.js",
+      "wwwroot/lib/jquery-validation/dist/jquery.validate.js",
+      "wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  }
+]

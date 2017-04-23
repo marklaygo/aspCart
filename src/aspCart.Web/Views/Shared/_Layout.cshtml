@@ -5,15 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] | aspCart</title>
 
-    <link href="~/lib/bootstrap-4.0.0-alpha.6-dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <environment names="Development">
+        <link href="~/lib/bootstrap-4.0.0-alpha.6-dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/css/site.css" />
 
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/bootstrap-4.0.0-alpha.6-dist/js/tether.min.js"></script>
-    <script src="~/lib/bootstrap-4.0.0-alpha.6-dist/js/bootstrap.min.js"></script>
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-    <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap-4.0.0-alpha.6-dist/js/tether.min.js"></script>
+        <script src="~/lib/bootstrap-4.0.0-alpha.6-dist/js/bootstrap.min.js"></script>
+        @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <link href="~/dist/site.min.css" rel="stylesheet" />
+        <script src="~/dist/site.min.js"></script>
+    </environment>
 </head>
 <body>
     <nav class="navbar navbar-toggleable-md navbar-light bg-faded">

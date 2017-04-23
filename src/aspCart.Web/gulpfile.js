@@ -13,10 +13,10 @@ gulp.task("copy-dependencies", function () {
         .pipe(gulp.dest(paths.lib));
 
     // admin lte
-    gulp.src(paths.node + 'admin-lte/dist/css/AdminLTE.css')
+    gulp.src(paths.node + 'admin-lte/dist/css/AdminLTE.min.css')
         .pipe(gulp.dest(paths.lib + 'adminlte/dist/css'));
 
-    gulp.src(paths.node + 'admin-lte/dist/css/skins/skin-blue.css')
+    gulp.src(paths.node + 'admin-lte/dist/css/skins/skin-blue.min.css')
         .pipe(gulp.dest(paths.lib + 'adminlte/dist/css/skins'));
 
     gulp.src(paths.node + 'admin-lte/dist/img/credit/**/*')
