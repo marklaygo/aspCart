@@ -22,6 +22,7 @@ using aspCart.Core.Interface.Services.User;
 using aspCart.Infrastructure.Services.User;
 using aspCart.Core.Interface.Services.Sale;
 using aspCart.Infrastructure.Services.Sale;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace aspCart.Web
 {
@@ -118,6 +119,10 @@ namespace aspCart.Web
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+
+                // redirect http request to https with 301 status code
+                var options = new RewriteOptions().AddRedirectToHttpsPermanent();
+                app.UseRewriter(options);
             }
 
             app.UseStaticFiles();
