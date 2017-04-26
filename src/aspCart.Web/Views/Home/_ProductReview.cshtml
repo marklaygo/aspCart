@@ -70,7 +70,7 @@
                     <ul>
                         <li class ="r-user">_user_placeholder</li>
                         <li class ="r-date">_date_placeholder</li>
-                        <li class ="r-verified"><i class ="fa fa-check verefied-check"></i> Verified Purchase</li>
+                        <li class ="r-verified">_verified_placeholder</li>
                     </ul>
                 </th>
                 <td>
@@ -113,6 +113,11 @@
                                 review = review.replace('_star_placeholder', createStar(item.rating));
                                 review = review.replace('_title_placeholder', item.title);
                                 review = review.replace('_message_placeholder', item.message);
+
+                                if (item.isVerifiedOwner)
+                                    review = review.replace('_verified_placeholder', '<i class ="fa fa-check verified-check"></i> Verified Purchase');
+                                else
+                                    review = review.replace('_verified_placeholder', '<i class ="fa fa-close verified-x"></i> Verified Purchase');
 
                                 switch (item.rating) {
                                     case 1: one++; break;

@@ -15,5 +15,6 @@ namespace aspCart.Web.Models
         public string Message { get; set; }
         public int Rating { get; set; }
         public string CreatedOn { get; set; }
+        public bool IsVerifiedOwner { get; set; }
     }
 }

@@ -10,6 +10,7 @@ using aspCart.Core.Domain.Catalog;
 using aspCart.Infrastructure.EFModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using aspCart.Core.Interface.Services.Sale;
 
 namespace aspCart.Web.Controllers
 {
@@ -18,6 +19,7 @@ namespace aspCart.Web.Controllers
         #region Fields
 
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IOrderService _orderService;
         private readonly IProductService _productService;
         private readonly IReviewService _reviewService;
         private readonly IMapper _mapper;
@@ -28,11 +30,13 @@ namespace aspCart.Web.Controllers
 
         public HomeController(
             UserManager<ApplicationUser> userManager,
+            IOrderService orderService,
             IProductService productService,
             IReviewService reviewService,
             IMapper mapper)
         {
             _userManager = userManager;
+            _orderService = orderService;
             _productService = productService;
             _reviewService = reviewService;
             _mapper = mapper;
@@ -282,6 +286,10 @@ namespace aspCart.Web.Controllers
 
                             var user = await _userManager.FindByIdAsync(review.UserId.ToString());
                             r.Username = await _userManager.GetUserNameAsync(user);
+
+                            r.IsVerifiedOwner = _orderService.GetAllOrdersByUserId(review.UserId)
+                                .Where(x => x.Items.Any(a => a.ProductId == result.ToString()) && x.Status == Core.Domain.Sale.OrderStatus.Complete)
+                                .Count() > 0;
 
                             model.Add(r);
                         }

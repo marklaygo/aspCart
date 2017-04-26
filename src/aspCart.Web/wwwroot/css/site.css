@@ -284,8 +284,12 @@ li.r-user {
     font-size: 14px;
 }
 
-.verefied-check {
-    color: #5cb85c;
+.verified-check {
+    color: #53c14d;
+}
+
+.verified-x {
+    color: #f83838;
 }
 
 .review-title {
