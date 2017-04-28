@@ -51,7 +51,14 @@
                             </div>
                             <div class="col-md-9" style="padding-top: 25px;">
                                 <div style="margin-bottom: 3px;">Share your thoughts with other customers</div>
-                                <a asp-area="" asp-controller="CreateReview" asp-action="@Model.Id" class="btn btn-secondary">Write a review</a>
+                                @{ 
+                                    var reviewText = "Write a review";
+                                    if (ViewData["ProductReviewer"] != null && (bool)ViewData["ProductReviewer"])
+                                    {
+                                        reviewText = "Edit your review";
+                                    }
+                                }
+                                <a asp-area="" asp-controller="CreateReview" asp-action="@Model.Id" class="btn btn-secondary">@reviewText</a>
                             </div>
                         </div>
                     </td>
@@ -81,6 +88,7 @@
 
                     <div class ="review-message">
                         <p>_message_placeholder</p>
+                        <span class ="date-edited text-muted">_date_modified_placeholder</span>
                     </div>
                     <p class ="helpful text-muted">
                         Did you find this review helpful?
@@ -113,6 +121,11 @@
                                 review = review.replace('_star_placeholder', createStar(item.rating));
                                 review = review.replace('_title_placeholder', item.title);
                                 review = review.replace('_message_placeholder', item.message);
+
+                                if (item.dateModified !== '1/1/0001 12:00:00 AM')
+                                    review = review.replace('_date_modified_placeholder', 'Last edited: ' + item.dateModified);
+                                else
+                                    review = review.replace('_date_modified_placeholder', '');
 
                                 if (item.isVerifiedOwner)
                                     review = review.replace('_verified_placeholder', '<i class ="fa fa-check verified-check"></i> Verified Purchase');

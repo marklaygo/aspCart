@@ -297,14 +297,21 @@ li.r-user {
 }
 
 .review-message {
+    position: relative;
     min-height: 150px;
     padding: 10px 5px 10px 5px;
     border-top: 1px solid rgba(0, 0, 0, .1) !important;
     border-bottom: 1px solid rgba(0, 0, 0, .1) !important;
 }
 
+.date-edited {
+    position: absolute;
+    bottom: 0;
+    font-size: 12px;
+}
+
 .helpful {
-    margin: 0;
+    margin: 0;  
     padding-top: .5em;
     padding-bottom: .25em;
     text-align: right;

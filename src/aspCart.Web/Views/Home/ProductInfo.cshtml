@@ -183,7 +183,7 @@
 
     $(function () {
         $('#product-info-tabs li a').on('click', function (e) {
-            window.location.hash = '#!#' + e.target.id;
+            window.location.hash = '#!#' + e.target.id.toLowerCase();
         });
 
         $(function () {

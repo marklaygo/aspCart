@@ -9,8 +9,8 @@
             <h5>Write a review for @Model.ProductName</h5>
             <hr />
             <div class="row">
-                <div class="col-md-6">
-                    <form asp-area="" asp-controller="Home" asp-action="CreateReview" method="post">
+                <div class="col-md-8">
+                    <form id="reviewForm" asp-area="" asp-controller="Home" asp-action="CreateReview" method="post">
                         <input type="hidden" asp-for="ProductId" />
                         <input type="hidden" asp-for="ProductName" />
                         <input type="hidden" asp-for="ProductSeo" />
@@ -42,13 +42,42 @@
                         <!-- message -->
                         <div class="form-group">
                             <label asp-for="Message">Message</label>
-                            <textarea asp-for="Message" class="form-control max-width" rows="5"></textarea>
+                            <textarea asp-for="Message" class="form-control max-width" rows="10"></textarea>
                             <span asp-validation-for="Message" class="text-danger"></span>
                         </div>
-                        <button type="submit" class="btn btn-info">Submit</button>
+                        @{ 
+                            string btnValue = "Submit";
+                            if(ViewData["ReviewEdited"] != null && (bool)ViewData["ReviewEdited"])
+                            {
+                                btnValue = "Update";
+                            }
+                        }
+                        <button type="button" class="btn btn-info" id="btn-submit">@btnValue</button>
+                        <a href="/Product/@Model.ProductSeo#!#reviews" class="btn btn-secondary">Cancel</a>
                     </form>
                 </div> <!-- col-md-6 end -->
             </div> <!-- row end -->
         </div>
     </div>
 </div>
+
+<script>
+    $(function () {
+        $('#btn-submit').on('click', function (e) {
+            e.preventDefault();
+
+            let form = $('#reviewForm');
+            let submitBtn = $(this);
+
+            var result = form.valid();
+
+            if (result) {
+                if (submitBtn.text() === 'Update') 
+                    form.attr('action', "/Home/EditReview")
+
+                form.submit();
+            }
+
+        });
+    });
+</script>

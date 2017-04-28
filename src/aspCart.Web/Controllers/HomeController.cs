@@ -119,8 +119,11 @@ namespace aspCart.Web.Controllers
                             SortOrder = specification.SortOrder
                         });
                     }
-
+                    
                     ViewData["ProductId"] = productModel.Id;
+                    if(User.Identity.IsAuthenticated)
+                        ViewData["ProductReviewer"] = _reviewService.GetReviewByProductIdUserId(productModel.Id, GetCurrentUserId()) != null ? true : false;
+
                     return View(productModel);
                 }
             }
@@ -316,6 +319,15 @@ namespace aspCart.Web.Controllers
                     model.ProductName = productEntity.Name;
                     model.ProductSeo = productEntity.SeoUrl;
                     model.Rating = 1;
+
+                    var userReview = _reviewService.GetReviewByProductIdUserId(result, GetCurrentUserId());
+                    if(userReview != null)
+                    {
+                        model.Title = userReview.Title;
+                        model.Message = userReview.Message;
+                        model.Rating = userReview.Rating;
+                        ViewData["ReviewEdited"] = true;
+                    }
                 }
 
                 return View(model);
@@ -333,7 +345,7 @@ namespace aspCart.Web.Controllers
                 var reviewEntity = new Review
                 {
                     Id = Guid.NewGuid(),
-                    UserId = Guid.Parse(_userManager.GetUserId(HttpContext.User)),
+                    UserId = GetCurrentUserId(),
                     ProductId = model.ProductId,
                     Title = model.Title,
                     Message = model.Message,
@@ -343,7 +355,31 @@ namespace aspCart.Web.Controllers
 
                 _reviewService.InsertReview(reviewEntity);
 
-                return RedirectToAction(model.ProductSeo, "Product");
+                return new RedirectResult("/Product/" + model.ProductSeo + "#!#reviews");
+            }
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditReview(CreateReviewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var reviewEntity = _reviewService.GetReviewByProductIdUserId(model.ProductId, GetCurrentUserId());
+                if(reviewEntity != null)
+                {
+                    reviewEntity.Title = model.Title;
+                    reviewEntity.Message = model.Message;
+                    reviewEntity.Rating = model.Rating;
+                    reviewEntity.DateModified = DateTime.Now;
+
+                    _reviewService.UpdateReview(reviewEntity);
+                }
+
+                return new RedirectResult("/Product/" + model.ProductSeo + "#!#reviews");
             }
 
             return View(model);
@@ -352,6 +388,22 @@ namespace aspCart.Web.Controllers
         public IActionResult Error()
         {
             return View();
+        }
+
+        #endregion
+
+        #region Helper
+
+        private Guid GetCurrentUserId()
+        {
+            var id = Guid.Empty;
+            
+            if(Guid.TryParse(_userManager.GetUserId(HttpContext.User) ?? "", out id))
+            {
+                return id;
+            }
+
+            return id;
         }
 
         #endregion

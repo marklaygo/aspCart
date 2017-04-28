@@ -16,10 +16,24 @@ namespace aspCart.Core.Interface.Services.Catalog
         IList<Review> GetReviewsByProductId(Guid productId);
 
         /// <summary>
-        /// Inser review
+        /// Get review using product id and user id
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Review GetReviewByProductIdUserId(Guid productId, Guid userId);
+
+        /// <summary>
+        /// Insert review
         /// </summary>
         /// <param name="review"></param>
         /// <returns></returns>
         void InsertReview(Review review);
+
+        /// <summary>
+        /// Update review
+        /// </summary>
+        /// <param name="review"></param>
+        void UpdateReview(Review review);
     }
 }

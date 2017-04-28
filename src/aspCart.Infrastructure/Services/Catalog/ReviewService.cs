@@ -45,7 +45,21 @@ namespace aspCart.Infrastructure.Services.Catalog
         }
 
         /// <summary>
-        /// Inser review
+        /// Get review using product id and user id
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public Review GetReviewByProductIdUserId(Guid productId, Guid userId)
+        {
+            if (productId == null || userId == null)
+                return null;
+
+            return _reviewRepository.FindByExpression(x => x.ProductId == productId && x.UserId == userId);
+        }
+
+        /// <summary>
+        /// Insert review
         /// </summary>
         /// <param name="review"></param>
         /// <returns></returns>
@@ -55,6 +69,19 @@ namespace aspCart.Infrastructure.Services.Catalog
                 throw new ArgumentNullException("review");
 
             _reviewRepository.Insert(review);
+            _reviewRepository.SaveChanges();
+        }
+
+        /// <summary>
+        /// Update review
+        /// </summary>
+        /// <param name="review"></param>
+        public void UpdateReview(Review review)
+        {
+            if (review == null)
+                throw new ArgumentNullException("review");
+
+            _reviewRepository.Update(review);
             _reviewRepository.SaveChanges();
         }
 

@@ -19,5 +19,6 @@ namespace aspCart.Core.Domain.Catalog
         public string Message { get; set; }
         public int Rating { get; set; }
         public DateTime CreatedOn { get; set; }
+        public DateTime DateModified { get; set; }
     }
 }
