@@ -170,10 +170,10 @@ namespace aspCart.Web
             });
 
             // apply migration
-            DefaultDataProvider.ApplyMigration(app.ApplicationServices);
+            SampleDataProvider.ApplyMigration(app.ApplicationServices);
 
             // seed default data
-            DefaultDataProvider.Seed(app.ApplicationServices, Configuration);
+            SampleDataProvider.Seed(app.ApplicationServices, Configuration);
         }
     }
 }
