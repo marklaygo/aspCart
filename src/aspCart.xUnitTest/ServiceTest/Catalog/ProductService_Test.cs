@@ -167,5 +167,22 @@ namespace aspCart.xUnitTest.ServiceTest.Catalog
                 Assert.Equal(0, service.ProductService.GetAllProducts().Count);
             }
         }
+
+        [Fact]
+        public void ProductService_Test_Table()
+        {
+            // arrange
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "ProductService_Test_Table")
+                .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                var service = new Service(context);
+
+                // assert
+                Assert.NotNull(service.ProductService.Table());
+            }
+        }
     }
 }

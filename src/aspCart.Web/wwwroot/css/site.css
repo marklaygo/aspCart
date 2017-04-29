@@ -360,3 +360,15 @@ li.r-user {
 .star-rating label:hover ~ label {
     color: #e7711b;
 }
+
+.dd-mobile {
+    margin-bottom: 0;
+    background-color: #ccc !important;
+}
+
+@media (max-width: 992px) { 
+    .nav-link {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+}

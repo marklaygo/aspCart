@@ -45,5 +45,11 @@ namespace aspCart.Core.Interface.Services.Catalog
         /// </summary>
         /// <param name="ids">Ids of product to delete</param>
         void DeleteProducts(IList<Guid> ids);
+
+        /// <summary>
+        /// Get product context table
+        /// </summary>
+        /// <returns></returns>
+        IQueryable<Product> Table();
     }
 }

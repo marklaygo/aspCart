@@ -1,6 +1,7 @@
 ﻿using aspCart.Core.Interface.Services.Catalog;
 using aspCart.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,15 @@ namespace aspCart.Web.ViewComponents
     [ViewComponent(Name = "Filter")]
     public class FilterViewComponent : ViewComponent
     {
+        #region Fields
+
         private readonly ICategoryService _categoryService;
         private readonly IManufacturerService _manufacturerService;
         private readonly IProductService _productService;
+
+        #endregion
+
+        #region Constructor
 
         public FilterViewComponent(
             ICategoryService categoryService,
@@ -25,7 +32,11 @@ namespace aspCart.Web.ViewComponents
             _productService = productService;
         }
 
-        public IViewComponentResult Invoke(string nameFilter = "", string manufacturerFilter = "", string categoryFilter = "")
+        #endregion
+
+        #region Methods
+
+        public IViewComponentResult Invoke(string nameFilter = "", string categoryFilter = "", string manufacturerFilter = "" )
         {
             //
             // category filter
@@ -42,18 +53,23 @@ namespace aspCart.Web.ViewComponents
 
                 if(nameFilter.Length > 0)
                 {
-                    qty = filterModel.Quantity = _productService.GetAllProducts()
+                    qty = filterModel.Quantity = _productService.Table()
+                        .Include(x => x.Categories).ThenInclude(x => x.Category)
                         .Where(x => x.Name.ToLower().Contains(nameFilter.ToLower()))
                         .Where(x => x.Categories.Any(c => c.Category.SeoUrl.ToLower() == category.SeoUrl.ToLower()))
                         .Where(x => x.Published == true)
+                        .AsNoTracking()
                         .Count();
                 }
                 if(manufacturerFilter.Length > 0)
                 {
-                    qty = filterModel.Quantity = _productService.GetAllProducts()
+                    qty = filterModel.Quantity = _productService.Table()
+                        .Include(x => x.Categories).ThenInclude(x => x.Category)
+                        .Include(x => x.Manufacturers).ThenInclude(x => x.Manufacturer)
                         .Where(x => x.Manufacturers.Any(m => m.Manufacturer.Name.ToLower() == manufacturerFilter.ToLower()))
                         .Where(x => x.Categories.Any(c => c.Category.SeoUrl.ToLower() == category.SeoUrl.ToLower()))
                         .Where(x => x.Published == true)
+                        .AsNoTracking()
                         .Count();
                 }
 
@@ -61,7 +77,7 @@ namespace aspCart.Web.ViewComponents
             }
 
             //
-            // category filter
+            // manufacturer filter
             //
 
             var manufacturerFilterViewModel = new List<ManufacturerFilterViewModel>();
@@ -73,10 +89,13 @@ namespace aspCart.Web.ViewComponents
                 var filterModel = new ManufacturerFilterViewModel { Name = manufacturer.Name, Id = manufacturer.Id };
                 var qty = 0;
 
-                qty = filterModel.Quantity = _productService.GetAllProducts()
+                qty = filterModel.Quantity = _productService.Table()
+                    .Include(x => x.Categories).ThenInclude(x => x.Category)
+                    .Include(x => x.Manufacturers).ThenInclude(x => x.Manufacturer)
                     .Where(x => x.Manufacturers.Any(m => m.Manufacturer.Name.ToLower() == manufacturer.Name.ToLower()))
                     .Where(x => x.Categories.Any(c => c.Category.Name.ToLower() == categoryFilter.ToLower()))
                     .Where(x => x.Published == true)
+                    .AsNoTracking()
                     .Count();
 
                 if (qty > 0) { manufacturerFilterViewModel.Add(filterModel); }
@@ -86,7 +105,12 @@ namespace aspCart.Web.ViewComponents
             // price filter
             //
 
-            var allProducts = _productService.GetAllProducts();
+            var allProducts = _productService.Table()
+                .Include(x => x.Categories).ThenInclude(x => x.Category)
+                .Include(x => x.Manufacturers).ThenInclude(x => x.Manufacturer)
+                .Where( x=> x.Published  == true)
+                .AsNoTracking()
+                .ToList();
 
             bool showPrice = false;
 
@@ -94,7 +118,6 @@ namespace aspCart.Web.ViewComponents
             {
                 allProducts = allProducts
                     .Where(x => x.Name.ToLower().Contains(nameFilter.ToLower()))
-                    .Where(x => x.Published == true)
                     .ToList();
 
                 showPrice = true;
@@ -103,7 +126,6 @@ namespace aspCart.Web.ViewComponents
             {
                 allProducts = allProducts
                     .Where(x => x.Manufacturers.Any(m => m.Manufacturer.Name.ToLower() == manufacturerFilter.ToLower()))
-                    .Where(x => x.Published == true)
                     .ToList();
 
                 showPrice = true;
@@ -112,7 +134,6 @@ namespace aspCart.Web.ViewComponents
             {
                 allProducts = allProducts
                     .Where(x => x.Categories.Any(m => m.Category.Name.ToLower() == categoryFilter.ToLower()))
-                    .Where(x => x.Published == true)
                     .ToList();
 
                 showPrice = true;
@@ -150,5 +171,7 @@ namespace aspCart.Web.ViewComponents
 
             return View(result);
         }
+
+        #endregion
     }
 }

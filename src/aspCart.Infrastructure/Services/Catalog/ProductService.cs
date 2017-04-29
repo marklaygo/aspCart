@@ -136,6 +136,15 @@ namespace aspCart.Infrastructure.Services.Catalog
             _productRepository.SaveChanges();
         }
 
+        /// <summary>
+        /// Get product context table
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<Product> Table()
+        {
+            return _context.Products;
+        }
+
         #endregion
     }
 }

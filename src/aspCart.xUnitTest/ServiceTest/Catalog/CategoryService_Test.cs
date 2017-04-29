@@ -204,7 +204,7 @@ namespace aspCart.xUnitTest.ServiceTest.Catalog
         {
             // arrange
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(databaseName: "CategoryService_Test_GetAllCategoryWithoutParent")
+                .UseInMemoryDatabase(databaseName: "CategoryService_Test_InsertProductCategoryMappings")
                 .Options;
 
             var productEntity = new Product() { Id = Guid.NewGuid(), Name = "Product 1", Price = 100m };
