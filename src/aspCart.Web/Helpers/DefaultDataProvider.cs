@@ -29,7 +29,7 @@ namespace aspCart.Web.Helpers
         {
             var context = serviceProvider.GetService<ApplicationDbContext>();
 
-            
+
             SeedAdminAccount(context, configuration).GetAwaiter().GetResult();
             SeedTestAccount(context, configuration).GetAwaiter().GetResult();
             TestDataSeed(context, configuration).GetAwaiter().GetResult();
@@ -58,6 +58,7 @@ namespace aspCart.Web.Helpers
             var categoryList = new List<Category>
             {
                 new Category { Id = new Guid("8c4825ef-8c4c-4162-b2e3-08d46c337976"), Name = "Laptop", SeoUrl = "Laptop", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now, ParentCategoryId = Guid.Empty },
+                new Category { Id = new Guid("572a88b0-17ef-4e6c-a806-ca35ad57a41b"), Name = "Mouse", SeoUrl = "Mouse", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now, ParentCategoryId = Guid.Empty },
                 new Category { Id = new Guid("21e88188-057e-41e0-8746-57ec2fd76a51"), Name = "Processors", SeoUrl = "Processors", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now, ParentCategoryId = Guid.Empty },
                 new Category { Id = new Guid("fdc32bdd-013d-4ced-9106-c3e722e4650a"), Name = "Video Card", SeoUrl = "Video-Card", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now, ParentCategoryId = Guid.Empty }
             };
@@ -72,8 +73,11 @@ namespace aspCart.Web.Helpers
             var manufacturerList = new List<Manufacturer>
             {
                 new Manufacturer { Id = new Guid("609483bf-c285-4d67-92f3-08d46c31e55a"), Name = "Acer", SeoUrl = "Acer", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Manufacturer { Id = new Guid("c2c32a94-3a51-48be-9d1a-8a9a687bcb60"), Name = "AMD", SeoUrl = "AMD", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Manufacturer { Id = new Guid("8d942bc6-7407-417f-92f2-08d46c31e55a"), Name = "Asus", SeoUrl = "Asus", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
-                new Manufacturer { Id = new Guid("d96116b4-d107-4db2-bdbc-be493989d557"), Name = "Intel", SeoUrl = "Intel", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now }
+                new Manufacturer { Id = new Guid("d96116b4-d107-4db2-bdbc-be493989d557"), Name = "Intel", SeoUrl = "Intel", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Manufacturer { Id = new Guid("b54c872d-a32b-4f8a-8ae1-12b61167cecd"), Name = "Logitech", SeoUrl = "Logitech", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Manufacturer { Id = new Guid("0c69ba36-beb1-4054-b492-f361c836acc3"), Name = "Razer", SeoUrl = "Razer", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now }
             };
             context.Manufacturers.AddRange(manufacturerList);
             await context.SaveChangesAsync();
@@ -93,7 +97,13 @@ namespace aspCart.Web.Helpers
                 new Image { Id = new Guid("4ae5aa7a-b7b7-4b47-94d9-180876233776"), FileName = "/images/test_images/asus gtx 1080 ti founder 2.png" },
                 new Image { Id = new Guid("04096de0-531e-4f9d-848e-a2c36794181e"), FileName = "/images/test_images/asus gtx 1070 strix.png" },
                 new Image { Id = new Guid("2f077ad1-ab0c-4ff0-864c-4b45e4c31d8c"), FileName = "/images/test_images/rog strix rx480 O8G gaming.jpg" },
-                new Image { Id = new Guid("e09f3dd2-a176-47b3-8518-2015eaef32cc"), FileName = "/images/test_images/Intel Core i7-7700K.jpg" }
+                new Image { Id = new Guid("e09f3dd2-a176-47b3-8518-2015eaef32cc"), FileName = "/images/test_images/Intel Core i7-7700K.jpg" },
+                new Image { Id = new Guid("06cf5fcf-be1f-4690-a9ae-69dc4c35bca7"), FileName = "/images/test_images/The Razer Blade Front.jpg" },
+                new Image { Id = new Guid("4e6bbd99-d7a4-470d-bc47-2a6e39389e0a"), FileName = "/images/test_images/The Razer Blade Slide.jpg" },
+                new Image { Id = new Guid("6449aee5-0618-41f5-9c81-dba6ba41870c"), FileName = "/images/test_images/ryzen 7 1800x.jpg" },
+                new Image { Id = new Guid("9b1cd692-8d27-4661-a171-debe279a8961"), FileName = "/images/test_images/Logitech G502 main.jpg" },
+                new Image { Id = new Guid("baabfd5a-7851-49b6-b67b-046877de431c"), FileName = "/images/test_images/Logitech G502 side.jpg" },
+                new Image { Id = new Guid("139e1fb7-6f21-4d2c-8987-26091744fa4c"), FileName = "/images/test_images/Logitech G502 bottom.jpg" }
             };
             context.Images.AddRange(imageList);
             await context.SaveChangesAsync();
@@ -111,6 +121,9 @@ namespace aspCart.Web.Helpers
                 new Specification { Id = new Guid("58f74c41-14b7-426f-aa46-ddbd73989292"), Name = "Accessories", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("d957dae6-c254-4266-b45c-27fa04f00761"), Name = "Battery", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("8d7163a1-ef0b-442b-88ce-55363cd9ddbc"), Name = "Brand", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("f8affde9-7566-448e-ba9f-d06de0fcd1b8"), Name = "Buttons", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("679ee965-7868-4812-8dad-b6f53e542ebd"), Name = "Color", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("c6a04689-3a3d-4346-b233-a9078ee57f0d"), Name = "Cooling Device", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("739b9689-b4e5-4c30-8108-8cec7419aba9"), Name = "Core Name", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("f48d837a-22e1-43e1-967a-a989d5889f37"), Name = "Chipset", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("b9fe1b06-213a-4128-9329-250da2906852"), Name = "CPU Socket Type", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
@@ -118,9 +131,11 @@ namespace aspCart.Web.Helpers
                 new Specification { Id = new Guid("19dfc537-f02a-4c7d-9919-5b939d08186f"), Name = "Dimensions", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("6144e4ab-722e-4b13-bffe-6f0ea8b168b2"), Name = "Display", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("6dcd49e6-7aa5-4971-80d3-30be12898633"), Name = "Engine Clock", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("1cf7a9ef-11d9-4867-9c7d-ae7d7c46ba6c"), Name = "Features", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("42f0a5df-e976-4ab6-adab-e260f9cef244"), Name = "Gaming Series", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("27201fbe-59d6-42a4-b698-a75dcb3e9f52"), Name = "Graphic", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("a0e252f2-39df-4f19-a139-260dd2935097"), Name = "Graphics Engine", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("4f7d03ab-c9a1-489c-9736-7ce7a49f89de"), Name = "Hand Orientation", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("79136369-aadd-47e2-ac71-2511933881e5"), Name = "Hyper-Threading Support", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("eca1dc44-190e-4806-ba8a-1af16fbd8d24"), Name = "Interface", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("c2a6ac96-7de8-4bdc-a322-fc56f27c8fc8"), Name = "Keyboard", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
@@ -128,20 +143,30 @@ namespace aspCart.Web.Helpers
                 new Specification { Id = new Guid("f1c8f4aa-9693-4cda-b6e5-c9e967439577"), Name = "L3 Cache", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("1af15e3b-f60d-4d7d-a562-f7dff9a99f20"), Name = "Manufacturing Tech", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("26eb8a9b-3b09-4f47-889c-28859a35b777"), Name = "Max Turbo Frequency", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("f4b46786-9f8b-4b04-934c-8c43d270e9e1"), Name = "Maximum dpi", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("928a7270-7d70-4a37-9440-c650c2a6d782"), Name = "Memory", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("20dabff6-aea8-4197-88a6-a3de73d9c36c"), Name = "Memory Clock", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("d969d702-d7da-4eac-b203-2450c576bde7"), Name = "Memory Interface", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("3dd9d028-1c7e-4b48-81d9-d50e6b8ce900"), Name = "Model", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("886a0409-5f0e-4152-a57a-8917f3a7a43b"), Name = "Mouse Adjustable Weight", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("70f098c7-2d41-4c3a-b0fd-60dad9afb5a2"), Name = "Mouse Grip Style", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("fc3dcda5-f9f3-4b2f-b038-f42bc5fa6774"), Name = "Name", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("f7af0f50-137c-4ce6-b27d-920c83d4ebc7"), Name = "Networking", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("ed46ee55-ac40-4d77-80be-69ab6b0d010c"), Name = "Operating", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("a5f9adab-4415-415c-8bcc-dac939acfa2f"), Name = "Operating Frequency", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("753f0fb5-4cef-474e-ab93-b9b8797dc407"), Name = "Operating System Supported", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("1ecc8164-69d8-4134-96a3-8ac89618be75"), Name = "Power Connectors", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("75477c08-8245-4211-ab74-9c7c14d4dae9"), Name = "Processor", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("d073700d-c17e-41c8-a283-9abfeb8a8f6a"), Name = "Processors Type", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("9ed7299e-1637-4809-a375-5d0bdff8b613"), Name = "Resolution", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("0030dbcc-041e-41d5-977c-5ecdd4ceb6c3"), Name = "Scrolling Capability", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("2ac500ca-e15a-4785-9654-3eef7f26fb1c"), Name = "Series", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("1c9cef2e-b9df-4c90-b88e-f45f7d688646"), Name = "Software", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("8ad5f582-c787-4ba2-a49e-d8f8dd2ee621"), Name = "Storage", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("d5f23363-8404-4d34-8ef8-3a93babb8ad4"), Name = "System Requirement", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("a74cfddc-9450-4a3d-922b-e7670c9b7924"), Name = "Thermal Design Power", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("583c2465-5e50-4f07-b2a3-4e0ba77bd374"), Name = "Tracking Method", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
+                new Specification { Id = new Guid("f3c9d2a1-e05d-4837-9507-e08404098750"), Name = "Type", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("2db5ac64-a42d-4bad-8eba-d26ff4e7f727"), Name = "Video Memory", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("a73e43a3-d3d8-4b76-b1e6-274fb682d0a5"), Name = "Virtualization Technology Support", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
                 new Specification { Id = new Guid("88bcd475-ceb8-4ae3-a385-c3ec07b787e7"), Name = "VR", Published = true, DateAdded = DateTime.Now, DateModified = DateTime.Now },
@@ -435,8 +460,154 @@ namespace aspCart.Web.Helpers
                         new ProductSpecificationMapping { ProductId = new Guid("6176109c-2219-4013-a3f3-7cf90b60d8be"), SpecificationId = new Guid("a73e43a3-d3d8-4b76-b1e6-274fb682d0a5"), Value = "Yes", SortOrder = 0, Position = 14 },
                         new ProductSpecificationMapping { ProductId = new Guid("6176109c-2219-4013-a3f3-7cf90b60d8be"), SpecificationId = new Guid("a74cfddc-9450-4a3d-922b-e7670c9b7924"), Value = "91W", SortOrder = 0, Position = 15 }
                     }
+                },
+                #endregion
+
+                #region Razer Blade GTX 1060
+                new Product // Razer Blade GTX 1060
+                {
+                    Id = new Guid("4701684d-f990-4829-8d5a-3d468155520f"),
+                    Name = "The Razer Blade (GeForce GTX 1060) 14\" HD Gaming Laptop (7th Gen Intel Core i7, 16 GB RAM, 512 GB SSD)",
+                    Description = "<img alt=\"\" src=\"https://assets.razerzone.com/eeimages/products/26727/razer-blade-hero-laptop-v2.png\" style=\"height:383px; width:540px\" /><br /><br /><strong>POWERFUL. PORTABLE. PERFECT.</strong><br />The New Razer Blade Powered by NVIDIA\u00AE GeForce\u00AE GTX 1060<hr /><br /><strong>MORE POWERFUL. INSANELY THIN.<br /><img alt=\"\" src=\"https://assets.razerzone.com/eeimages/products/26727/razer-blade-insanely-thin-laptop.png\" style=\"height:200px; width:131px\" /></strong><br />The new 14\u201D Razer Blade strikes the perfect balance between power and portability. Experience streamlined performance with the latest 7th Gen Intel\u00AE Core\u2122 i7 Quad Core processor. Get faster, smoother and more detailed gameplay with the powerful performance of the NVIDIA\u00AE GeForce\u00AE GTX 1060 graphics. Choose from two great display options, Full HD or 4K UHD, or connect a VR headset for an even more immersive gaming experience. Get the best-in-class performance with 16GB of DDR4 dual-channel memory, PCIe-based SSD storage up to 1TB, and Killer Networking technology. All this power packed into a thin and light 0.70\u201D unibody aluminum chassis is what makes the Razer Blade the best in its class.<hr /><br /><strong>Latest 7th Gen Intel Core i7 Processor</strong><br />The new 7th Gen Intel Core i7-7700HQ processor gives the 14-inch Razer Blade 2.8GHz of quad-core processing power and Turbo Boost speeds, which automatically increases the speed of active cores \u2013 up to 3.8GHz. Work, play and create with ease and enjoy smooth, high definition 4K content like never before. With the Razer Blade\u2019s thin and light design, you\u2019d never guess it holds all that power. Only with Intel Inside\u00AE.<hr /><br /><strong>GAMING PERFECTED<br /><img alt=\"\" src=\"https://assets.razerzone.com/eeimages/products/26727/razer-blade-gaming-perfected-bg-v2.jpg\" style=\"height:270px; width:540px\" /></strong><br />The New Razer Blade is armed with the latest NVIDIA GeForce GTX 1060 GPU, powered by the ultra-fast, power-efficient NVIDIA Pascal\u2122 GPU architecture. The advanced GeForce GTX 1060 GPU is created with high-speed FinFET technology and supports DirectX 12 features. This means you can count on an amazing experience in every application\u2014including performance in high-definition and immersive VR Ready games that\u2019s up to 3X faster than with previous-generation GPUs.",
+                    Price = 2099.99m,
+                    StockQuantity = 1000,
+                    NotifyForQuantityBelow = 1,
+                    MinimumCartQuantity = 1,
+                    MaximumCartQuantity = 1000,
+                    SeoUrl = "The-Razer-Blade-GeForce-GTX-1060-14-HD-Gaming-Laptop-7th-Gen-Intel-Core-i7-16-GB-RAM-512-GB-SSD",
+                    Published = true,
+                    DateAdded = DateTime.Now,
+                    DateModified = DateTime.Now,
+                    Categories = new List<ProductCategoryMapping>
+                    {
+                        new ProductCategoryMapping { ProductId = new Guid("4701684d-f990-4829-8d5a-3d468155520f"), CategoryId = new Guid("8c4825ef-8c4c-4162-b2e3-08d46c337976") }
+                    },
+                    Manufacturers = new List<ProductManufacturerMapping>
+                    {
+                        new ProductManufacturerMapping { ProductId = new Guid("4701684d-f990-4829-8d5a-3d468155520f"), ManufacturerId = new Guid("0c69ba36-beb1-4054-b492-f361c836acc3") }
+                    },
+                    Images = new List<ProductImageMapping>
+                    {
+                        new ProductImageMapping { ProductId = new Guid("4701684d-f990-4829-8d5a-3d468155520f"), ImageId = new Guid("06cf5fcf-be1f-4690-a9ae-69dc4c35bca7"), SortOrder = 0, Position = 0 },
+                        new ProductImageMapping { ProductId = new Guid("4701684d-f990-4829-8d5a-3d468155520f"), ImageId = new Guid("4e6bbd99-d7a4-470d-bc47-2a6e39389e0a"), SortOrder = 0, Position = 1 }
+                    },
+                    Specifications = new List<ProductSpecificationMapping>
+                    {
+                        new ProductSpecificationMapping { ProductId = new Guid("4701684d-f990-4829-8d5a-3d468155520f"), SpecificationId = new Guid("75477c08-8245-4211-ab74-9c7c14d4dae9"), Value = "Intel Core i7 7th Gen 7700HQ (2.80 GHz)", SortOrder = 0, Position = 0 },
+                        new ProductSpecificationMapping { ProductId = new Guid("4701684d-f990-4829-8d5a-3d468155520f"), SpecificationId = new Guid("ed46ee55-ac40-4d77-80be-69ab6b0d010c"), Value = "Windows 10 Home 64-Bit", SortOrder = 0, Position = 1 },
+                        new ProductSpecificationMapping { ProductId = new Guid("4701684d-f990-4829-8d5a-3d468155520f"), SpecificationId = new Guid("928a7270-7d70-4a37-9440-c650c2a6d782"), Value = "16 GB DDR4 2400", SortOrder = 0, Position = 2 },
+                        new ProductSpecificationMapping { ProductId = new Guid("4701684d-f990-4829-8d5a-3d468155520f"), SpecificationId = new Guid("6144e4ab-722e-4b13-bffe-6f0ea8b168b2"), Value = "14.0\" Full HD 1920 x 1080", SortOrder = 0, Position = 3 },
+                        new ProductSpecificationMapping { ProductId = new Guid("4701684d-f990-4829-8d5a-3d468155520f"), SpecificationId = new Guid("27201fbe-59d6-42a4-b698-a75dcb3e9f52"), Value = "NVIDIA GeForce GTX 1060 6GB Dedicated Card", SortOrder = 0, Position = 4 },
+                        new ProductSpecificationMapping { ProductId = new Guid("4701684d-f990-4829-8d5a-3d468155520f"), SpecificationId = new Guid("8ad5f582-c787-4ba2-a49e-d8f8dd2ee621"), Value = "512 GB SSD", SortOrder = 0, Position = 5 },
+                        new ProductSpecificationMapping { ProductId = new Guid("4701684d-f990-4829-8d5a-3d468155520f"), SpecificationId = new Guid("e611379b-5c1f-4286-8a54-9c8c45a5697d"), Value = "Built-in webcam (2.0MP)", SortOrder = 0, Position = 6 },
+                        new ProductSpecificationMapping { ProductId = new Guid("4701684d-f990-4829-8d5a-3d468155520f"), SpecificationId = new Guid("f7af0f50-137c-4ce6-b27d-920c83d4ebc7"), Value = "802.11ac Wireless LAN</br > Bluetooth 4.1", SortOrder = 0, Position = 7 },
+                        new ProductSpecificationMapping { ProductId = new Guid("4701684d-f990-4829-8d5a-3d468155520f"), SpecificationId = new Guid("eca1dc44-190e-4806-ba8a-1af16fbd8d24"), Value = "2 x USB 3.0<br /> 1 x Thunderbolt 3<br /> 1 x HDMI (4K @ 60Hz)", SortOrder = 0, Position = 8 },
+                        new ProductSpecificationMapping { ProductId = new Guid("4701684d-f990-4829-8d5a-3d468155520f"), SpecificationId = new Guid("d957dae6-c254-4266-b45c-27fa04f00761"), Value = "Built-in 70 Wh rechargeable lithium-ion polymer battery", SortOrder = 0, Position = 9 },
+                        new ProductSpecificationMapping { ProductId = new Guid("4701684d-f990-4829-8d5a-3d468155520f"), SpecificationId = new Guid("19dfc537-f02a-4c7d-9919-5b939d08186f"), Value = "13.60\" x 9.30\" x 0.70\" (WxDxH)", SortOrder = 0, Position = 10 },
+                        new ProductSpecificationMapping { ProductId = new Guid("4701684d-f990-4829-8d5a-3d468155520f"), SpecificationId = new Guid("93d8b1f6-8a3d-41e5-b3d5-7513bd7f3b33"), Value = "4.10 lbs.", SortOrder = 0, Position = 11 }
+                    }
+                },
+                #endregion
+
+                #region AMD RYZEN 7 1800X
+                new Product // AMD RYZEN 7 1800X
+                {
+                    Id = new Guid("62e79149-f655-4bb4-ab81-934690c80264"),
+                    Name = "AMD RYZEN 7 1800X 8-Core 3.6 GHz (4.0 GHz Turbo) Socket AM4 95W Desktop Processor",
+                    Description = "",
+                    Price = 499.99m,
+                    StockQuantity = 1000,
+                    NotifyForQuantityBelow = 1,
+                    MinimumCartQuantity = 1,
+                    MaximumCartQuantity = 1000,
+                    SeoUrl = "AMD-RYZEN-7-1800X-8Core-36-GHz-40-GHz-Turbo-Socket-AM4-95W-Desktop-Processor",
+                    Published = true,
+                    DateAdded = DateTime.Now,
+                    DateModified = DateTime.Now,
+                    Categories = new List<ProductCategoryMapping>
+                    {
+                        new ProductCategoryMapping { ProductId = new Guid("62e79149-f655-4bb4-ab81-934690c80264"), CategoryId = new Guid("21e88188-057e-41e0-8746-57ec2fd76a51") }
+                    },
+                    Manufacturers = new List<ProductManufacturerMapping>
+                    {
+                        new ProductManufacturerMapping { ProductId = new Guid("62e79149-f655-4bb4-ab81-934690c80264"), ManufacturerId = new Guid("c2c32a94-3a51-48be-9d1a-8a9a687bcb60") }
+                    },
+                    Images = new List<ProductImageMapping>
+                    {
+                        new ProductImageMapping { ProductId = new Guid("62e79149-f655-4bb4-ab81-934690c80264"), ImageId = new Guid("6449aee5-0618-41f5-9c81-dba6ba41870c"), SortOrder = 0, Position = 0 }
+                    },
+                    Specifications = new List<ProductSpecificationMapping>
+                    {
+                        new ProductSpecificationMapping { ProductId = new Guid("62e79149-f655-4bb4-ab81-934690c80264"), SpecificationId = new Guid("8d7163a1-ef0b-442b-88ce-55363cd9ddbc"), Value = "AMD", SortOrder = 0, Position = 0 },
+                        new ProductSpecificationMapping { ProductId = new Guid("62e79149-f655-4bb4-ab81-934690c80264"), SpecificationId = new Guid("d073700d-c17e-41c8-a283-9abfeb8a8f6a"), Value = "Desktop", SortOrder = 0, Position = 1 },
+                        new ProductSpecificationMapping { ProductId = new Guid("62e79149-f655-4bb4-ab81-934690c80264"), SpecificationId = new Guid("2ac500ca-e15a-4785-9654-3eef7f26fb1c"), Value = "Ryzen 7", SortOrder = 0, Position = 2 },
+                        new ProductSpecificationMapping { ProductId = new Guid("62e79149-f655-4bb4-ab81-934690c80264"), SpecificationId = new Guid("b9fe1b06-213a-4128-9329-250da2906852"), Value = "Socket AM4", SortOrder = 0, Position = 3 },
+                        new ProductSpecificationMapping { ProductId = new Guid("62e79149-f655-4bb4-ab81-934690c80264"), SpecificationId = new Guid("739b9689-b4e5-4c30-8108-8cec7419aba9"), Value = "Summit Ridge", SortOrder = 0, Position = 4 },
+                        new ProductSpecificationMapping { ProductId = new Guid("62e79149-f655-4bb4-ab81-934690c80264"), SpecificationId = new Guid("18f698d1-7060-485e-b411-7949491f54db"), Value = "8-Core", SortOrder = 0, Position = 5 },
+                        new ProductSpecificationMapping { ProductId = new Guid("62e79149-f655-4bb4-ab81-934690c80264"), SpecificationId = new Guid("af498fc2-aa53-4a36-b535-891428a92a84"), Value = "16", SortOrder = 0, Position = 6 },
+                        new ProductSpecificationMapping { ProductId = new Guid("62e79149-f655-4bb4-ab81-934690c80264"), SpecificationId = new Guid("a5f9adab-4415-415c-8bcc-dac939acfa2f"), Value = "3.6 GHz", SortOrder = 0, Position = 7 },
+                        new ProductSpecificationMapping { ProductId = new Guid("62e79149-f655-4bb4-ab81-934690c80264"), SpecificationId = new Guid("26eb8a9b-3b09-4f47-889c-28859a35b777"), Value = "4.0 GHz", SortOrder = 0, Position = 8 },
+                        new ProductSpecificationMapping { ProductId = new Guid("62e79149-f655-4bb4-ab81-934690c80264"), SpecificationId = new Guid("282b9279-919d-4300-8109-eb568c02e839"), Value = "4MB", SortOrder = 0, Position = 9 },
+                        new ProductSpecificationMapping { ProductId = new Guid("62e79149-f655-4bb4-ab81-934690c80264"), SpecificationId = new Guid("f1c8f4aa-9693-4cda-b6e5-c9e967439577"), Value = "16MB", SortOrder = 0, Position = 10 },
+                        new ProductSpecificationMapping { ProductId = new Guid("62e79149-f655-4bb4-ab81-934690c80264"), SpecificationId = new Guid("1af15e3b-f60d-4d7d-a562-f7dff9a99f20"), Value = "14nm", SortOrder = 0, Position = 11 },
+                        new ProductSpecificationMapping { ProductId = new Guid("62e79149-f655-4bb4-ab81-934690c80264"), SpecificationId = new Guid("a73e43a3-d3d8-4b76-b1e6-274fb682d0a5"), Value = "Yes", SortOrder = 0, Position = 12 },
+                        new ProductSpecificationMapping { ProductId = new Guid("62e79149-f655-4bb4-ab81-934690c80264"), SpecificationId = new Guid("a74cfddc-9450-4a3d-922b-e7670c9b7924"), Value = "95W", SortOrder = 0, Position = 13 },
+                        new ProductSpecificationMapping { ProductId = new Guid("62e79149-f655-4bb4-ab81-934690c80264"), SpecificationId = new Guid("c6a04689-3a3d-4346-b233-a9078ee57f0d"), Value = "Cooling device not included - Processor Only", SortOrder = 0, Position = 14 }
+                    }
+                },
+                #endregion
+
+                #region Logitech G502
+                new Product // Logitech G502
+                {
+                    Id = new Guid("5051b175-0b4c-4596-9b3d-7f47db3aa487"),
+                    Name = "Logitech G502 Proteus Spectrum RGB Tunable Gaming Mouse",
+                    Description = "<p><strong>Logitech G502 Proteus Spectrum RGB Tunable Gaming Mouse</strong><br /><strong>Your favorite high-performance gaming mouse delivers more than ever.</strong><br /><img alt=\"\" src=\"https://a.sellpoint.net/a/rYBWPaxG_M.jpg\" style=\"height:215px; width:250px\" /><br />G502 features our most advanced optical sensor for maximum tracking accuracy. Customize RGB lighting or sync it with other Logitech G products, set up custom profiles for your games, adjust sensitivity from 200 up to 12,000 DPI* and position five 3.6g weights for just the right balance and feel. No matter your gaming style, it's easy to tweak Proteus Spectrum to match you.</p><hr /><p><strong>Tunable weight and balance<br /><img alt=\"\" src=\"https://a.sellpoint.net/a/4oPJ8dPG_B.jpg\" style=\"height:250px; width:250px\" /></strong><br />Personal tweaks make all the difference. Position a few or all five of the 3.6g weights for a mouse that feels just right for you.</p><hr /><p><strong>RGB customizable lighting<br />Match your style and environment.<br /><img alt=\"\" src=\"https://a.sellpoint.net/a/aYdMmJ8G_B.jpg\" style=\"height:250px; width:250px\" /></strong></p><ul><li><p>Adjust up to 16.8 million colors and brightness.*</p></li><li><p>Bring your mouse to life with breathing light patterns.</p></li><li><p>Set your lighting to sleep when you aren't using your system.</p></li></ul><p>*Some profile settings require Logitech Gaming Software available at logitech.com/downloads.</p><hr /><p><strong>Accurate, responsive optical sensor<br />Get maximum tracking accuracy from our most responsive optical sensor (PMW3366).&nbsp;<br /><img alt=\"\" src=\"https://a.sellpoint.net/a/LoR14x0k_B.jpg\" style=\"height:250px; width:250px\" /></strong></p><ul><li><p>Exclusive Logitech-G Delta Zero optical sensor technology minimizes mouse acceleration and increases reliable targeting.</p></li></ul><hr /><p><strong>Easy-to-program Logitech Gaming Software<br /><img alt=\"\" src=\"https://a.sellpoint.net/a/nkxejWvo_B.jpg\" style=\"height:250px; width:250px\" /></strong></p><ul><li><p>Sync colors and light patterns with other Logitech-G RGB gaming products.</p></li><li><p>Tune the sensor to match the surface for maximum speed and lower lift-off.</p></li><li><p>Program buttons with custom macros.</p></li><li><p>Manage lighting, DPI sensitivity, and button profiles.</p></li></ul><p>\u00A0</p><hr /><p><strong>Comfortable design for expended gaming<br />Experience an overall great feel and stellar performance from day one.<br /><img alt=\"\" src=\"https://a.sellpoint.net/a/5GjEBD3Y_B.jpg\" style=\"height:250px; width:250px\" /></strong></p><ul><li><p>Sculpted, hand-supporting shape</p></li><li><p>Textured rubber grips</p></li><li><p>Convenient button layout for fast, accurate actions</p></li></ul><hr /><p><strong>Customizable control<br /><img alt=\"\" src=\"https://a.sellpoint.net/a/JYXwWv0o_B.jpg\" style=\"height:250px; width:250px\" /></strong></p><ul><li><p>Easily customize 11 programmable buttons for your favorite games.</p></li><li><p>Adjust hyper-fast scrolling to just your speed.</p></li><li><p>Switch DPI modes on the fly -- choose from five settings from 200 to 12,000 DPI*.</p></li></ul>",
+                    Price = 69.79m,
+                    StockQuantity = 1000,
+                    NotifyForQuantityBelow = 1,
+                    MinimumCartQuantity = 1,
+                    MaximumCartQuantity = 1000,
+                    SeoUrl = "Logitech-G502-Proteus-Spectrum-RGB-Tunable-Gaming-Mouse",
+                    Published = true,
+                    DateAdded = DateTime.Now,
+                    DateModified = DateTime.Now,
+                    Categories = new List<ProductCategoryMapping>
+                    {
+                        new ProductCategoryMapping { ProductId = new Guid("5051b175-0b4c-4596-9b3d-7f47db3aa487"), CategoryId = new Guid("572a88b0-17ef-4e6c-a806-ca35ad57a41b") }
+                    },
+                    Manufacturers = new List<ProductManufacturerMapping>
+                    {
+                        new ProductManufacturerMapping { ProductId = new Guid("5051b175-0b4c-4596-9b3d-7f47db3aa487"), ManufacturerId = new Guid("b54c872d-a32b-4f8a-8ae1-12b61167cecd") }
+                    },
+                    Images = new List<ProductImageMapping>
+                    {
+                        new ProductImageMapping { ProductId = new Guid("5051b175-0b4c-4596-9b3d-7f47db3aa487"), ImageId = new Guid("9b1cd692-8d27-4661-a171-debe279a8961"), SortOrder = 0, Position = 0 },
+                        new ProductImageMapping { ProductId = new Guid("5051b175-0b4c-4596-9b3d-7f47db3aa487"), ImageId = new Guid("baabfd5a-7851-49b6-b67b-046877de431c"), SortOrder = 0, Position = 1 },
+                        new ProductImageMapping { ProductId = new Guid("5051b175-0b4c-4596-9b3d-7f47db3aa487"), ImageId = new Guid("139e1fb7-6f21-4d2c-8987-26091744fa4c"), SortOrder = 0, Position = 2 }
+                    },
+                    Specifications = new List<ProductSpecificationMapping>
+                    {
+                        new ProductSpecificationMapping { ProductId = new Guid("5051b175-0b4c-4596-9b3d-7f47db3aa487"), SpecificationId = new Guid("8d7163a1-ef0b-442b-88ce-55363cd9ddbc"), Value = "Logitech", SortOrder = 0, Position = 0 },
+                        new ProductSpecificationMapping { ProductId = new Guid("5051b175-0b4c-4596-9b3d-7f47db3aa487"), SpecificationId = new Guid("fc3dcda5-f9f3-4b2f-b038-f42bc5fa6774"), Value = "G502", SortOrder = 0, Position = 1 },
+                        new ProductSpecificationMapping { ProductId = new Guid("5051b175-0b4c-4596-9b3d-7f47db3aa487"), SpecificationId = new Guid("3dd9d028-1c7e-4b48-81d9-d50e6b8ce900"), Value = "910-004615", SortOrder = 0, Position = 2 },
+                        new ProductSpecificationMapping { ProductId = new Guid("5051b175-0b4c-4596-9b3d-7f47db3aa487"), SpecificationId = new Guid("f3c9d2a1-e05d-4837-9507-e08404098750"), Value = "Wired", SortOrder = 0, Position = 3 },
+                        new ProductSpecificationMapping { ProductId = new Guid("5051b175-0b4c-4596-9b3d-7f47db3aa487"), SpecificationId = new Guid("eca1dc44-190e-4806-ba8a-1af16fbd8d24"), Value = "USB", SortOrder = 0, Position = 4 },
+                        new ProductSpecificationMapping { ProductId = new Guid("5051b175-0b4c-4596-9b3d-7f47db3aa487"), SpecificationId = new Guid("70f098c7-2d41-4c3a-b0fd-60dad9afb5a2"), Value = "Fingertip", SortOrder = 0, Position = 5 },
+                        new ProductSpecificationMapping { ProductId = new Guid("5051b175-0b4c-4596-9b3d-7f47db3aa487"), SpecificationId = new Guid("583c2465-5e50-4f07-b2a3-4e0ba77bd374"), Value = "Optical", SortOrder = 0, Position = 6 },
+                        new ProductSpecificationMapping { ProductId = new Guid("5051b175-0b4c-4596-9b3d-7f47db3aa487"), SpecificationId = new Guid("f4b46786-9f8b-4b04-934c-8c43d270e9e1"), Value = "12000 dpi", SortOrder = 0, Position = 7 },
+                        new ProductSpecificationMapping { ProductId = new Guid("5051b175-0b4c-4596-9b3d-7f47db3aa487"), SpecificationId = new Guid("4f7d03ab-c9a1-489c-9736-7ce7a49f89de"), Value = "Right Hand", SortOrder = 0, Position = 8 },
+                        new ProductSpecificationMapping { ProductId = new Guid("5051b175-0b4c-4596-9b3d-7f47db3aa487"), SpecificationId = new Guid("f8affde9-7566-448e-ba9f-d06de0fcd1b8"), Value = "11", SortOrder = 0, Position = 9 },
+                        new ProductSpecificationMapping { ProductId = new Guid("5051b175-0b4c-4596-9b3d-7f47db3aa487"), SpecificationId = new Guid("886a0409-5f0e-4152-a57a-8917f3a7a43b"), Value = "5 x 3.6 g weights", SortOrder = 0, Position = 10 },
+                        new ProductSpecificationMapping { ProductId = new Guid("5051b175-0b4c-4596-9b3d-7f47db3aa487"), SpecificationId = new Guid("0030dbcc-041e-41d5-977c-5ecdd4ceb6c3"), Value = "Tilt Wheel", SortOrder = 0, Position = 11 },
+                        new ProductSpecificationMapping { ProductId = new Guid("5051b175-0b4c-4596-9b3d-7f47db3aa487"), SpecificationId = new Guid("679ee965-7868-4812-8dad-b6f53e542ebd"), Value = "Black", SortOrder = 0, Position = 12 },
+                        new ProductSpecificationMapping { ProductId = new Guid("5051b175-0b4c-4596-9b3d-7f47db3aa487"), SpecificationId = new Guid("753f0fb5-4cef-474e-ab93-b9b8797dc407"), Value = "Windows 10, Windows 8.1, Windows 8, Windows 7", SortOrder = 0, Position = 13 },
+                        new ProductSpecificationMapping { ProductId = new Guid("5051b175-0b4c-4596-9b3d-7f47db3aa487"), SpecificationId = new Guid("d5f23363-8404-4d34-8ef8-3a93babb8ad4"), Value = "USB port<br /> Internet connection for optional software download", SortOrder = 0, Position = 14 },
+                        new ProductSpecificationMapping { ProductId = new Guid("5051b175-0b4c-4596-9b3d-7f47db3aa487"), SpecificationId = new Guid("1cf7a9ef-11d9-4867-9c7d-ae7d7c46ba6c"), Value = "Accurate responsive optical sensor<br /> Balance And Weight At Your Control<br /> Programmable RGB Lighting<br /> Personally-tuned performance<br /> 11 Programmable buttons<br /> DPI Shift In-game<br /> Dual-mode, Gaming-grade Scroll Wheel<br /> Our most accurate sensor on the market<br /> 32-bit microcontroller<br /> 3 on-board profiles<br /> 1 millisecond report rate<br /> Primary buttons rated to 20 million clicks<br /> Mechanical microswitches<br /> Improved keyplate design for better click feeling and performance<br /> Braided cable with hook and loop cable tie<br /> Sleep mode disabled<br /> 3 DPI indicator LEDs<br /> Rubber grips<br /> Magnetic weight-cavity door<br />", SortOrder = 0, Position = 15 }
+                    }
                 }
                 #endregion
+
             };
             context.Products.AddRange(productList);
             await context.SaveChangesAsync();
@@ -502,6 +673,8 @@ namespace aspCart.Web.Helpers
             #endregion
         }
 
+        #region Seed Admin
+
         private static async Task SeedAdminAccount(ApplicationDbContext context, IConfigurationRoot configuration)
         {
             context.UserRoles.RemoveRange(context.UserRoles);
@@ -539,6 +712,10 @@ namespace aspCart.Web.Helpers
             }
         }
 
+        #endregion
+
+        #region Seed User
+
         private static async Task SeedTestAccount(ApplicationDbContext context, IConfigurationRoot configuration)
         {
             // user1
@@ -563,5 +740,7 @@ namespace aspCart.Web.Helpers
                 await userStore.CreateAsync(user1);
             }
         }
+
+        #endregion
     }
 }
