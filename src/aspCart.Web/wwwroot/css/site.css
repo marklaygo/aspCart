@@ -372,3 +372,15 @@ li.r-user {
         padding-bottom: 0 !important;
     }
 }
+
+.sale-badge{
+    position: absolute;
+    top: -5px;
+    left: -20px;
+    font-size: 1.35rem;
+    -webkit-transform: rotate(-30deg);
+    -moz-transform: rotate(-30deg);
+    -o-transform: rotate(-30deg);
+    -ms-transform: rotate(-30deg);
+    transform: rotate(-30deg);
+}

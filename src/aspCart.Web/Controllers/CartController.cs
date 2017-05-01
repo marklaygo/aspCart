@@ -103,7 +103,14 @@ namespace aspCart.Web.Controllers
                     SeoUrl = selectedItem.SeoUrl
                 };
 
-                if(selectedItem.Images.Count > 0)
+                // check for discount
+                if (selectedItem.SpecialPriceEndDate != null && selectedItem.SpecialPriceEndDate >= DateTime.Now)
+                {
+                    item.OldPrice = selectedItem.Price;
+                    item.Price = selectedItem.SpecialPrice ?? item.OldPrice;
+                }
+
+                if (selectedItem.Images.Count > 0)
                 {
                     item.MainImage = selectedItem.Images
                         .OrderBy(x => x.SortOrder)
@@ -152,6 +159,13 @@ namespace aspCart.Web.Controllers
                             MaxCartQuantity = item.MaximumCartQuantity,
                             SeoUrl = item.SeoUrl
                         };
+
+                        // check for discount
+                        if (item.SpecialPriceEndDate != null && item.SpecialPriceEndDate >= DateTime.Now)
+                        {
+                            newCartItem.OldPrice = item.Price;
+                            newCartItem.Price = item.SpecialPrice ?? newCartItem.OldPrice;
+                        }
 
                         if (item.Images.Count > 0)
                         {

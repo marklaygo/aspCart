@@ -68,6 +68,13 @@ namespace aspCart.Web.Controllers
                         .FileName;
                 }
 
+                // check for discount
+                if(product.SpecialPriceEndDate != null && product.SpecialPriceEndDate >= DateTime.Now)
+                {
+                    productModel.OldPrice = product.Price;
+                    productModel.Price = product.SpecialPrice ?? productModel.OldPrice;
+                }
+
                 productList.Add(productModel);
             }
 
@@ -84,6 +91,13 @@ namespace aspCart.Web.Controllers
                 {
                     var productModel = _mapper.Map<Product, ProductModel>(productEntity);
                     productModel.Description = System.Net.WebUtility.HtmlDecode(productModel.Description);
+
+                    // check for discount
+                    if (productEntity.SpecialPriceEndDate != null && productEntity.SpecialPriceEndDate >= DateTime.Now)
+                    {
+                        productModel.OldPrice = productEntity.Price;
+                        productModel.Price = productEntity.SpecialPrice ?? productModel.OldPrice;
+                    }
 
                     // get all images
                     if (productEntity.Images.Count > 0)

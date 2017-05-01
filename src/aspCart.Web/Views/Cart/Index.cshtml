@@ -54,6 +54,10 @@
                                 <span class="field-validation-valid text-danger" data-valmsg-for="quantity-@cartItem.Id" data-valmsg-replace="true"></span>
                             </td>
                             <td style="width: 18%;">
+                                @if(cartItem.OldPrice > 0)
+                                { 
+                                    <strike class="text-muted">@cartItem.OldPrice.ToString("C2") ea.</strike>
+                                }
                                 <div class="">@cartItem.Price.ToString("C2") ea.</div>
                             </td>
                             <td style="width: 10%">

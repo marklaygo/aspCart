@@ -55,7 +55,16 @@
                 mLink = mLink.TrimEnd(new char[] { ' ', ',' });
             }
             <h6>@Html.Raw(mLink)</h6>
-            <h6>@Model.Price.ToString("C2")</h6>
+            @if (Model.OldPrice > 0)
+            {
+                <h6>
+                    <strike class="text-muted">@Model.OldPrice.ToString("C2")</strike> @Html.Raw(Model.Price.ToString("C2"))
+                </h6>
+            }
+            else
+            {
+                <h6>@Model.Price.ToString("C2")</h6>
+            }
             <form asp-area="" asp-controller="Cart" asp-action="Add" method="post">
                 <input type="hidden" value="@Model.Id" name="id" />
                 <button type="submit" id="addToCart" class="btn btn-primary btn-sm">Add to cart</button>

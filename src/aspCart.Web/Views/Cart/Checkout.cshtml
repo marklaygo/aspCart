@@ -75,7 +75,7 @@
                 <h6>Order Review</h6>
                 <hr />
                 @if (Model != null)
-            {
+                {
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -99,7 +99,11 @@
                                         @cartItem.Quantity
                                     </td>
                                     <td>
-                                        <div class="">@cartItem.Price.ToString("C2")</div>
+                                        @if (cartItem.OldPrice > 0)
+                                        {
+                                            <strike class="text-muted">@((cartItem.OldPrice * cartItem.Quantity).ToString("C2"))</strike>
+                                        }
+                                        <div class="">@((cartItem.Price * cartItem.Quantity).ToString("C2"))</div>
                                     </td>
                                 </tr>
                             }
@@ -118,7 +122,7 @@
                             </tr>
                         </tbody>
                     </table>
-                                }
+                }
             </div>
         </div>
     </form>

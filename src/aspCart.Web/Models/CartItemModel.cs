@@ -13,6 +13,8 @@ namespace aspCart.Web.Models
 
         public decimal Price { get; set; }
 
+        public decimal OldPrice { get; set; }
+
         public int Quantity { get; set; }
 
         public int MaxCartQuantity { get; set; }

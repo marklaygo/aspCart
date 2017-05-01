@@ -21,6 +21,8 @@ namespace aspCart.Web.Models
 
         public decimal Price { get; set; }
 
+        public decimal OldPrice { get; set; }
+
         public string Description { get; set; }
 
         public string MainImage { get; set; }
