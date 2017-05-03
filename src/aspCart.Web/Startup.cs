@@ -23,6 +23,8 @@ using aspCart.Infrastructure.Services.User;
 using aspCart.Core.Interface.Services.Sale;
 using aspCart.Infrastructure.Services.Sale;
 using Microsoft.AspNetCore.Rewrite;
+using aspCart.Core.Interface.Services.Statistics;
+using aspCart.Infrastructure.Services.Statistics;
 
 namespace aspCart.Web
 {
@@ -97,6 +99,7 @@ namespace aspCart.Web
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IReviewService, ReviewService>();
             services.AddTransient<ISpecificationService, SpecificationService>();
+            services.AddTransient<IVisitorCountService, VisitorCountService>();
 
             // singleton
             services.AddSingleton(sp => MapperConfiguration.CreateMapper());

@@ -1,10 +1,12 @@
 ﻿using aspCart.Core.Domain.Catalog;
 using aspCart.Core.Domain.Sale;
+using aspCart.Core.Domain.Statistics;
 using aspCart.Core.Domain.User;
 using aspCart.Infrastructure;
 using aspCart.Infrastructure.EFRepository;
 using aspCart.Infrastructure.Services.Catalog;
 using aspCart.Infrastructure.Services.Sale;
+using aspCart.Infrastructure.Services.Statistics;
 using aspCart.Infrastructure.Services.User;
 using System;
 using System.Collections.Generic;
@@ -31,6 +33,7 @@ namespace aspCart.xUnitTest
             ProductSpecificationMapping = new Repository<ProductSpecificationMapping>(context);
             ReviewRepository = new Repository<Review>(context);
             SpecificationRepository = new Repository<Specification>(context);
+            VisitorCountRepository = new Repository<VisitorCount>(context);
 
             // service
             BillingAddressService = new BillingAddressService(context, BillingAddressRepository);
@@ -41,6 +44,7 @@ namespace aspCart.xUnitTest
             ProductService = new ProductService(context, ProductRepository);
             ReviewService = new ReviewService(context, ReviewRepository);
             SpecificationService = new SpecificationService(context, SpecificationRepository, ProductSpecificationMapping);
+            VisitorCountService = new VisitorCountService(VisitorCountRepository);
         }
 
         // repository
@@ -57,6 +61,7 @@ namespace aspCart.xUnitTest
         public Repository<ProductSpecificationMapping> ProductSpecificationMapping { get; set; }
         public Repository<Review> ReviewRepository { get; set; }
         public Repository<Specification> SpecificationRepository { get; set; }
+        public Repository<VisitorCount> VisitorCountRepository { get; set; }
 
         // service
         public BillingAddressService BillingAddressService { get; set; }
@@ -67,5 +72,6 @@ namespace aspCart.xUnitTest
         public ProductService ProductService { get; set; }
         public ReviewService ReviewService { get; set; }
         public SpecificationService SpecificationService { get; set; }
+        public VisitorCountService VisitorCountService { get; set; }
     }
 }

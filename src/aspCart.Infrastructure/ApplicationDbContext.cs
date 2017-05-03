@@ -1,5 +1,6 @@
 ﻿using aspCart.Core.Domain.Catalog;
 using aspCart.Core.Domain.Sale;
+using aspCart.Core.Domain.Statistics;
 using aspCart.Core.Domain.User;
 using aspCart.Infrastructure.EFModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -31,6 +32,7 @@ namespace aspCart.Infrastructure
         public DbSet<ProductSpecificationMapping> ProductSpecificationMappings { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Specification> Specifications { get; set; }
+        public DbSet<VisitorCount> VisitorCounts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -52,6 +54,7 @@ namespace aspCart.Infrastructure
             builder.Entity<ProductSpecificationMapping>().ToTable("ProductSpecificationMapping");
             builder.Entity<Review>().ToTable("Review");
             builder.Entity<Specification>().ToTable("Specification");
+            builder.Entity<VisitorCount>().ToTable("VisitorCount");
         }
     }
 }
