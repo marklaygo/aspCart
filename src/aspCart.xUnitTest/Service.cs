@@ -44,7 +44,7 @@ namespace aspCart.xUnitTest
             ProductService = new ProductService(context, ProductRepository);
             ReviewService = new ReviewService(context, ReviewRepository);
             SpecificationService = new SpecificationService(context, SpecificationRepository, ProductSpecificationMapping);
-            VisitorCountService = new VisitorCountService(VisitorCountRepository);
+            VisitorCountService = new VisitorCountService(context, VisitorCountRepository);
         }
 
         // repository

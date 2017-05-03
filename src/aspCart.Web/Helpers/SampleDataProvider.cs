@@ -1,5 +1,6 @@
 ﻿using aspCart.Core.Domain.Catalog;
 using aspCart.Core.Domain.Sale;
+using aspCart.Core.Domain.Statistics;
 using aspCart.Core.Domain.User;
 using aspCart.Infrastructure;
 using aspCart.Infrastructure.EFModels;
@@ -204,6 +205,7 @@ namespace aspCart.Web.Helpers
             context.Orders.RemoveRange(context.Orders);
             context.BillingAddresses.RemoveRange(context.BillingAddresses);
             context.Reviews.RemoveRange(context.Reviews);
+            context.VisitorCounts.RemoveRange(context.VisitorCounts);
             await context.SaveChangesAsync();
 
             #endregion
@@ -833,6 +835,26 @@ namespace aspCart.Web.Helpers
                 new Review { UserId = AccountIds.User1.GetGuid(), ProductId = ProductIds.IntelCorei77700K.GetGuid(), Title = "Lorem ipsum", Message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quam massa, lobortis a ex at, euismod varius orci. Maecenas posuere justo non interdum fringilla. Praesent nec consectetur nulla. Vestibulum tortor lectus, lacinia id ante quis, elementum malesuada libero. Mauris nec semper orci, sit amet vulputate elit. Fusce id dignissim sapien. Aenean tempor erat elit, quis gravida nisi molestie vel. Duis in hendrerit mi. Proin gravida, purus ut porttitor porttitor, lectus nisl eleifend nunc, sit amet mollis urna nibh ac magna. Nullam feugiat sem odio. Aliquam erat volutpat. Fusce tincidunt metus nec quam pretium pretium quis vitae augue. Ut libero orci, laoreet sed justo ut, pretium convallis nisi. Etiam quis massa eu elit facilisis egestas. Duis ultrices ex mauris, ac iaculis nibh mattis vitae. Aenean sodales ante sed lorem consequat, non blandit dui efficitur.", Rating = 3, CreatedOn = DateTime.Now }
             };
             context.Reviews.AddRange(reviewList);
+            await context.SaveChangesAsync();
+
+            #endregion
+
+            #region Visitor Counts
+
+            // visitor counts
+
+            var rand = new Random();
+            var visitorCountList = new List<VisitorCount>
+            {
+                new VisitorCount { Date = DateTime.Now.AddDays(-6).Date, ViewCount = rand.Next(1, 100) },
+                new VisitorCount { Date = DateTime.Now.AddDays(-5).Date, ViewCount = rand.Next(1, 100) },
+                new VisitorCount { Date = DateTime.Now.AddDays(-4).Date, ViewCount = rand.Next(1, 100) },
+                new VisitorCount { Date = DateTime.Now.AddDays(-3).Date, ViewCount = rand.Next(1, 100) },
+                new VisitorCount { Date = DateTime.Now.AddDays(-2).Date, ViewCount = rand.Next(1, 100) },
+                new VisitorCount { Date = DateTime.Now.AddDays(-1).Date, ViewCount = rand.Next(1, 100) },
+                new VisitorCount { Date = DateTime.Now.Date, ViewCount = new Random().Next(1, 100) }
+            };
+            context.VisitorCounts.AddRange(visitorCountList);
             await context.SaveChangesAsync();
 
             #endregion

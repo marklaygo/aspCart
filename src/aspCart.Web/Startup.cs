@@ -25,6 +25,7 @@ using aspCart.Infrastructure.Services.Sale;
 using Microsoft.AspNetCore.Rewrite;
 using aspCart.Core.Interface.Services.Statistics;
 using aspCart.Infrastructure.Services.Statistics;
+using aspCart.Web.Middleware;
 
 namespace aspCart.Web
 {
@@ -132,6 +133,7 @@ namespace aspCart.Web
             app.UseStatusCodePages();
             app.UseIdentity();
             app.UseSession();
+            app.UseVisitorCounter();
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 

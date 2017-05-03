@@ -12,14 +12,18 @@ namespace aspCart.Infrastructure.Services.Statistics
     {
         #region Fields
 
+        private readonly ApplicationDbContext _context;
         private readonly IRepository<VisitorCount> _visitorCountRepository;
 
         #endregion
 
         #region Constructor
 
-        public VisitorCountService(IRepository<VisitorCount> visitorCountRepository)
+        public VisitorCountService(
+            ApplicationDbContext context,
+            IRepository<VisitorCount> visitorCountRepository)
         {
+            _context = context;
             _visitorCountRepository = visitorCountRepository;
         }
 
@@ -53,7 +57,8 @@ namespace aspCart.Infrastructure.Services.Statistics
         /// <returns>VisitorCount entity</returns>
         public VisitorCount GetVisitorCountByDate(DateTime date)
         {
-            return _visitorCountRepository.FindByExpression(x => x.Date == date.Date);
+            //return _visitorCountRepository.FindByExpression(x => x.Date == date.Date);
+            return _context.VisitorCounts.SingleOrDefault(x => x.Date == date.Date);
         }
 
         /// <summary>
