@@ -27,3 +27,5 @@
 /// <reference path="lib/jquery-validation/dist/jquery.validate.js" />
 /// <reference path="lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js" />
 /// <reference path="lib/kendoui.2017.1.118.core/js/kendo.ui.core.min.js" />
+/// <reference path="lib/morris.js/morris.min.js" />
+/// <reference path="lib/raphael/raphael.min.js" />

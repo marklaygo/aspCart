@@ -104,4 +104,15 @@ gulp.task("copy-dependencies", function () {
     // jquery validation unobtrusive
     gulp.src(paths.node + 'jquery-validation-unobtrusive/jquery.validate.unobtrusive.js')
         .pipe(gulp.dest(paths.lib + 'jquery-validation-unobtrusive'));
+
+    // morris js
+    gulp.src(paths.node + 'morris.js/morris.css')
+        .pipe(gulp.dest(paths.lib + 'morris.js'));
+
+    gulp.src(paths.node + 'morris.js/morris.min.js')
+        .pipe(gulp.dest(paths.lib + 'morris.js'));
+
+    // raphael
+    gulp.src(paths.node + 'raphael/raphael.min.js')
+        .pipe(gulp.dest(paths.lib + 'raphael'));
 });

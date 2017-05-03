@@ -32,7 +32,8 @@
     "outputFileName": "wwwroot/dist/admin1.min.css",
     "inputFiles": [
       "wwwroot/lib/bootstrap/dist/css/bootstrap.css",
-      "wwwroot/lib/font-awesome/css/font-awesome.css"
+      "wwwroot/lib/font-awesome/css/font-awesome.css",
+      "wwwroot/lib/morris.js/morris.css"
     ],
     "minify": {
       "enabled": true,
@@ -66,7 +67,9 @@
       "wwwroot/lib/datatables/dist/js/dataTables.bootstrap.js",
       "wwwroot/lib/kendoui.2017.1.118.core/js/kendo.ui.core.min.js",
       "wwwroot/lib/jquery-validation/dist/jquery.validate.js",
-      "wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"
+      "wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
+      "wwwroot/lib/raphael/raphael.min.js",
+      "wwwroot/lib/morris.js/morris.min.js"
     ],
     "minify": {
       "enabled": true,

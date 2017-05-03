@@ -11,6 +11,50 @@
     </script>
 }
 
-<center>
-    <img src="~/images/system/under_construction.jpg" class="img-fluid" />
-</center>
+<div class="row">
+    <div class="col-md-6">
+        <div class="box box-info" style="user-select: none;">
+            <div class="box-header with-border">
+                <h3 class="box-title">Visitors</h3>
+            </div>
+            <div class="box-body chart-responsive">
+                <div class="chart" id="visitorsChart" style="height: 300px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $.ajax({
+            type: "GET",
+            url: '/Admin/Chart/GetVisitorCount',
+            dataType: "JSON",
+            success: function (data) {
+                var newDataSet = [];
+
+                $.each(data, function (i, item) {
+                    newDataSet[i] = {
+                        date: item.date.split('T')[0],
+                        count: item.viewCount
+                    };
+                });
+
+                visitorLine.setData(newDataSet);
+            }
+        });
+
+        var visitorLine = Morris.Line({
+            element: 'visitorsChart',
+            data: [ ],
+            xkey: 'date',
+            ykeys: ['count'],
+            labels: ['Visitors'],
+            xLabels: 'day',
+            xLabelAngle: 45,
+            yLabelFormat: function (y) { return y != Math.round(y) ? '' : y; },
+            hideHover: true,
+            resize: true
+        });
+    });
+</script>
