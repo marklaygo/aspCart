@@ -1,8 +1,11 @@
 ﻿@using System.Collections.Generic
 @using Microsoft.AspNetCore.Http
 @using Microsoft.AspNetCore.Http.Authentication
+@using Microsoft.Extensions.Options
 @model LoginViewModel
 @inject SignInManager<ApplicationUser> SignInManager
+@inject IOptions<AdminAccount> AdminAccount
+@inject IOptions<UserAccount> UserAccount
 
 @{
     ViewData["Title"] = "Log in";
@@ -13,7 +16,7 @@
     <div class="row">
         <div class="col-md-8">
             <section>
-                <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+                <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" id="loginForm" method="post" class="form-horizontal">
                     <h4>Use a local account to log in</h4>
                     <hr />
                     <div asp-validation-summary="All" class="text-danger"></div>
@@ -55,9 +58,31 @@
         <div class="col-md-4">
             <h4>Admin Login Page</h4>
             <hr />
-            <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="btn btn-primary">Admin dashboard</a>
-            <br /><br />
             <div class="text-danger">*This section is for development purposes only.</div>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="btn btn-primary">
+                        Admin dashboard
+                    </a>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <div>Admin email: @AdminAccount.Value.Email</div>
+                    <div>Admin password: @AdminAccount.Value.Password</div>
+                    <button id="pasteTo" class="btn btn-primary"><span class="fa fa-lock"></span>&nbsp;Use this credentials</button>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <div>User email: @UserAccount.Value.Email</div>
+                    <div>User password: @UserAccount.Value.Password</div>
+                    <button id="pasteTo2" class="btn btn-primary"><span class="fa fa-lock"></span>&nbsp;Use this credentials</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -65,3 +90,17 @@
         @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
     }
 </div>
+
+<script>
+    $('#pasteTo').click(function () {
+        document.getElementById('Email').value = "@Html.Raw(AdminAccount.Value.Email)";
+        document.getElementById('Password').value = "@Html.Raw(AdminAccount.Value.Password)";
+        $('#loginForm').submit();
+    });
+
+    $('#pasteTo2').click(function () {
+        document.getElementById('Email').value = "@Html.Raw(UserAccount.Value.Email)";
+        document.getElementById('Password').value = "@Html.Raw(UserAccount.Value.Password)";
+        $('#loginForm').submit();
+    });
+</script>

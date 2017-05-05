@@ -910,10 +910,10 @@ namespace aspCart.Web.Helpers
             var user1 = new ApplicationUser()
             {
                 Id = AccountIds.User1.GetGuid().ToString(),
-                UserName = "user1@aspcart.com",
-                NormalizedUserName = "user1@aspcart.com".ToUpper(),
-                Email = "user1@aspcart.com",
-                NormalizedEmail = "user1@aspcart.com".ToUpper(),
+                UserName = configuration.GetValue<string>("UserAccount:Email"),
+                NormalizedUserName = configuration.GetValue<string>("UserAccount:Email").ToUpper(),
+                Email = configuration.GetValue<string>("UserAccount:Email"),
+                NormalizedEmail = configuration.GetValue<string>("UserAccount:Email").ToUpper(),
                 EmailConfirmed = true,
                 LockoutEnabled = false,
                 SecurityStamp = Guid.NewGuid().ToString()

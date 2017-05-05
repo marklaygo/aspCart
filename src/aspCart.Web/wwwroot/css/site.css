@@ -123,7 +123,7 @@ a.card-title {
     right: 0;
     background-color: #3c8dbc;
     padding: 8px;
-    z-index: 1010;
+    z-index: 998;
     color: white;
 }
 
@@ -141,7 +141,7 @@ a.card-title {
     height: 200px;
     width: 200px;
     position: fixed;
-    z-index: 1011;
+    z-index: 999;
     right: 0;
     background-color: #3c8dbc;
     overflow-x: hidden;

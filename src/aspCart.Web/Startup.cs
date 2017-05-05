@@ -81,6 +81,9 @@ namespace aspCart.Web
             services.Configure<AdminAccount>(
                 Configuration.GetSection("AdminAccount"));
 
+            services.Configure<UserAccount>(
+                Configuration.GetSection("UserAccount"));
+
             services.AddMvc();
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
