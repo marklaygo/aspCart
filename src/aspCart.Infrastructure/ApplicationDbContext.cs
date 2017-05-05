@@ -32,6 +32,8 @@ namespace aspCart.Infrastructure
         public DbSet<ProductSpecificationMapping> ProductSpecificationMappings { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Specification> Specifications { get; set; }
+
+        public DbSet<OrderCount> OrderCounts { get; set; }
         public DbSet<VisitorCount> VisitorCounts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -54,6 +56,8 @@ namespace aspCart.Infrastructure
             builder.Entity<ProductSpecificationMapping>().ToTable("ProductSpecificationMapping");
             builder.Entity<Review>().ToTable("Review");
             builder.Entity<Specification>().ToTable("Specification");
+
+            builder.Entity<OrderCount>().ToTable("OrderCount");
             builder.Entity<VisitorCount>().ToTable("VisitorCount");
         }
     }

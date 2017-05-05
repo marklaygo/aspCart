@@ -34,17 +34,19 @@ namespace aspCart.xUnitTest
             ReviewRepository = new Repository<Review>(context);
             SpecificationRepository = new Repository<Specification>(context);
             VisitorCountRepository = new Repository<VisitorCount>(context);
+            OrderCountRepository = new Repository<OrderCount>(context);
 
             // service
             BillingAddressService = new BillingAddressService(context, BillingAddressRepository);
             CategoryService = new CategoryService(context, CategoryRepository, ProductCategoryMapping);
             ManufacturerService = new ManufacturerService(context, ManufacturerRepository, ProductManufacturerMapping);
-            OrderService = new OrderService(context, OrderRepository, OrderItemRepository);
+            OrderService = new OrderService(context, OrderCountService, OrderRepository, OrderItemRepository);
             ImageManagerService = new ImageManagerService(ImageRepository, ProductImageMapping);
             ProductService = new ProductService(context, ProductRepository);
             ReviewService = new ReviewService(context, ReviewRepository);
             SpecificationService = new SpecificationService(context, SpecificationRepository, ProductSpecificationMapping);
             VisitorCountService = new VisitorCountService(context, VisitorCountRepository);
+            OrderCountService = new OrderCountService(OrderCountRepository);
         }
 
         // repository
@@ -62,6 +64,7 @@ namespace aspCart.xUnitTest
         public Repository<Review> ReviewRepository { get; set; }
         public Repository<Specification> SpecificationRepository { get; set; }
         public Repository<VisitorCount> VisitorCountRepository { get; set; }
+        public Repository<OrderCount> OrderCountRepository { get; set; }
 
         // service
         public BillingAddressService BillingAddressService { get; set; }
@@ -73,5 +76,6 @@ namespace aspCart.xUnitTest
         public ReviewService ReviewService { get; set; }
         public SpecificationService SpecificationService { get; set; }
         public VisitorCountService VisitorCountService { get; set; }
+        public OrderCountService OrderCountService { get; set; }
     }
 }

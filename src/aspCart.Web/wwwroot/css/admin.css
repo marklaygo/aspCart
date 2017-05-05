@@ -68,3 +68,16 @@ textarea {
     height: 128px !important;
     width: 128px !important;
 }
+
+.morris-hover.morris-default-style {
+    color: #f9f9f9;
+    background: rgba(0, 0, 0, 0.8);
+    border: solid 2px rgba(0, 0, 0, 0.9);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/*
+.morris-hover.morris-default-style .morris-hover-row-label { }
+.morris-hover.morris-default-style .morris-hover-point { }
+*/

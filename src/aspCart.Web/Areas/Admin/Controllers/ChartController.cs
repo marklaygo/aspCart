@@ -11,14 +11,18 @@ namespace aspCart.Web.Areas.Admin.Controllers
     {
         #region Fields
 
+        private readonly IOrderCountService _orderCountService;
         private readonly IVisitorCountService _visitorCountService;
 
         #endregion
 
         #region Constructor
 
-        public ChartController(IVisitorCountService visitorCountService)
+        public ChartController(
+            IOrderCountService orderCountService,
+            IVisitorCountService visitorCountService)
         {
+            _orderCountService = orderCountService;
             _visitorCountService = visitorCountService;
         }
 
@@ -29,6 +33,14 @@ namespace aspCart.Web.Areas.Admin.Controllers
         public IActionResult GetVisitorCount()
         {
             var results = _visitorCountService.GetAllVisitorCount(7)
+                .OrderBy(x => x.Date);
+
+            return Json(results);
+        }
+
+        public IActionResult GetOrderCount()
+        {
+            var results = _orderCountService.GetAllOrderCount(7)
                 .OrderBy(x => x.Date);
 
             return Json(results);

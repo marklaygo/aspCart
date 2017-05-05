@@ -13,6 +13,16 @@
 
 <div class="row">
     <div class="col-md-6">
+        <div class="box box-success" style="user-select: none;">
+            <div class="box-header with-border">
+                <h3 class="box-title">Orders</h3>
+            </div>
+            <div class="box-body chart-responsive">
+                <div class="chart" id="ordersChart" style="height: 300px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
         <div class="box box-info" style="user-select: none;">
             <div class="box-header with-border">
                 <h3 class="box-title">Visitors</h3>
@@ -25,13 +35,50 @@
 </div>
 
 <script>
-    $(function () {
+    // orders chart
+    $(function () { 
+        $.ajax({
+            type: "GET",
+            url: '/Admin/Chart/GetOrderCount',
+            dataType: "JSON",
+            success: function (data) {
+                let newDataSet = [];
+
+                $.each(data, function (i, item) {
+                    newDataSet[i] = {
+                        date: item.date.split('T')[0],
+                        count: item.count
+                    };
+                });
+
+                // initialize morris bar chart
+                let orderBar = Morris.Bar({
+                    element: 'ordersChart',
+                    data: [],
+                    xkey: 'date',
+                    ykeys: ['count'],
+                    labels: ['Orders'],
+                    barColors: ['#00a65a'],
+                    xLabels: 'day',
+                    xLabelAngle: 35,
+                    yLabelFormat: function (y) { return y != Math.round(y) ? '' : y; },
+                    hideHover: true,
+                    resize: true
+                });
+
+                orderBar.setData(newDataSet);
+            }
+        });
+    });
+
+    // visitors chart
+    $(function () { 
         $.ajax({
             type: "GET",
             url: '/Admin/Chart/GetVisitorCount',
             dataType: "JSON",
             success: function (data) {
-                var newDataSet = [];
+                let newDataSet = [];
 
                 $.each(data, function (i, item) {
                     newDataSet[i] = {
@@ -40,21 +87,23 @@
                     };
                 });
 
+                // initialize morris line chart
+                let visitorLine = Morris.Line({
+                    element: 'visitorsChart',
+                    data: [],
+                    xkey: 'date',
+                    ykeys: ['count'],
+                    labels: ['Visitors'],
+                    lineColors: ['#00c0ef'],
+                    xLabels: 'day',
+                    xLabelAngle: 45,
+                    yLabelFormat: function (y) { return y != Math.round(y) ? '' : y; },
+                    hideHover: true,
+                    resize: true
+                });
+
                 visitorLine.setData(newDataSet);
             }
-        });
-
-        var visitorLine = Morris.Line({
-            element: 'visitorsChart',
-            data: [ ],
-            xkey: 'date',
-            ykeys: ['count'],
-            labels: ['Visitors'],
-            xLabels: 'day',
-            xLabelAngle: 45,
-            yLabelFormat: function (y) { return y != Math.round(y) ? '' : y; },
-            hideHover: true,
-            resize: true
         });
     });
 </script>

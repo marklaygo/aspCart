@@ -206,6 +206,7 @@ namespace aspCart.Web.Helpers
             context.BillingAddresses.RemoveRange(context.BillingAddresses);
             context.Reviews.RemoveRange(context.Reviews);
             context.VisitorCounts.RemoveRange(context.VisitorCounts);
+            context.OrderCounts.RemoveRange(context.OrderCounts);
             await context.SaveChangesAsync();
 
             #endregion
@@ -852,9 +853,28 @@ namespace aspCart.Web.Helpers
                 new VisitorCount { Date = DateTime.Now.AddDays(-3).Date, ViewCount = rand.Next(1, 100) },
                 new VisitorCount { Date = DateTime.Now.AddDays(-2).Date, ViewCount = rand.Next(1, 100) },
                 new VisitorCount { Date = DateTime.Now.AddDays(-1).Date, ViewCount = rand.Next(1, 100) },
-                new VisitorCount { Date = DateTime.Now.Date, ViewCount = new Random().Next(1, 100) }
+                new VisitorCount { Date = DateTime.Now.Date, ViewCount = 0 }
             };
             context.VisitorCounts.AddRange(visitorCountList);
+            await context.SaveChangesAsync();
+
+            #endregion
+
+            #region Order Counts
+
+            // order counts
+
+            var orderCountList = new List<OrderCount>
+            {
+                new OrderCount { Date = DateTime.Now.AddDays(-6).Date, Count = rand.Next(1, 100) },
+                new OrderCount { Date = DateTime.Now.AddDays(-5).Date, Count = rand.Next(1, 100) },
+                new OrderCount { Date = DateTime.Now.AddDays(-4).Date, Count = rand.Next(1, 100) },
+                new OrderCount { Date = DateTime.Now.AddDays(-3).Date, Count = rand.Next(1, 100) },
+                new OrderCount { Date = DateTime.Now.AddDays(-2).Date, Count = rand.Next(1, 100) },
+                new OrderCount { Date = DateTime.Now.AddDays(-1).Date, Count = rand.Next(1, 100) },
+                new OrderCount { Date = DateTime.Now.Date, Count = orderList.Count }
+            };
+            context.OrderCounts.AddRange(orderCountList);
             await context.SaveChangesAsync();
 
             #endregion

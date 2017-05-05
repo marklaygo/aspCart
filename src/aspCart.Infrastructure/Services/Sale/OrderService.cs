@@ -1,5 +1,7 @@
 ﻿using aspCart.Core.Domain.Sale;
+using aspCart.Core.Domain.Statistics;
 using aspCart.Core.Interface.Services.Sale;
+using aspCart.Core.Interface.Services.Statistics;
 using aspCart.Infrastructure.EFRepository;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,6 +16,7 @@ namespace aspCart.Infrastructure.Services.Sale
         #region Fields
 
         private readonly ApplicationDbContext _context;
+        private readonly IOrderCountService _orderCountService;
         private readonly IRepository<Order> _orderRepository;
         private readonly IRepository<OrderItem> _orderItemRepository;
 
@@ -23,10 +26,12 @@ namespace aspCart.Infrastructure.Services.Sale
 
         public OrderService(
             ApplicationDbContext context,
+            IOrderCountService orderCountService,
             IRepository<Order> orderRepository,
             IRepository<OrderItem> orderItemRepository)
         {
             _context = context;
+            _orderCountService = orderCountService;
             _orderRepository = orderRepository;
             _orderItemRepository = orderItemRepository;
         }
@@ -106,6 +111,20 @@ namespace aspCart.Infrastructure.Services.Sale
 
             _orderRepository.Insert(order);
             _orderRepository.SaveChanges();
+
+            // add or update order count
+            var orderCountEntity = _orderCountService.GetOrderCountByDate(DateTime.Now);
+            if(orderCountEntity != null)
+                _orderCountService.UpdateOrderCount(orderCountEntity);
+            else
+            {
+                var orderCountModel = new OrderCount
+                {
+                    Date = DateTime.Now,
+                    Count = 1
+                };
+                _orderCountService.InsertOrderCount(orderCountModel);
+            }
         }
 
         /// <summary>

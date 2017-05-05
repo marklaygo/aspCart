@@ -103,6 +103,8 @@ namespace aspCart.Web
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IReviewService, ReviewService>();
             services.AddTransient<ISpecificationService, SpecificationService>();
+
+            services.AddTransient<IOrderCountService, OrderCountService>();
             services.AddTransient<IVisitorCountService, VisitorCountService>();
 
             // singleton
