@@ -384,3 +384,18 @@ li.r-user {
     -ms-transform: rotate(-30deg);
     transform: rotate(-30deg);
 }
+
+.billing-control-group {
+    margin-bottom: 1rem;
+    user-select: none;
+}
+
+.billing-control-group span {
+    color: #0275d8;
+    cursor: pointer;
+}
+
+.billing-control-group span:hover {
+    color: #014c8c;
+    text-decoration: underline;
+}

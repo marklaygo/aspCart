@@ -11,6 +11,13 @@
             <div class="col-md-6">
                 <h6>Billing Address</h6>
                 <hr />
+                <div class="billing-control-group">
+                    @if (ViewData["BillingAddress"] != null && (bool)ViewData["BillingAddress"] == true)
+                    {
+                        <span id="use-existing">Use existing billing address</span><text> |</text>
+                    }
+                    <span id="clear">Clear form</span>
+                </div>
                 <div class="form-horizontal">
                     <div class="form-group row">
                         <div class="col-sm-6">
@@ -127,3 +134,32 @@
         </div>
     </form>
 </div>
+
+<script>
+    $(function () {
+        $('#use-existing').on('click', function () {
+            $.ajax({
+                type: "GET",
+                url: '/Manage/GetBillingAddress',
+                dataType: "JSON",
+                success: function (data) {
+                    if (data != null) {
+                        $('#FirstName').val(data.firstName);
+                        $('#LastName').val(data.lastName);
+                        $('#Email').val(data.email);
+                        $('#Address').val(data.address);
+                        $('#City').val(data.city);
+                        $('#StateProvince').val(data.stateProvince);
+                        $('#ZipPostalCode').val(data.zipPostalCode);
+                        $('#Country').val(data.country);
+                        $('#Telephone').val(data.telephone);
+                    }
+                }
+            });
+        });
+
+        $('#clear').on('click', function () {
+            $('#cartForm').find("input.form-control").val("");
+        });
+    });
+</script>

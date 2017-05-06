@@ -209,7 +209,10 @@ namespace aspCart.Web.Controllers
             var cartItems = JsonConvert.DeserializeObject<List<CartItemModel>>(Session.GetString(_cartItesmSessionKey));
             var billingAdddressEntity = _billingAddressService.GetBillingAddressById(user.BillingAddressId);
             if (billingAdddressEntity != null)
-                checkoutModel = _mapper.Map<BillingAddress, CheckoutModel>(billingAdddressEntity);
+            {
+                Session.SetString("BillingAddress", JsonConvert.SerializeObject(billingAdddressEntity));
+                ViewData["BillingAddress"] = true;
+            }
 
             checkoutModel.CartItemModel = cartItems;
 

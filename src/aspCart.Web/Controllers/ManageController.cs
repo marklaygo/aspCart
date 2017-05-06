@@ -13,6 +13,8 @@ using aspCart.Core.Domain.User;
 using AutoMapper;
 using aspCart.Core.Interface.Services.Sale;
 using aspCart.Web.Models;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace aspCart.Web.Controllers
 {
@@ -22,14 +24,18 @@ namespace aspCart.Web.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IBillingAddressService _billingAddressService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IOrderService _orderService;
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
+
+        private ISession Session => _httpContextAccessor.HttpContext.Session;
 
         public ManageController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IBillingAddressService billingAddressService,
+            IHttpContextAccessor httpContextAccessor,
             IOrderService orderService,
             ILoggerFactory loggerFactory,
             IMapper mapper)
@@ -37,6 +43,7 @@ namespace aspCart.Web.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
             _billingAddressService = billingAddressService;
+            _httpContextAccessor = httpContextAccessor;
             _orderService = orderService;
             _logger = loggerFactory.CreateLogger<ManageController>();
             _mapper = mapper;
@@ -98,6 +105,24 @@ namespace aspCart.Web.Controllers
                 return View(model);
             }
             return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
+        }
+
+        // GET: /Manage/EditBillingAddress
+        [HttpGet]
+        public async Task<IActionResult> GetBillingAddress()
+        {
+            if (Session.GetString("BillingAddress") != null)
+            {
+                return Json(JsonConvert.DeserializeObject<BillingAddress>(Session.GetString("BillingAddress")));
+            }
+
+            var user = await GetCurrentUserAsync();
+            var billingAddressEntity = _billingAddressService.GetBillingAddressById(user.BillingAddressId);
+            if (billingAddressEntity == null)
+                return Json(null);
+
+            var billingAddressModel = _mapper.Map<BillingAddress, BillingAddressModel>(billingAddressEntity);
+            return Json(billingAddressEntity);
         }
 
         // GET: /Manage/EditBillingAddress

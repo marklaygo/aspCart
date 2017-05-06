@@ -55,6 +55,7 @@ namespace aspCart.Web.Helpers
         #region BillingAddressIds
         enum BillingAddressIds
         {
+            [EnumGuid("975c62c9-5924-4b23-9e1b-d3de87118d42")] Billing0,
             [EnumGuid("6670f705-8a06-451c-b267-5dceb9c130b1")] Billing1,
             [EnumGuid("8ed5b69b-b4b2-452d-25e0-08d483e4de1d")] Billing2
         }
@@ -787,8 +788,9 @@ namespace aspCart.Web.Helpers
             // billing address
             var billingAddressList = new List<BillingAddress>
             {
-                new BillingAddress { Id = BillingAddressIds.Billing1.GetGuid(), FirstName = "user", LastName = "1", Email = "user1@aspcart.com", Address = "localhost", City = "localhost", StateProvince = "localhost", ZipPostalCode = "11234", Country = "localhost", Telephone = "0123456789" },
-                new BillingAddress { Id = BillingAddressIds.Billing2.GetGuid(), FirstName = "user", LastName = "1", Email = "user1@aspcart.com", Address = "localhost", City = "localhost", StateProvince = "localhost", ZipPostalCode = "11234", Country = "localhost", Telephone = "0123456789" }
+                new BillingAddress { Id = BillingAddressIds.Billing0.GetGuid(), FirstName = "user", LastName = "aspcart", Email = configuration.GetValue<string>("UserAccount:Email"), Address = "localhost", City = "localhost", StateProvince = "localhost", ZipPostalCode = "11234", Country = "localhost", Telephone = "0123456789" },
+                new BillingAddress { Id = BillingAddressIds.Billing1.GetGuid(), FirstName = "user", LastName = "aspcart", Email = configuration.GetValue<string>("UserAccount:Email"), Address = "localhost", City = "localhost", StateProvince = "localhost", ZipPostalCode = "11234", Country = "localhost", Telephone = "0123456789" },
+                new BillingAddress { Id = BillingAddressIds.Billing2.GetGuid(), FirstName = "user", LastName = "aspcart", Email = configuration.GetValue<string>("UserAccount:Email"), Address = "localhost", City = "localhost", StateProvince = "localhost", ZipPostalCode = "11234", Country = "localhost", Telephone = "0123456789" }
             };
             context.BillingAddresses.AddRange(billingAddressList);
             await context.SaveChangesAsync();
@@ -936,7 +938,8 @@ namespace aspCart.Web.Helpers
                 NormalizedEmail = configuration.GetValue<string>("UserAccount:Email").ToUpper(),
                 EmailConfirmed = true,
                 LockoutEnabled = false,
-                SecurityStamp = Guid.NewGuid().ToString()
+                SecurityStamp = Guid.NewGuid().ToString(),
+                BillingAddressId = BillingAddressIds.Billing0.GetGuid()
             };
 
             if (!context.Users.Any(u => u.UserName == user1.UserName))
