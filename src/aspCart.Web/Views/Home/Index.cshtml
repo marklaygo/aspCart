@@ -44,6 +44,13 @@
                             <form asp-area="" asp-controller="Cart" asp-action="Add" method="post">
                                 <input type="hidden" value="@product.Id" name="id" />
                                 <button type="submit" id="addToCart" class="btn btn-primary btn-sm">Add to cart</button>
+                                @if (product.Rating > 0)
+                                {
+                                    <div class="float-right">
+                                        <i class="fa fa-star star-active"></i>
+                                        <span>@product.Rating.ToString("N2")</span>
+                                    </div>
+                                }
                             </form>
                         </div>
                     </div>

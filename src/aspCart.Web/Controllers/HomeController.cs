@@ -75,6 +75,14 @@ namespace aspCart.Web.Controllers
                     productModel.Price = product.SpecialPrice ?? productModel.OldPrice;
                 }
 
+                //get product rating
+                var reviews = _reviewService.GetReviewsByProductId(productModel.Id);
+                if (reviews != null && reviews.Count > 0)
+                {
+                    productModel.Rating = reviews.Sum(x => x.Rating);
+                    productModel.Rating /= reviews.Count;
+                }
+
                 productList.Add(productModel);
             }
 
@@ -133,7 +141,16 @@ namespace aspCart.Web.Controllers
                             SortOrder = specification.SortOrder
                         });
                     }
-                    
+
+                    //get product rating
+                    var reviews = _reviewService.GetReviewsByProductId(productModel.Id);
+                    if (reviews != null && reviews.Count > 0)
+                    {
+                        productModel.Rating = reviews.Sum(x => x.Rating);
+                        productModel.Rating /= reviews.Count;
+                        productModel.ReviewCount = reviews.Count;
+                    }
+
                     ViewData["ProductId"] = productModel.Id;
                     if(User.Identity.IsAuthenticated)
                         ViewData["ProductReviewer"] = _reviewService.GetReviewByProductIdUserId(productModel.Id, GetCurrentUserId()) != null ? true : false;

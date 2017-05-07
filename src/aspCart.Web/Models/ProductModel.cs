@@ -37,6 +37,10 @@ namespace aspCart.Web.Models
 
         public string MetaDescription { get; set; }
 
+        public decimal Rating { get; set; }
+
+        public int ReviewCount { get; set; }
+
         public List<CategoryModel> Categories { get; set; }
 
         public List<ManufacturerModel> Manufacturers { get; set; }

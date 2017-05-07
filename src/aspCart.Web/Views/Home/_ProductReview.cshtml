@@ -14,7 +14,7 @@
                                     <i class="fa fa-star star-active"></i>
                                     <i class="fa fa-star star-active"></i>
                                     <i class="fa fa-star star-active"></i>
-                                    <span id="five-star"> (0)</span>
+                                    <small id="five-star"> (0)</small>
                                 </div>
                                 <div>
                                     <i class="fa fa-star star-active"></i>
@@ -22,7 +22,7 @@
                                     <i class="fa fa-star star-active"></i>
                                     <i class="fa fa-star star-active"></i>
                                     <i class="fa fa-star star-inactive"></i>
-                                    <span id="four-star"> (0)</span>
+                                    <small id="four-star"> (0)</small>
                                 </div>
                                 <div>
                                     <i class="fa fa-star star-active"></i>
@@ -30,7 +30,7 @@
                                     <i class="fa fa-star star-active"></i>
                                     <i class="fa fa-star star-inactive"></i>
                                     <i class="fa fa-star star-inactive"></i>
-                                    <span id="three-star"> (0)</span>
+                                    <small id="three-star"> (0)</small>
                                 </div>
                                 <div>
                                     <i class="fa fa-star star-active"></i>
@@ -38,7 +38,7 @@
                                     <i class="fa fa-star star-inactive"></i>
                                     <i class="fa fa-star star-inactive"></i>
                                     <i class="fa fa-star star-inactive"></i>
-                                    <span id="two-star"> (0)</span>
+                                    <small id="two-star"> (0)</small>
                                 </div>
                                 <div>
                                     <i class="fa fa-star star-active"></i>
@@ -46,7 +46,7 @@
                                     <i class="fa fa-star star-inactive"></i>
                                     <i class="fa fa-star star-inactive"></i>
                                     <i class="fa fa-star star-inactive"></i>
-                                    <span id="one-star"> (0)</span>
+                                    <small id="one-star"> (0)</small>
                                 </div>
                             </div>
                             <div class="col-md-9" style="padding-top: 25px;">
@@ -140,26 +140,27 @@
                                     case 5: five++; break;
                                 }
 
-                                $('#one-star').empty();
-                                $('#one-star').append(' (' + one + ')');
-
-                                $('#two-star').empty();
-                                $('#two-star').append(' (' + two + ')');
-
-                                $('#three-star').empty();
-                                $('#three-star').append(' (' + three + ')');
-
-                                $('#four-star').empty();
-                                $('#four-star').append(' (' + four + ')');
-
-                                $('#five-star').empty();
-                                $('#five-star').append(' (' + five + ')');
-
                                 $('#review-container').append(review);
                             });
                         } else {
                             $('#review-container').append('<h5 style="text-align: center; padding: 20px;">There are no reviews yet...</div>');
-                        }
+                        }   
+
+                        // set review count and percentage
+                        $('#one-star').empty();
+                        $('#one-star').append(one / data.length * 100 + '% (' + one + ')');
+
+                        $('#two-star').empty();
+                        $('#two-star').append(two / data.length * 100 + '% (' + two + ')');
+
+                        $('#three-star').empty();
+                        $('#three-star').append(three / data.length * 100 + '% (' + three + ')');
+
+                        $('#four-star').empty();
+                        $('#four-star').append(four / data.length * 100 + '% (' + four + ')');
+
+                        $('#five-star').empty();
+                        $('#five-star').append(five / data.length * 100 + '% (' + five + ')');
                     }
                 });
             }

@@ -45,6 +45,29 @@
         </div>
         <div class="col-md-8">
             <h4>@Model.Name</h4>
+            @if (Model.Rating > 0)
+            {
+                <span title="rating">
+                    @{
+                        int activeStar = 0;
+                        int roundedRating = Convert.ToInt32(Math.Round(Model.Rating, 0, MidpointRounding.AwayFromZero));
+                    }
+                    @for (int i = 0; i < roundedRating; i++)
+                    {
+                        <i class="fa fa-star star-active"></i>
+                        activeStar++;
+                    }
+                    @for (int i = 0; i < 5 - activeStar; i++)
+                    {
+                        <i class="fa fa-star star-inactive"></i>
+                    }
+                </span>
+                <h6 class="text-muted" style="display: inline-block;">
+                    @Model.Rating.ToString("N2")
+                </h6>
+                <span id="reviewCount" class="text-muted review-count" title="review counts">(@Model.ReviewCount)</span>
+                <small><a asp-controller="CreateReview" asp-action="@Model.Id">write a review</a></small>
+            }            
             @{
                 string mLink = "";
                 foreach (var manufacturer in Model.Manufacturers)
@@ -201,5 +224,12 @@
                 $(id).tab('show');
             }
         })
+    });
+
+    $(function () {
+        $('#reviewCount').on('click', function () {
+            window.location.hash = '#!#reviews';
+            $('#reviews').tab('show');
+        });
     });
 </script>
