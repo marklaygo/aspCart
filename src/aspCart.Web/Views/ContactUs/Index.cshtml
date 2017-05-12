@@ -1,0 +1,59 @@
+﻿@model ContactUsModel
+@{ 
+    ViewData["Title"] = "Contact us";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-7 col-lg-6">
+            @if (TempData["ContactUsErr"] != null && (bool)TempData["ContactUsErr"])
+            {
+                <div class="alert alert-danger">error</div>
+            }
+            @if (TempData["ContactUsErr"] != null && (bool)TempData["ContactUsErr"] == false)
+            {
+                <div class="alert alert-success">Message sent</div>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-7 col-lg-6">
+            <form asp-area="" asp-controller="ContactUs" asp-action="CreateMessage" method="post">
+                <div class="form-group">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control max-width" placeholder="optional" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control max-width" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Title"></label>
+                    <input asp-for="Title" class="form-control max-width" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Message"></label>
+                    <textarea asp-for="Message" class="form-control max-width" rows="10" maxlength="500"></textarea>
+                    <div id="messageLength" class="float-right">0/500</div>
+                    <span asp-validation-for="Message" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#Message').on('input', function () {
+            let textArea = $(this);
+            let limit = textArea.attr('maxlength');
+            $('#messageLength').empty();
+            $('#messageLength').append(textArea.val().length + '/' + limit);
+        });
+    });
+</script>

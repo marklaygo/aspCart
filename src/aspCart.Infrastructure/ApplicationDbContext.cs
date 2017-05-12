@@ -1,4 +1,5 @@
 ﻿using aspCart.Core.Domain.Catalog;
+using aspCart.Core.Domain.Messages;
 using aspCart.Core.Domain.Sale;
 using aspCart.Core.Domain.Statistics;
 using aspCart.Core.Domain.User;
@@ -36,6 +37,8 @@ namespace aspCart.Infrastructure
         public DbSet<OrderCount> OrderCounts { get; set; }
         public DbSet<VisitorCount> VisitorCounts { get; set; }
 
+        public DbSet<ContactUsMessage> ContactUsMessage { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -59,6 +62,8 @@ namespace aspCart.Infrastructure
 
             builder.Entity<OrderCount>().ToTable("OrderCount");
             builder.Entity<VisitorCount>().ToTable("VisitorCount");
+
+            builder.Entity<ContactUsMessage>().ToTable("ContactUsMessage");
         }
     }
 }

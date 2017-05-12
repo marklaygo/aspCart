@@ -26,6 +26,8 @@ using Microsoft.AspNetCore.Rewrite;
 using aspCart.Core.Interface.Services.Statistics;
 using aspCart.Infrastructure.Services.Statistics;
 using aspCart.Web.Middleware;
+using aspCart.Core.Interface.Services.Messages;
+using aspCart.Infrastructure.Services.Messages;
 
 namespace aspCart.Web
 {
@@ -106,6 +108,8 @@ namespace aspCart.Web
 
             services.AddTransient<IOrderCountService, OrderCountService>();
             services.AddTransient<IVisitorCountService, VisitorCountService>();
+
+            services.AddTransient<IContactUsService, ContactUsService>();
 
             // singleton
             services.AddSingleton(sp => MapperConfiguration.CreateMapper());

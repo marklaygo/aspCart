@@ -1,8 +1,10 @@
 ﻿using aspCart.Core.Domain.Catalog;
+using aspCart.Core.Domain.Messages;
 using aspCart.Core.Domain.Sale;
 using aspCart.Core.Domain.User;
 using aspCart.Web.Areas.Admin.Models.Catalog;
 using aspCart.Web.Areas.Admin.Models.Sale;
+using aspCart.Web.Areas.Admin.Models.Support;
 using aspCart.Web.Models;
 using aspCart.Web.Models.ManageViewModels;
 using AutoMapper;
@@ -57,6 +59,9 @@ namespace aspCart.Web.Helpers
             CreateMap<Specification, SpecificationListModel>();
             CreateMap<Specification, SpecificationCreateOrUpdateModel>()
                 .ReverseMap();
+
+            // suport
+            CreateMap<ContactUsMessage, ContactUsMessageModel>();
         }
     }
 }

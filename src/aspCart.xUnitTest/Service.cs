@@ -1,10 +1,12 @@
 ﻿using aspCart.Core.Domain.Catalog;
+using aspCart.Core.Domain.Messages;
 using aspCart.Core.Domain.Sale;
 using aspCart.Core.Domain.Statistics;
 using aspCart.Core.Domain.User;
 using aspCart.Infrastructure;
 using aspCart.Infrastructure.EFRepository;
 using aspCart.Infrastructure.Services.Catalog;
+using aspCart.Infrastructure.Services.Messages;
 using aspCart.Infrastructure.Services.Sale;
 using aspCart.Infrastructure.Services.Statistics;
 using aspCart.Infrastructure.Services.User;
@@ -35,6 +37,7 @@ namespace aspCart.xUnitTest
             SpecificationRepository = new Repository<Specification>(context);
             VisitorCountRepository = new Repository<VisitorCount>(context);
             OrderCountRepository = new Repository<OrderCount>(context);
+            ContactUsMessageRepository = new Repository<ContactUsMessage>(context);
 
             // service
             BillingAddressService = new BillingAddressService(context, BillingAddressRepository);
@@ -47,6 +50,7 @@ namespace aspCart.xUnitTest
             SpecificationService = new SpecificationService(context, SpecificationRepository, ProductSpecificationMapping);
             VisitorCountService = new VisitorCountService(context, VisitorCountRepository);
             OrderCountService = new OrderCountService(OrderCountRepository);
+            ContactUsService = new ContactUsService(ContactUsMessageRepository);
         }
 
         // repository
@@ -65,6 +69,7 @@ namespace aspCart.xUnitTest
         public Repository<Specification> SpecificationRepository { get; set; }
         public Repository<VisitorCount> VisitorCountRepository { get; set; }
         public Repository<OrderCount> OrderCountRepository { get; set; }
+        public Repository<ContactUsMessage> ContactUsMessageRepository { get; set; }
 
         // service
         public BillingAddressService BillingAddressService { get; set; }
@@ -77,5 +82,6 @@ namespace aspCart.xUnitTest
         public SpecificationService SpecificationService { get; set; }
         public VisitorCountService VisitorCountService { get; set; }
         public OrderCountService OrderCountService { get; set; }
+        public ContactUsService ContactUsService { get; set; }
     }
 }

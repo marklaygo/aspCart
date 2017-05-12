@@ -1,0 +1,53 @@
+﻿@model ContactUsMessageModel
+@{
+    ViewData["Title"] = ViewData["ContentHeader"] = "Read message";
+}
+
+@section menu {
+    <script type="text/javascript">
+        $(function () {
+            var menuItem = $('#menu-support');
+            menuItem.addClass('active');
+            var subMenuItem = menuItem.find('#menu-support-contactus').parent();
+            subMenuItem.addClass('active');
+        });
+    </script>
+}
+
+<div class="box box-primary">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box-body no-padding">
+                <div class="box-header with-border">
+                    <a asp-area="Admin" asp-controller="ContactUsMessage" asp-action="List" class="btn btn-default">
+                        <i class="fa fa-level-up" style="transform: rotate(-90deg);"></i> back to inbox
+                    </a>
+                    <button type="button" class="btn btn-danger" id="delete-message">
+                        <i class="fa fa-trash"></i> Delete
+                    </button>
+                    <form asp-area="Admin" asp-controller="ContactUsMessage" asp-action="Delete" id="deleteForm">
+                        <input type="hidden" name="ids" value="@Model.Id" />
+                    </form>
+                </div>
+                <div class="mailbox-read-info">
+                    <h3>@Model.Title</h3>
+                    <h5>
+                        From: @Model.Email
+                        <span class="mailbox-read-time pull-right">@Model.SendDate</span>
+                    </h5>
+                </div>
+                <div class="mailbox-read-message">
+                    @Model.Message
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#delete-message').on('click', function () {
+            $('#deleteForm').submit();
+        });
+    });
+</script>

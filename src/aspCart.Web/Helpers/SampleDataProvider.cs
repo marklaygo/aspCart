@@ -1,4 +1,5 @@
 ﻿using aspCart.Core.Domain.Catalog;
+using aspCart.Core.Domain.Messages;
 using aspCart.Core.Domain.Sale;
 using aspCart.Core.Domain.Statistics;
 using aspCart.Core.Domain.User;
@@ -208,6 +209,7 @@ namespace aspCart.Web.Helpers
             context.Reviews.RemoveRange(context.Reviews);
             context.VisitorCounts.RemoveRange(context.VisitorCounts);
             context.OrderCounts.RemoveRange(context.OrderCounts);
+            context.ContactUsMessage.RemoveRange(context.ContactUsMessage);
             await context.SaveChangesAsync();
 
             #endregion
@@ -877,6 +879,20 @@ namespace aspCart.Web.Helpers
                 new OrderCount { Date = DateTime.Now.Date, Count = orderList.Count }
             };
             context.OrderCounts.AddRange(orderCountList);
+            await context.SaveChangesAsync();
+
+            #endregion
+
+            #region ContactUsMessage
+
+            // ContactUsMessage
+
+            var contactUsMessageList = new List<ContactUsMessage>()
+            {
+                new ContactUsMessage { Email = "user@aspcart.com", Title = "Lorem Ipsum", Message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus erat dolor, semper quis ultricies quis, commodo nec nulla. Sed rhoncus in nunc eget fringilla. Phasellus vitae arcu lorem. Quisque elementum dignissim lacus. Donec ac rutrum arcu. Donec vitae tristique metus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.", Read = false, SendDate = DateTime.Now },
+                new ContactUsMessage { Email = "anon@anon.com", Title = "blah blah blaahhh", Message = "blaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaah", Read = true, SendDate = DateTime.Now.AddMinutes(-1) }
+            };
+            context.ContactUsMessage.AddRange(contactUsMessageList);
             await context.SaveChangesAsync();
 
             #endregion

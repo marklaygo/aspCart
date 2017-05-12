@@ -81,3 +81,25 @@ textarea {
 .morris-hover.morris-default-style .morris-hover-row-label { }
 .morris-hover.morris-default-style .morris-hover-point { }
 */
+
+.message-read {
+    background-color: #f9f9f9;
+}
+
+.message-unread {
+    font-weight: bold;
+}
+
+.message-title {
+    max-width: 300px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.message-title > span {
+    color: #333;
+}
+
+.message-table tbody tr {
+    cursor: pointer;
+}
