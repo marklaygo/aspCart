@@ -53,7 +53,8 @@
       "version": "1.0.0-preview2-final",
       "type": "build"
     },
-    "Microsoft.AspNetCore.Rewrite": "1.0.1"
+    "Microsoft.AspNetCore.Rewrite": "1.0.1",
+    "Sendgrid": "9.2.0"
   },
 
   "tools": {

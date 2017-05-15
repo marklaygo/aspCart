@@ -7,6 +7,8 @@ using aspCart.Core.Interface.Services.Messages;
 using AutoMapper;
 using aspCart.Core.Domain.Messages;
 using aspCart.Web.Areas.Admin.Models.Support;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace aspCart.Web.Areas.Admin.Controllers
 {
@@ -81,6 +83,35 @@ namespace aspCart.Web.Areas.Admin.Controllers
             _contactUsService.DeleteMessages(ids);
 
             return RedirectToAction("List");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Send(string To, string Subject, string Reply)
+        {
+            var from = new EmailAddress("no-reply@aspcart.com", "aspcart no-reply");
+            var to = new EmailAddress(To);
+            var subject = "Re: " + Subject;
+
+            SendMail(from, to, subject, Reply, Reply).Wait();
+            return RedirectToAction("List");
+        }
+
+        // basic email sender
+        static async Task SendMail(EmailAddress from, EmailAddress to, string subject, string plainTextContent, string htmlContent)
+        {
+            var apiKey = Environment.GetEnvironmentVariable("SENDGRID_APIKEY");
+            var client = new SendGridClient(apiKey);
+            var msg = new SendGridMessage()
+            {
+                From = from,
+                Subject = subject,
+                PlainTextContent = plainTextContent,
+                HtmlContent = htmlContent
+            };
+
+            msg.AddTo(to);
+            var response = await client.SendEmailAsync(msg);
         }
 
         #endregion

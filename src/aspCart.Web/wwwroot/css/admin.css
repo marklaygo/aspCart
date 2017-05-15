@@ -103,3 +103,16 @@ textarea {
 .message-table tbody tr {
     cursor: pointer;
 }
+
+.reply-content {
+    margin: 12px;
+}
+
+.clickable-text {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.clickable-text:hover {
+    color: #15c;
+}

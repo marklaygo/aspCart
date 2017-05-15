@@ -39,6 +39,14 @@
                 <div class="mailbox-read-message">
                     @Model.Message
                 </div>
+                <hr />
+                <form asp-area="Admin" asp-controller="ContactUsMessage" asp-action="Send" id="reply-form">
+                    <input type="hidden" name="To" value="@Model.Email" />
+                    <input type="hidden" name="Subject" value="@Model.Title" />
+                    <div class="reply-content">
+                        <div class="text-muted">click <span id="show-reply" class="clickable-text">here</span> to reply</div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -46,6 +54,42 @@
 
 <script>
     $(function () {
+        $('#reply-form').on('click', '#sendReply', function () {
+            let txtArea = $('#replyMessage');
+            let msgLength = txtArea.val().length;
+
+            if(msgLength === 0) {
+                if (confirm('Send this message without text in the body?')) {
+                    $('#reply-form').submit();
+                } else {
+                    return;
+                }
+            } else {
+                $('#reply-form').submit();
+            }
+        });
+
+        $('#reply-form').on('click', '#show-reply', function () {
+            let container = $(this).parent().parent();
+            container.empty();
+
+            let template = `
+                <div>
+                    <h5>Reply to: @Model.Email</h5>
+                    <textarea id="replyMessage" name="Reply" style="width: 100%;" rows="7"></textarea>
+                    <button type="button" id="sendReply" class ="btn btn-primary">Send</button>
+                    <button type="button" id="cancelReply" class ="btn btn-danger">Cancel</button>
+                </div>`;
+
+            container.append(template);
+        });
+
+        $('#reply-form').on('click', '#cancelReply', function () {
+            let container = $(this).parent().parent();
+            container.empty();
+            container.append('<div class="text-muted">click <span id="show-reply" class="clickable-text">here</span> to reply</div>');
+        });
+
         $('#delete-message').on('click', function () {
             $('#deleteForm').submit();
         });
