@@ -163,7 +163,7 @@ namespace aspCart.Web.Controllers
         }
 
         // GET: /Home/ProductCategory
-        public IActionResult ProductCategory([FromQuery] string[] manufacturer, [FromQuery] string[] price, string category)
+        public IActionResult ProductCategory(string category, string sortBy, [FromQuery] string[] manufacturer, [FromQuery] string[] price)
         {
             if (category != null)
             {
@@ -224,6 +224,34 @@ namespace aspCart.Web.Controllers
                     result = tmpResult;
                 }
 
+                if (sortBy != null && sortBy.Length > 0)
+                {
+                    switch (sortBy)
+                    {
+                        case "LowestPrice":
+                            result = result.OrderBy(x => x.Price).ToList();
+                            break;
+
+                        case "HighestPrice":
+                            result = result.OrderByDescending(x => x.Price).ToList();
+                            break;
+
+                        case "BestSelling":
+                            break;
+
+                        case "MostReviews":
+                            break;
+
+                        case "NewestToOldest":
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    ViewData["SortBy"] = sortBy;
+                }
+
                 var allFilters = manufacturer.Concat(price).ToList();
                 ViewData["SortKey"] = allFilters;
 
@@ -234,7 +262,7 @@ namespace aspCart.Web.Controllers
         }
 
         // GET: /Home/ProductSearch
-        public IActionResult ProductSearch([FromQuery] string[] category, [FromQuery] string[] price, string name)
+        public IActionResult ProductSearch(string name, string sortBy, [FromQuery] string[] category, [FromQuery] string[] price)
         {
             if(name != string.Empty && name != null)
             {
@@ -289,6 +317,34 @@ namespace aspCart.Web.Controllers
                         if (r.Count > 0) { tmpResult.AddRange(r); }
                     }
                     result = tmpResult;
+                }
+
+                if (sortBy != null && sortBy.Length > 0)
+                {
+                    switch (sortBy)
+                    {
+                        case "LowestPrice":
+                            result = result.OrderBy(x => x.Price).ToList();
+                            break;
+
+                        case "HighestPrice":
+                            result = result.OrderByDescending(x => x.Price).ToList();
+                            break;
+
+                        case "BestSelling":
+                            break;
+
+                        case "MostReviews":
+                            break;
+
+                        case "NewestToOldest":
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    ViewData["SortBy"] = sortBy;
                 }
 
                 var allFilters = category.Concat(price).ToList();

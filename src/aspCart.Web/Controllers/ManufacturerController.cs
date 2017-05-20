@@ -33,7 +33,7 @@ namespace aspCart.Web.Controllers
 
         #region Methods
 
-        public IActionResult ManufacturerInfo([FromQuery] string[] category, [FromQuery] string[] price, string seo)
+        public IActionResult ManufacturerInfo(string seo, string sortBy, [FromQuery] string[] category, [FromQuery] string[] price)
         {
             if(seo != null)
             {
@@ -89,6 +89,34 @@ namespace aspCart.Web.Controllers
                         if (r.Count > 0) { tmpResult.AddRange(r); }
                     }
                     result = tmpResult;
+                }
+
+                if (sortBy != null && sortBy.Length > 0)
+                {
+                    switch (sortBy)
+                    {
+                        case "LowestPrice":
+                            result = result.OrderBy(x => x.Price).ToList();
+                            break;
+
+                        case "HighestPrice":
+                            result = result.OrderByDescending(x => x.Price).ToList();
+                            break;
+
+                        case "BestSelling":
+                            break;
+
+                        case "MostReviews":
+                            break;
+
+                        case "NewestToOldest":
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    ViewData["SortBy"] = sortBy;
                 }
 
                 var allFilters = category.Concat(price).ToList();

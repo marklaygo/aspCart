@@ -18,15 +18,17 @@
         </div>
         <div class="row"> <!-- sorting place holder -->
             <div class="col-md-12">
-                <label>Sort by: </label>
-                <select id="sortBy">
-                    <option>Default</option>
-                    <option>Lowest Price</option>
-                    <option>Highest Price</option>
-                    <option>Best Selling</option>
-                    <option>Most Reviews</option>
-                    <option>Newest to Oldest</option>
-                </select>
+                <form id="sortByForm">
+                    <label>Sort by: </label>
+                    <select id="sortBy">
+                        <option id="Default" value="Default">Default</option>
+                        <option id="LowestPrice" value="LowestPrice">Lowest Price</option>
+                        <option id="HighestPrice" value="HighestPrice">Highest Price</option>
+                        <option id="BestSelling" value="BestSelling" disabled>Best Selling</option>
+                        <option id="MostReviews" value="MostReviews" disabled>Most Reviews</option>
+                        <option id="NewestToOldest" value="NewestToOldest" disabled>Newest to Oldest</option>
+                    </select>
+                </form>
             </div>
         </div>
         <div class="row"> <!-- sort badge -->
@@ -98,6 +100,16 @@
             let idToDelete = $(this).data('value');
             $(this).parent().remove();
             $("[id='" + idToDelete + "']").prop('checked', false);
+            $('#filterForm').submit(); // submit form from file Views/Shared/Components/Filter/Default.cshtml
+        });
+    });
+
+    $(function(){
+        let sortBy = '@(ViewData["SortBy"] == null ? "Default" : ViewData["SortBy"])';
+        $('#' + sortBy).prop('selected', true);
+
+        $('#sortBy').on('change', function(){
+            $('#sortByFilter').val($(this).val());
             $('#filterForm').submit(); // submit form from file Views/Shared/Components/Filter/Default.cshtml
         });
     });
