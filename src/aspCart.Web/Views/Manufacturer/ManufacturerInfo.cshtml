@@ -25,8 +25,8 @@
                         <option id="LowestPrice" value="LowestPrice">Lowest Price</option>
                         <option id="HighestPrice" value="HighestPrice">Highest Price</option>
                         <option id="BestSelling" value="BestSelling" disabled>Best Selling</option>
-                        <option id="MostReviews" value="MostReviews" disabled>Most Reviews</option>
-                        <option id="NewestToOldest" value="NewestToOldest" disabled>Newest to Oldest</option>
+                        <option id="MostReviews" value="MostReviews">Most Reviews</option>
+                        <option id="NewestToOldest" value="NewestToOldest">Newest to Oldest</option>
                     </select>
                 </form>
             </div>
@@ -70,6 +70,13 @@
                                 <form asp-area="" asp-controller="Cart" asp-action="Add" method="post">
                                     <input type="hidden" value="@product.Id" name="id" />
                                     <button type="submit" id="addToCart" class="btn btn-primary btn-sm">Add to cart</button>
+                                    @if (product.Rating > 0)
+                                    {
+                                        <div class="float-right">
+                                            <i class="fa fa-star star-active"></i>
+                                            <span>@product.Rating.ToString("N2")</span>
+                                        </div>
+                                    }
                                 </form>
                             </div>
                         </div>

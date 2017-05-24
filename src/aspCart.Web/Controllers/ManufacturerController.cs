@@ -15,6 +15,7 @@ namespace aspCart.Web.Controllers
         #region Fields
 
         private readonly IProductService _productService;
+        private readonly IReviewService _reviewService;
         private readonly IMapper _mapper;
 
         #endregion
@@ -23,9 +24,11 @@ namespace aspCart.Web.Controllers
 
         public ManufacturerController(
             IProductService productService,
+            IReviewService reviewService,
             IMapper mapper)
         {
             _productService = productService;
+            _reviewService = reviewService;
             _mapper = mapper;
         }
 
@@ -37,7 +40,6 @@ namespace aspCart.Web.Controllers
         {
             if(seo != null)
             {
-                ViewData["Manufacturer"] = seo;
                 var productEntities = _productService.GetAllProducts()
                     .Where(x => x.Manufacturers.Any(m => m.Manufacturer.SeoUrl.ToLower() == seo.ToLower()))
                     .Where(x => x.Published == true);
@@ -65,17 +67,28 @@ namespace aspCart.Web.Controllers
                         productModel.Categories.Add(new CategoryModel { Name = c.Category.Name, SeoUrl = c.Category.SeoUrl });
                     }
 
+                    //get product rating
+                    var reviews = _reviewService.GetReviewsByProductId(productModel.Id);
+                    if (reviews != null && reviews.Count > 0)
+                    {
+                        productModel.Rating = reviews.Sum(x => x.Rating);
+                        productModel.Rating /= reviews.Count;
+                        productModel.ReviewCount = reviews.Count;
+                    }
+
                     productList.Add(productModel);
                 }
 
                 var result = productList;
 
-                if(category.Length > 0)
+                // filter the result using category parameter
+                if (category.Length > 0)
                 {
                     result = result.Where(x => x.Categories.Select(c => c.Name).Intersect(category).Count() > 0).ToList();
                 }
 
-                if(price.Length > 0)
+                // filter the result using price parameter
+                if (price.Length > 0)
                 {
                     var tmpResult = new List<ProductModel>();
                     foreach (var p in price)
@@ -91,41 +104,63 @@ namespace aspCart.Web.Controllers
                     result = tmpResult;
                 }
 
+                // sort result if the parameter is provided
                 if (sortBy != null && sortBy.Length > 0)
                 {
-                    switch (sortBy)
-                    {
-                        case "LowestPrice":
-                            result = result.OrderBy(x => x.Price).ToList();
-                            break;
-
-                        case "HighestPrice":
-                            result = result.OrderByDescending(x => x.Price).ToList();
-                            break;
-
-                        case "BestSelling":
-                            break;
-
-                        case "MostReviews":
-                            break;
-
-                        case "NewestToOldest":
-                            break;
-
-                        default:
-                            break;
-                    }
-
-                    ViewData["SortBy"] = sortBy;
+                    SortProductModel(sortBy, ref result);
                 }
 
+                // get all filters to recheck all filters in view
                 var allFilters = category.Concat(price).ToList();
                 ViewData["SortKey"] = allFilters;
+                ViewData["Manufacturer"] = seo;
 
                 return View(result);
             }
 
             return RedirectToAction("Index", "Home");
+        }
+
+        #endregion
+
+        #region Helpers
+
+        private void SortProductModel(string sortBy, ref List<ProductModel> model)
+        {
+            switch (sortBy)
+            {
+                case "LowestPrice":
+                    model = model.OrderBy(x => x.Price)
+                        .ThenBy(x => x.Name)
+                        .ToList();
+                    break;
+
+                case "HighestPrice":
+                    model = model.OrderByDescending(x => x.Price)
+                        .ThenBy(x => x.Name)
+                        .ToList();
+                    break;
+
+                case "BestSelling":
+                    break;
+
+                case "MostReviews":
+                    model = model.OrderByDescending(x => x.ReviewCount)
+                        .ThenBy(x => x.Name)
+                        .ToList();
+                    break;
+
+                case "NewestToOldest":
+                    model = model.OrderByDescending(x => x.DateAdded)
+                        .ThenBy(x => x.Name)
+                        .ToList();
+                    break;
+
+                default:
+                    break;
+            }
+
+            ViewData["SortBy"] = sortBy;
         }
 
         #endregion

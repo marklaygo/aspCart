@@ -167,8 +167,6 @@ namespace aspCart.Web.Controllers
         {
             if (category != null)
             {
-                ViewData["Category"] = category;
-
                 var productEntities = _productService.GetAllProducts()
                     .Where(x => x.Categories.Any(c => c.Category.Name.ToLower() == category.ToLower()))
                     .ToList();
@@ -198,16 +196,27 @@ namespace aspCart.Web.Controllers
                         }
                     }
 
+                    //get product rating
+                    var reviews = _reviewService.GetReviewsByProductId(productModel.Id);
+                    if (reviews != null && reviews.Count > 0)
+                    {
+                        productModel.Rating = reviews.Sum(x => x.Rating);
+                        productModel.Rating /= reviews.Count;
+                        productModel.ReviewCount = reviews.Count;
+                    }
+
                     productList.Add(productModel);
                 }
 
                 var result = productList;
 
+                // filter the result using manufacturer parameter
                 if (manufacturer.Length > 0)
                 {
                     result = result.Where(x => x.Manufacturers.Select(c => c.Name).Intersect(manufacturer).Count() > 0).ToList();
                 }
 
+                // filter the result using price parameter
                 if (price.Length > 0)
                 {
                     var tmpResult = new List<ProductModel>();
@@ -224,36 +233,16 @@ namespace aspCart.Web.Controllers
                     result = tmpResult;
                 }
 
+                // sort result if the parameter is provided
                 if (sortBy != null && sortBy.Length > 0)
                 {
-                    switch (sortBy)
-                    {
-                        case "LowestPrice":
-                            result = result.OrderBy(x => x.Price).ToList();
-                            break;
-
-                        case "HighestPrice":
-                            result = result.OrderByDescending(x => x.Price).ToList();
-                            break;
-
-                        case "BestSelling":
-                            break;
-
-                        case "MostReviews":
-                            break;
-
-                        case "NewestToOldest":
-                            break;
-
-                        default:
-                            break;
-                    }
-
-                    ViewData["SortBy"] = sortBy;
+                    SortProductModel(sortBy, ref result);
                 }
 
+                // get all filters to recheck all filters in view
                 var allFilters = manufacturer.Concat(price).ToList();
                 ViewData["SortKey"] = allFilters;
+                ViewData["Category"] = category;
 
                 return View(result);
             }
@@ -293,16 +282,27 @@ namespace aspCart.Web.Controllers
                         productModel.Categories.Add(new CategoryModel { Name = c.Category.Name, SeoUrl = c.Category.SeoUrl });
                     }
 
+                    //get product rating
+                    var reviews = _reviewService.GetReviewsByProductId(productModel.Id);
+                    if (reviews != null && reviews.Count > 0)
+                    {
+                        productModel.Rating = reviews.Sum(x => x.Rating);
+                        productModel.Rating /= reviews.Count;
+                        productModel.ReviewCount = reviews.Count;
+                    }
+
                     productList.Add(productModel);
                 }
 
                 var result = productList;
 
+                // filter the result using category parameter
                 if (category.Length > 0)
                 {
                     result = result.Where(x => x.Categories.Select(c => c.Name).Intersect(category).Count() > 0).ToList();
                 }
 
+                // filter the result using price parameter
                 if (price.Length > 0)
                 {
                     var tmpResult = new List<ProductModel>();
@@ -319,34 +319,13 @@ namespace aspCart.Web.Controllers
                     result = tmpResult;
                 }
 
+                // sort result if the parameter is provided
                 if (sortBy != null && sortBy.Length > 0)
                 {
-                    switch (sortBy)
-                    {
-                        case "LowestPrice":
-                            result = result.OrderBy(x => x.Price).ToList();
-                            break;
-
-                        case "HighestPrice":
-                            result = result.OrderByDescending(x => x.Price).ToList();
-                            break;
-
-                        case "BestSelling":
-                            break;
-
-                        case "MostReviews":
-                            break;
-
-                        case "NewestToOldest":
-                            break;
-
-                        default:
-                            break;
-                    }
-
-                    ViewData["SortBy"] = sortBy;
+                    SortProductModel(sortBy, ref result);
                 }
 
+                // get all filters to recheck all filters in view
                 var allFilters = category.Concat(price).ToList();
                 ViewData["SortKey"] = allFilters;
                 ViewData["ProductSearchName"] = name;
@@ -491,6 +470,44 @@ namespace aspCart.Web.Controllers
             }
 
             return id;
+        }
+
+        private void SortProductModel(string sortBy, ref List<ProductModel> model)
+        {
+            switch (sortBy)
+            {
+                case "LowestPrice":
+                    model = model.OrderBy(x => x.Price)
+                        .ThenBy(x => x.Name)
+                        .ToList();
+                    break;
+
+                case "HighestPrice":
+                    model = model.OrderByDescending(x => x.Price)
+                        .ThenBy(x => x.Name)
+                        .ToList();
+                    break;
+
+                case "BestSelling":
+                    break;
+
+                case "MostReviews":
+                    model = model.OrderByDescending(x => x.ReviewCount)
+                        .ThenBy(x => x.Name)
+                        .ToList();
+                    break;
+
+                case "NewestToOldest":
+                    model = model.OrderByDescending(x => x.DateAdded)
+                        .ThenBy(x => x.Name)
+                        .ToList();
+                    break;
+
+                default:
+                    break;
+            }
+
+            ViewData["SortBy"] = sortBy;
         }
 
         #endregion
