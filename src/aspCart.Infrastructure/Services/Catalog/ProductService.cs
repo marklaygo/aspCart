@@ -137,6 +137,89 @@ namespace aspCart.Infrastructure.Services.Catalog
         }
 
         /// <summary>
+        /// Search products
+        /// </summary>
+        /// <param name="nameFilter">Name filter</param>
+        /// <param name="seoFilter">SEO filter</param>
+        /// <param name="categoryFilter">Category filter</param>
+        /// <param name="manufacturerFilter">Manufacturer filter</param>
+        /// <param name="priceFilter">Price filter</param>
+        /// <param name="isPublished">Published filter</param>
+        /// <returns>List of product entities</returns>
+        public IList<Product> SearchProduct(
+            string nameFilter = null,
+            string seoFilter = null,
+            string[] categoryFilter = null,
+            string[] manufacturerFilter = null,
+            string[] priceFilter = null,
+            bool isPublished = true)
+        {
+            var result = _context.Products
+                .Include(x => x.Categories).ThenInclude(x => x.Category)
+                .Include(x => x.Images).ThenInclude(x => x.Image)
+                .Include(x => x.Manufacturers).ThenInclude(x => x.Manufacturer)
+                .Include(x => x.Specifications).ThenInclude(x => x.Specification)
+                .AsNoTracking();
+
+            // published filter
+            if(isPublished == false)
+            {
+                result = result.Where(x => x.Published == false);
+            }
+
+            // name filter
+            if(nameFilter != null && nameFilter.Length > 0)
+            {
+                result = result.Where(x => x.Name.ToLower().Contains(nameFilter.ToLower()));
+            }
+
+            // seo filter
+            if(seoFilter != null && seoFilter.Length > 0)
+            {
+                throw new NotImplementedException();
+            }
+
+            // category filter
+            if(categoryFilter != null && categoryFilter.Length > 0)
+            {
+                result = result.Where(x => x
+                    .Categories.Select(c => c.Category.Name.ToLower())
+                    .Intersect(categoryFilter.Select(cf => cf.ToLower()))
+                    .Count() > 0
+                );
+            }
+
+            // manufacturer filter
+            if(manufacturerFilter != null && manufacturerFilter.Length > 0)
+            {
+                result = result.Where(x => x
+                    .Manufacturers
+                    .Select(c => c.Manufacturer.Name.ToLower())
+                    .Intersect(manufacturerFilter.Select(mf => mf.ToLower()))
+                    .Count() > 0
+                );
+            }
+
+            // price filter
+            if(priceFilter != null && priceFilter.Length > 0)
+            {
+                var tmpResult = new List<Product>();
+                foreach (var price in priceFilter)
+                {
+                    var p = price.Split('-');
+                    int minPrice = Int32.Parse(p[0]);
+                    int maxPrice = Int32.Parse(p[1]);
+
+                    var r = result.Where(x => x.Price >= minPrice && x.Price <= maxPrice);
+                    if (r.Count() > 0) tmpResult.AddRange(r);
+                }
+                result = tmpResult.AsQueryable();
+            }
+
+            return result.ToList();
+        }
+
+        /// <summary>
         /// Get product context table
         /// </summary>
         /// <returns></returns>

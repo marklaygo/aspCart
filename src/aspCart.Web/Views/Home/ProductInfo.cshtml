@@ -69,15 +69,13 @@
                 <small><a asp-controller="CreateReview" asp-action="@Model.Id">write a review</a></small>
             }            
             @{
-                string mLink = "";
+                var mLink = new List<string>();
                 foreach (var manufacturer in Model.Manufacturers)
                 {
-                    mLink += "<a href=\"/Manufacturer/" + manufacturer.Name + "\">" + @manufacturer.Name + "</a>, ";
-                    // <a asp-area="" asp-controller="Manufacturer" asp-action="@manufacturer.Name">@manufacturer.Name</a>
+                    mLink.Add($"<a href=\"/Manufacturer/{manufacturer.Name}\">{ @manufacturer.Name}</a>");
                 }
-                mLink = mLink.TrimEnd(new char[] { ' ', ',' });
             }
-            <h6>@Html.Raw(mLink)</h6>
+            <h6>@Html.Raw(string.Join(", ", mLink))</h6>
             @if (Model.OldPrice > 0)
             {
                 <h6>

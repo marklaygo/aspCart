@@ -167,9 +167,10 @@ namespace aspCart.Web.Controllers
         {
             if (category != null)
             {
-                var productEntities = _productService.GetAllProducts()
-                    .Where(x => x.Categories.Any(c => c.Category.Name.ToLower() == category.ToLower()))
-                    .ToList();
+                var productEntities = _productService.SearchProduct(
+                    categoryFilter: new string[] { category },
+                    manufacturerFilter: manufacturer,
+                    priceFilter: price);
 
                 var productList = new List<ProductModel>();
 
@@ -208,35 +209,10 @@ namespace aspCart.Web.Controllers
                     productList.Add(productModel);
                 }
 
-                var result = productList;
-
-                // filter the result using manufacturer parameter
-                if (manufacturer.Length > 0)
-                {
-                    result = result.Where(x => x.Manufacturers.Select(c => c.Name).Intersect(manufacturer).Count() > 0).ToList();
-                }
-
-                // filter the result using price parameter
-                if (price.Length > 0)
-                {
-                    var tmpResult = new List<ProductModel>();
-                    foreach (var p in price)
-                    {
-                        var tmpPrice = p.Split(new char[] { '-' });
-                        int minPrice = Convert.ToInt32(tmpPrice[0]);
-                        int maxPrice = Convert.ToInt32(tmpPrice[1]);
-
-                        var r = result.Where(x => x.Price >= minPrice && x.Price <= maxPrice).ToList();
-
-                        if (r.Count > 0) { tmpResult.AddRange(r); }
-                    }
-                    result = tmpResult;
-                }
-
                 // sort result if the parameter is provided
                 if (sortBy != null && sortBy.Length > 0)
                 {
-                    SortProductModel(sortBy, ref result);
+                    SortProductModel(sortBy, ref productList);
                 }
 
                 // get all filters to recheck all filters in view
@@ -244,24 +220,25 @@ namespace aspCart.Web.Controllers
                 ViewData["SortKey"] = allFilters;
                 ViewData["Category"] = category;
 
-                return View(result);
+                return View(productList);
             }
 
             return RedirectToAction("Index");
         }
 
-        // GET: /Home/ProductSearch
-        public IActionResult ProductSearch(string name, string sortBy, [FromQuery] string[] category, [FromQuery] string[] price)
+        // GET: /Home/ProductManufacturer
+        public IActionResult ProductManufacturer(string manufacturer, string sortBy, [FromQuery] string[] category, [FromQuery] string[] price)
         {
-            if(name != string.Empty && name != null)
+            if (manufacturer != null)
             {
-                var searchResult = _productService.GetAllProducts()
-                .Where(x =>
-                    x.Name.ToLower().Contains(name.ToLower()) &&
-                    x.Published == true);
+                var productEntities = _productService.SearchProduct(
+                    categoryFilter: category,
+                    manufacturerFilter: new string[] { manufacturer },
+                    priceFilter: price);
+
                 var productList = new List<ProductModel>();
 
-                foreach (var product in searchResult)
+                foreach (var product in productEntities)
                 {
                     var productModel = _mapper.Map<Product, ProductModel>(product);
 
@@ -328,9 +305,71 @@ namespace aspCart.Web.Controllers
                 // get all filters to recheck all filters in view
                 var allFilters = category.Concat(price).ToList();
                 ViewData["SortKey"] = allFilters;
-                ViewData["ProductSearchName"] = name;
+                ViewData["Manufacturer"] = manufacturer;
 
                 return View(result);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        // GET: /Home/ProductSearch
+        public IActionResult ProductSearch(string name, string sortBy, [FromQuery] string[] category, [FromQuery] string[] price)
+        {
+            if(name != string.Empty && name != null)
+            {
+                var searchResult = _productService.SearchProduct(
+                    nameFilter: name,
+                    categoryFilter: category,
+                    priceFilter: price);
+
+                var productList = new List<ProductModel>();
+
+                foreach (var product in searchResult)
+                {
+                    var productModel = _mapper.Map<Product, ProductModel>(product);
+
+                    // get main image
+                    if (product.Images.Count > 0)
+                    {
+                        productModel.MainImage = product.Images
+                            .OrderBy(x => x.SortOrder)
+                            .ThenBy(x => x.Position)
+                            .FirstOrDefault()
+                            .Image
+                            .FileName;
+                    }
+
+                    // get all categories
+                    foreach (var c in product.Categories)
+                    {
+                        productModel.Categories.Add(new CategoryModel { Name = c.Category.Name, SeoUrl = c.Category.SeoUrl });
+                    }
+
+                    //get product rating
+                    var reviews = _reviewService.GetReviewsByProductId(productModel.Id);
+                    if (reviews != null && reviews.Count > 0)
+                    {
+                        productModel.Rating = reviews.Sum(x => x.Rating);
+                        productModel.Rating /= reviews.Count;
+                        productModel.ReviewCount = reviews.Count;
+                    }
+
+                    productList.Add(productModel);
+                }
+
+                // sort result if the parameter is provided
+                if (sortBy != null && sortBy.Length > 0)
+                {
+                    SortProductModel(sortBy, ref productList);
+                }
+
+                // get all filters to recheck all filters in view
+                var allFilters = category.Concat(price).ToList();
+                ViewData["SortKey"] = allFilters;
+                ViewData["ProductSearchName"] = name;
+
+                return View(productList);
             }
 
             return RedirectToAction("Index");
