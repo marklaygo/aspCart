@@ -28,6 +28,7 @@ using aspCart.Infrastructure.Services.Statistics;
 using aspCart.Web.Middleware;
 using aspCart.Core.Interface.Services.Messages;
 using aspCart.Infrastructure.Services.Messages;
+using Microsoft.Extensions.FileProviders;
 
 namespace aspCart.Web
 {
@@ -48,6 +49,7 @@ namespace aspCart.Web
 
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
+            HostingEnvironment = env;
 
             MapperConfiguration = new MapperConfiguration(cfg =>
             {
@@ -57,6 +59,7 @@ namespace aspCart.Web
 
         public IConfigurationRoot Configuration { get; }
         public MapperConfiguration MapperConfiguration { get; set; }
+        private IHostingEnvironment HostingEnvironment;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -115,6 +118,7 @@ namespace aspCart.Web
             services.AddSingleton(sp => MapperConfiguration.CreateMapper());
             services.AddSingleton<ViewHelper>();
             services.AddSingleton<DataHelper>();
+            services.AddSingleton<IFileProvider>(HostingEnvironment.ContentRootFileProvider);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -138,6 +142,7 @@ namespace aspCart.Web
                 app.UseRewriter(options);
             }
 
+            app.UseImageResize();
             app.UseStaticFiles();
             app.UseStatusCodePages();
             app.UseIdentity();

@@ -54,7 +54,8 @@
       "type": "build"
     },
     "Microsoft.AspNetCore.Rewrite": "1.0.1",
-    "Sendgrid": "9.2.0"
+    "Sendgrid": "9.2.0",
+    "SkiaSharp": "1.58.0"
   },
 
   "tools": {
